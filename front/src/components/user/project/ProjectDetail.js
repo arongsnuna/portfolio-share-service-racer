@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 function ProjectDetail() {
     const [inputItems, setInputItems] = useState([]);
     const [inputAddId, setInputAddId] = useState(0);
+    const [originItems, setOriginItems] = useState([]);
 
     const AddInput = () => {
         const input = {
@@ -25,20 +26,20 @@ function ProjectDetail() {
         setInputItems(newItems);
     };
 
-    const handelEdit = (index) => {
+    const handleEdit = (index) => {
         const newItem = { ...inputItems[index], isEdit: true };
         const newItems = [...inputItems];
         newItems.splice(index, 1, newItem);
         setInputItems(newItems);
+        setOriginItems(inputItems);
     };
 
     const handleDelete = (id, index) => {
         if (!inputItems[index].isEdit) {
-            console.log(inputAddId.isEdit);
             const newItems = inputItems.filter((item) => item.id !== id);
             setInputItems(newItems);
         } else {
-            handleSubmit(index);
+            setInputItems(originItems);
         }
     };
     return (
@@ -54,7 +55,7 @@ function ProjectDetail() {
                                 <br />
                                 {item.projectEnd ? item.projectEnd : '미입력'}
                                 <br />
-                                <Button className='position-absolute end-0 translate-middle' variant='outline-primary' onClick={() => handelEdit(index)}>
+                                <Button className='position-absolute end-0 translate-middle' variant='outline-primary' onClick={() => handleEdit(index)}>
                                     Edit
                                 </Button>{' '}
                             </p>
