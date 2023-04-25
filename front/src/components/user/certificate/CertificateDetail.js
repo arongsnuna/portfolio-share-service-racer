@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 function CertificateDetail() {
     const [inputItems, setInputItems] = useState([]);
     const [inputAddId, setInputAddId] = useState(0);
+    const [originItems, setOriginItems] = useState([]);
 
     const AddInput = () => {
         const input = {
@@ -30,15 +31,15 @@ function CertificateDetail() {
         const newItems = [...inputItems];
         newItems.splice(index, 1, newItem);
         setInputItems(newItems);
+        setOriginItems(inputItems);
     };
 
     const handleDelete = (id, index) => {
         if (!inputItems[index].isEdit) {
-            console.log(inputAddId.isEdit);
             const newItems = inputItems.filter((item) => item.id !== id);
             setInputItems(newItems);
         } else {
-            handleSubmit(index);
+            setInputItems(originItems);
         }
     };
     return (
