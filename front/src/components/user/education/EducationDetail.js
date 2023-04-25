@@ -28,7 +28,7 @@ function EducationDetail() {
         setInputItems(newItems);
     };
 
-    const handelEdit = (index) => {
+    const handleEdit = (index) => {
         const newItem = { ...inputItems[index], isEdit: true };
         const newItems = [...inputItems];
         newItems.splice(index, 1, newItem);
@@ -61,7 +61,8 @@ function EducationDetail() {
                                 {item.eduEnd ? item.eduEnd : '미입력'}
                                 <br />
                                 {item.eduDegree ? item.eduDegree : '미입력'}
-                                <Button className='position-absolute end-0 translate-middle' variant='outline-primary' onClick={() => handelEdit(index)}>
+                                <br />
+                                <Button className='position-absolute end-0 translate-middle' variant='outline-primary' onClick={() => handleEdit(index)}>
                                     Edit
                                 </Button>{' '}
                             </p>
@@ -130,7 +131,7 @@ function EducationDetail() {
                                     <Button key={item.id} variant='primary' onClick={() => handleSubmit(index)}>
                                         확인
                                     </Button>{' '}
-                                    <Button variant='secondary' onClick={() => handleDelete(item.id)}>
+                                    <Button variant='secondary' onClick={() => handleDelete(item.id, index)}>
                                         취소
                                     </Button>{' '}
                                 </React.Fragment>
