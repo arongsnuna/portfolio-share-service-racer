@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-function EducationDetail() {
+function CertificateDetail() {
     const [inputItems, setInputItems] = useState([]);
     const [inputAddId, setInputAddId] = useState(0);
 
@@ -109,4 +109,4 @@ function EducationDetail() {
     );
 }
 
-export default EducationDetail;
+export default CertificateDetail;
