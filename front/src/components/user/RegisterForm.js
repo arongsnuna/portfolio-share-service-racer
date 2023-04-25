@@ -121,9 +121,9 @@ function RegisterForm() {
               )}
             </Form.Group>
 
-            <Form.Group as={Row} className="mt-3 text-center">
+            <Form.Group as={Row} className="mt-3 text-center" >
               <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
+                <Button variant="primary" type="submit" disabled={!isFormValid} onClick={handleSubmit}>
                   회원가입
                 </Button>
               </Col>
