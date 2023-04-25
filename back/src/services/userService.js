@@ -2,7 +2,9 @@ import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-
+// 다 클래스로 선언했지만 new 사용안하고 메소드(static)를 호출하고 있음 -> new와 메소드 호출
+// static - 메모리에 바로 올라감 -> 쓰지도 않는데 사용하면 비효율적 -> 좋을 수도 있고 안 좋을 수도 있음
+// new - 필요한 상황에만 객체를 만듦 (메모리를 차지하지 않고 ) 요청이 들어오면 요청이 들어올때만 만듦, 쓰고 앱을 바로 없앰
 class userAuthService {
   //create
   static async addUser({ name, email, password }) {

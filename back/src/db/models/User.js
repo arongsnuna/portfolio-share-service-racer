@@ -1,5 +1,5 @@
 import { UserModel } from "../schemas/user";
-
+// id, email, name, password, description, eduId
 class User {
 
   // 유저 추가
