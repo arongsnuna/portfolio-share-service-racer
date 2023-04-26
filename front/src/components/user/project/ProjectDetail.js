@@ -9,8 +9,9 @@ function ProjectDetail() {
     const AddInput = () => {
         const input = {
             id: inputAddId,
-            certName: '',
-            certAcdate: '',
+            projectName: '',
+            projectStart: '',
+            projectEnd: '',
             isSubmit: false,
             isEdit: false,
         };
