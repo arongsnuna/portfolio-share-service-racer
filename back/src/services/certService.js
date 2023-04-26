@@ -29,12 +29,12 @@ class certService {
         }
 
         const newData = { id, certName, certAcdate };
-        console.log(id, certName, certAcdate);
-        const certs = await Cert.create({ user_id, id, certName, certAcdate });
+        // console.log(id, certName, certAcdate);
+        // const certs = await Cert.create({ user_id, id, certName, certAcdate });
 
-        // user.certs.push(newData);
-        // await user.save();
-        return certs;
+        user.certs.push(newData);
+        await user.save();
+        return user;
     }
 
     // 유저의 개별 자격증 정보 수정

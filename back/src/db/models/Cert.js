@@ -12,22 +12,23 @@ class Cert {
         return user.certs;
     }
 
+    // 유저의 특정 자격증 정보 조회
     static async findById({ user_id }) {
-        const user = await UserModel.findOne({ id: user_id }).populate('certs');
+        const user = await UserModel.findOne({ id: user_id });
         return user;
     }
 
     // 자격증 정보 추가
     static async create({ user_id, id, certName, certAcdate }) {
-        const user = await UserModel.findById({ user_id });
+        const user = await UserModel.findOne({ id: user_id });
 
         if (!user) {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
         }
 
-        const creatednewCert = await CertModel.create({ id, certName, certAcdate });
-
-        return creatednewCert;
+        user.awards.push(newCert);
+        await user.save();
+        return user;
     }
 
     // 자격증 정보 수정

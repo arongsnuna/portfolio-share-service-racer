@@ -1,12 +1,11 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
-import { login_required } from '../middlewares/login_required';
 import { certService } from '../services/certService';
 
 const certRouter = Router();
 
 // 전체 자격증 정보 조회
-certRouter.get('/cert/:user_id', login_required, async (req, res, next) => {
+certRouter.get('/:user_id', async (req, res, next) => {
     const { user_id } = req.params;
 
     try {
@@ -18,7 +17,7 @@ certRouter.get('/cert/:user_id', login_required, async (req, res, next) => {
 });
 
 // 자격증 정보 추가
-certRouter.post('/cert/:user_id', login_required, async (req, res, next) => {
+certRouter.post('/:user_id', async (req, res, next) => {
     const { user_id } = req.params;
     const { certName, certAcdate } = req.body;
     const newCert = { certName, certAcdate };
@@ -33,7 +32,7 @@ certRouter.post('/cert/:user_id', login_required, async (req, res, next) => {
 });
 
 // 자격증 정보 수정
-certRouter.patch('/cert/:user_id/:cert_id', login_required, async (req, res, next) => {
+certRouter.patch('/:user_id/:cert_id', async (req, res, next) => {
     const { user_id, cert_id } = req.params;
     const { certName, certAcdate } = req.body;
     const newCert = { certName, certAcdate };
@@ -47,7 +46,7 @@ certRouter.patch('/cert/:user_id/:cert_id', login_required, async (req, res, nex
 });
 
 // 자격증 정보 삭제
-certRouter.delete('/cert/:user_id/:cert_id', login_required, async (req, res, next) => {
+certRouter.delete('/:user_id/:cert_id', async (req, res, next) => {
     const { user_id, cert_id } = req.params;
     try {
         const deletedCert = await certService.deleteCert({ user_id, cert_id });
