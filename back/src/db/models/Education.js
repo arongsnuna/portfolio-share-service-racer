@@ -1,4 +1,3 @@
-import { EducationModel } from "../schemas/education";
 import {UserModel} from "../schemas/user";
 // crud
 // eduSchool, eduMajor, eduStart, eduEnd, eduDegree
@@ -33,22 +32,25 @@ class Education {
     }
     const education = user.educations.id(education_id);
 
-    
-
-    const filter = { id: user_id };
-    const update = { [fieldToUpdate]: newValue };
-    const option = { returnOriginal: false };
-
-    const updatedUser = await UserModel.findOneAndUpdate(
-      filter,
-      update,
-      option
-    );
-    return updatedUser;
+    if(!education){
+      throw new Error(`${education_id} 학력는 존재하지 않습니다.`)
+    }
+    education[fieldToUpdate] = newValue;
+    await user.save();
+    return award;
   }
 
   // 학력 삭제
-  static async delete(){
+  static async delete({user_id, education_id}){
+    const user = await UserModel.findById({user_id});
+    if(!user){
+      throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+    }
+    const education = user.educations.id(education_id);
+    education.remove();
+    await user.save();
+    return user;
+
   }
 }
 
