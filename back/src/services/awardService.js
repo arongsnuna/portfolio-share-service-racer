@@ -28,15 +28,15 @@ class awardService {
   }
 
   //개별 수상내역 수정(award_id 로 populate)
-  static async updateAward({user_id, award_id, fieldToUpdate, newValue}) {
+  static async updateAward({user_id, award_id, revisedAward}) {
     const user = await User.findById({user_id});
-    const award = user.awards.id(awards_id);
+    const award = user.awards.id(award_id);
 
     if (!user) {
       throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
 
-    if (user.id !== newAward.user) {
+    if (user.id !== user_id) {
       throw new Error(`수상내역을 추가할 수 있는 권한이 없습니다.`);
     }
 
@@ -44,7 +44,10 @@ class awardService {
       throw new Error(`이 수상내역은 존재하지 않습니다.`);
     }
 
-    award[fieldToUpdate] = newValue;
+    Object.entries(revisedAward).forEach(([key, value]) => {
+      award[key] = value;
+    });
+
     await user.save();
     return award;
   }
@@ -52,13 +55,12 @@ class awardService {
   //개별 수상내역 삭제(award_id 로 populate)
   static async deleteAward({user_id, award_id}) {
     const user = await User.findById({user_id});
-    const award = user.awards.id(awards_id);
-
+    const award = user.awards.id(award_id);
     if (!user) {
       throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
 
-    if (user.id !== newAward.user) {
+    if (user.id !== user_id) {
       throw new Error(`수상내역을 삭제할 수 있는 권한이 없습니다.`);
     }
 
