@@ -5,7 +5,17 @@ import { awardService } from "../services/awardService";
 const awardRouter = Router();
 
 awardRouter.get("/award", login_required, async function (req, res, next) {
-  res.json("테스트입니다.", req.params.user_id);
+  res.json("테스트입니다.");
+});
+
+awardRouter.post("/award/:user_id", async (req, res, next) => {
+  const { user_id } = req.params;
+  const newAward = req.body;
+  try {
+    const updatedUser = await awardService.createAward({ user_id, newAward });
+  } catch (error) {
+    next(error);
+  }
 });
 
 awardRouter.get("/award/:user_id", async function (req, res, next) {
@@ -18,15 +28,6 @@ awardRouter.get("/award/:user_id", async function (req, res, next) {
   }
 });
 
-awardRouter.post("/award/:user_id", async (req, res, next) => {
-  const { user_id } = req.params;
-  const { newAward } = req.body;
-  try {
-    const updatedUser = await awardService.createAward({ user_id, newAward });
-  } catch (error) {
-    next(error);
-  }
-});
 
 awardRouter.patch("/award/:user_id/:award_id", async (req, res, next) => {
   const { user_id, award_id } = req.params;

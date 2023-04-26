@@ -8,9 +8,9 @@ const AwardSchema = new Schema(
     },
     awardDate: {
       type: Date,
-      required: true,
+      required: false,
     },
-    awardInstition: {
+    awardInstitution: {
       type: String,
       required: true,
     },
