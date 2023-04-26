@@ -18,7 +18,14 @@ awardRouter.get("/award/:user_id", login_required, async function (req, res, nex
 //수상내역 추가
 awardRouter.post("/award/:user_id", login_required, async (req, res, next) => {
   const { user_id } = req.params;
-  const newAward = req.body;
+  const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
+
+  if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+    return res.status(400).json({ message: "awardName, awardDate, awardInstitution, awardDescription 이 모두 입력되었는지 확인하세요." });
+  }
+
+  const newAward = { awardName, awardDate, awardInstitution, awardDescription };
+
   try {
     const updatedUser = await awardService.createAward({ user_id, newAward });
     res.send(updatedUser);
@@ -31,14 +38,21 @@ awardRouter.post("/award/:user_id", login_required, async (req, res, next) => {
 //수상내역 수정
 awardRouter.patch("/award/:user_id/:award_id", login_required, async (req, res, next) => {
   const { user_id, award_id } = req.params;
-  const revisedAward = req.body;
+  const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
+
+  if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+    return res.status(400).json({ message: "awardName, awardDate, awardInstitution, awardDescription 이 모두 입력되었는지 확인하세요." });
+  }
+
+  const revisedAward = { awardName, awardDate, awardInstitution, awardDescription }; 
+
   try {
     const updatedAward = await awardService.updateAward({ user_id, award_id, revisedAward });
     res.status(200).json(updatedAward);
   } catch (error) {
     next(error)
   }
-})
+});
 
 //수상내역 삭제
 awardRouter.delete("/award/:user_id/:award_id", login_required, async (req, res, next) => {
