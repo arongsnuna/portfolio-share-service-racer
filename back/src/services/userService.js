@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 // static - 메모리에 바로 올라감 -> 쓰지도 않는데 사용하면 비효율적 -> 좋을 수도 있고 안 좋을 수도 있음
 // new - 필요한 상황에만 객체를 만듦 (메모리를 차지하지 않고 ) 요청이 들어오면 요청이 들어올때만 만듦, 쓰고 앱을 바로 없앰
 class userAuthService {
+  //create
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
@@ -28,7 +29,8 @@ class userAuthService {
 
     return createdNewUser;
   }
-
+  ///////////////////////
+  //로그인
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
@@ -70,12 +72,15 @@ class userAuthService {
 
     return loginUser;
   }
-
+  ///////
+  //모든 users read - 커뮤니티
   static async getUsers() {
     const users = await User.findAll();
     return users;
   }
+  ////////////////
 
+  //update
   static async setUser({ user_id, toUpdate }) {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let user = await User.findById({ user_id });
@@ -114,7 +119,9 @@ class userAuthService {
 
     return user;
   }
+  /////////////
 
+  // 특정 user read
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 
