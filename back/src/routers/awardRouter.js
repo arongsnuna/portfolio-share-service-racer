@@ -5,7 +5,7 @@ import { awardService } from "../services/awardService";
 const awardRouter = Router();
 
 //전체 수상내역 조회
-awardRouter.get("/award/:user_id", async function (req, res, next) {
+awardRouter.get("/award/:user_id", login_required, async function (req, res, next) {
   const { user_id } = req.params;
   try {
     const awards = await awardService.findAll({ user_id });
@@ -16,7 +16,7 @@ awardRouter.get("/award/:user_id", async function (req, res, next) {
 });
 
 //수상내역 추가
-awardRouter.post("/award/:user_id", async (req, res, next) => {
+awardRouter.post("/award/:user_id", login_required, async (req, res, next) => {
   const { user_id } = req.params;
   const newAward = req.body;
   try {
@@ -29,7 +29,7 @@ awardRouter.post("/award/:user_id", async (req, res, next) => {
 
 
 //수상내역 수정
-awardRouter.patch("/award/:user_id/:award_id", async (req, res, next) => {
+awardRouter.patch("/award/:user_id/:award_id", login_required, async (req, res, next) => {
   const { user_id, award_id } = req.params;
   const revisedAward = req.body;
   try {
@@ -41,7 +41,7 @@ awardRouter.patch("/award/:user_id/:award_id", async (req, res, next) => {
 })
 
 //수상내역 삭제
-awardRouter.delete("/award/:user_id/:award_id", async (req, res, next) => {
+awardRouter.delete("/award/:user_id/:award_id", login_required, async (req, res, next) => {
   const { user_id, award_id } = req.params;
   try {
     const deletedAward = await awardService.deleteAward({ user_id, award_id });
