@@ -37,7 +37,6 @@ educationRouter.put('/:user_id/:education_id', async (req, res, next) => {
     const { user_id, education_id } = req.params;
     const { eduSchool, eduMajor, eduStart, eduEnd, eduDegree } = req.body;
     const newEducation = { eduSchool, eduMajor, eduStart, eduEnd, eduDegree };
-    console.log(user_id, education_id);
 
     try {
         const updatedEducation = await educationService.updateEducation({ user_id, education_id, newEducation });

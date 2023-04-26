@@ -4,7 +4,6 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 
 const userAuthRouter = Router();
-
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {

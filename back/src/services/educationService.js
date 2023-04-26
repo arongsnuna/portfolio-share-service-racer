@@ -42,7 +42,6 @@ class educationService {
 
     // 특정 유저의 학력 수정
     static async updateEducation({ user_id, education_id, newEducation }) {
-        console.log('Service 요청 들어옴');
         const user = await User.findById({ user_id });
         const newSchool = newEducation.eduSchool;
         const newMajor = newEducation.eduMajor;
@@ -82,6 +81,7 @@ class educationService {
             throw new Error(`학력 정보를 삭제할 권한이 없습니다.`);
         }
         const education = user.educations.filter((data) => data.id === education_id);
+
         if (!education) {
             throw new Error(`이 학력 정보는 존재하지 않습니다.`);
         }
