@@ -11,12 +11,20 @@ const CertSchema = new Schema(
             required: true,
         },
         certAcdate: {
-            type: Date,
+            type: String,
             required: true,
         },
         userId: {
             type: Schema.Types.ObjectId,
             ref: 'User',
+        },
+        isSave: {
+            type: Boolean,
+            default: true,
+        },
+        isEdit: {
+            type: Boolean,
+            default: false,
         },
     },
     {

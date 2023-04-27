@@ -21,7 +21,6 @@ certRouter.post('/:user_id', async (req, res, next) => {
     const { user_id } = req.params;
     const { certName, certAcdate } = req.body;
     const newCert = { certName, certAcdate };
-    console.log(user_id, newCert);
 
     try {
         const createdCert = await certService.createCert({ user_id, newCert });
@@ -32,7 +31,7 @@ certRouter.post('/:user_id', async (req, res, next) => {
 });
 
 // 자격증 정보 수정
-certRouter.patch('/:user_id/:cert_id', async (req, res, next) => {
+certRouter.put('/:user_id/:cert_id', async (req, res, next) => {
     const { user_id, cert_id } = req.params;
     const { certName, certAcdate } = req.body;
     const newCert = { certName, certAcdate };

@@ -18,7 +18,7 @@ class certService {
         const user = await User.findById({ user_id });
         const id = uuidv4();
         const certName = newCert.certName;
-        const certAcdate = newCert.certAcdate;
+        const certAcdate = new Date(newCert.certAcdate).toISOString().substring(0, 10);
 
         if (!user) {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
@@ -28,8 +28,11 @@ class certService {
             throw new Error(`자격증 정보를 추가할 수 있는 권한이 없습니다.`);
         }
 
+        if (!id || !certName || !certAcdate) {
+            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        }
+
         const newData = { id, certName, certAcdate };
-        // console.log(id, certName, certAcdate);
         // const certs = await Cert.create({ user_id, id, certName, certAcdate });
 
         user.certs.push(newData);
@@ -39,6 +42,7 @@ class certService {
 
     // 유저의 개별 자격증 정보 수정
     static async updateCert({ user_id, cert_id, newCert }) {
+        console.log('Service 요청 들어옴');
         const user = await User.findById({ user_id });
         const newName = newCert.certName;
         const newAcdate = newCert.certAcdate;
