@@ -36,7 +36,7 @@ awardRouter.post("/award/:user_id", login_required, async (req, res, next) => {
 
 
 //수상내역 수정
-awardRouter.patch("/award/:user_id/:award_id", login_required, async (req, res, next) => {
+awardRouter.put("/award/:user_id/:award_id", login_required, async (req, res, next) => {
   const { user_id, award_id } = req.params;
   const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
 
