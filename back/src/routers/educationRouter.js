@@ -2,45 +2,49 @@ import { Router } from 'express';
 import { login_required } from '../middlewares/login_required';
 import { educationService } from '../services/educationService';
 
-const educationRouter = Router();
+const eduRouter = Router();
 // eduSchool eduMajor eduStart eduEnd eduDegree
 
-// educationRouter.get("/education",  async (req,res,next)=>{
-//     res.send("hello")
-// });
+eduRouter.get('/education', async (req, res, next) => {
+    res.json('');
+});
 
-// 전체 학력 정보 조회
-educationRouter.get('/:user_id', async (req, res, next) => {
-    const { user_id } = req.params;
+eduRouter.get('/education/:userId', async (req, res, next) => {
+    const { userId } = req.params;
     try {
-        const educations = await educationService.findAll({ user_id });
+        const educations = await educationService.findAll({ userId });
         res.status(200).json(educations);
     } catch (error) {
         next(error);
     }
 });
 
-educationRouter.post('/:user_id', async (req, res, next) => {
-    const { user_id } = req.params;
-    const { eduSchool, eduMajor, eduStart, eduEnd, eduDegree } = req.body;
-    const newEducation = { eduSchool, eduMajor, eduStart, eduEnd, eduDegree };
+eduRouter.post('/education/:userId', async (req, res, next) => {
+    const userId = req.params;
+    const newEducation = req.body;
     try {
-        const createdEducation = await educationService.createEducation({ user_id, newEducation });
-        res.send(createdEducation);
+        const updatedUser = await educationService.createEducation({ userId, newEducation });
+        res.send(updatedUser);
     } catch (error) {
         next(error);
     }
 });
 
-// 학력 정보 수정
-educationRouter.put('/:user_id/:education_id', async (req, res, next) => {
-    const { user_id, education_id } = req.params;
-    const { eduSchool, eduMajor, eduStart, eduEnd, eduDegree } = req.body;
-    const newEducation = { eduSchool, eduMajor, eduStart, eduEnd, eduDegree };
-
+eduRouter.patch('/education/:userId/:educationId', async (req, res, next) => {
+    const { userId, educationId } = req.params;
+    const { fieldToUpdate, newValue } = req.body;
     try {
-        const updatedEducation = await educationService.updateEducation({ user_id, education_id, newEducation });
+        const updatedEducation = await educationService.updateEducation({ userId, educationId, fieldToUpdate, newValue });
         res.status(200).json(updatedEducation);
+    } catch (error) {
+        next(error);
+    }
+});
+eduRouter.delete('/education/:userId/:educationId', async (req, res, next) => {
+    const { userId, educationId } = req.params;
+    try {
+        const deletedEducation = await educationService.deletedEducation({ userId, educationId });
+        res.status(200).json(deletedEducation);
     } catch (error) {
         next(error);
     }
