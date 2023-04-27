@@ -1,29 +1,18 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import {educationService} from "../services/educationService";
+import { educationService } from "../services/educationService";
 
 const eduRouter = Router();
-//populate 넣어서
 // eduSchool eduMajor eduStart eduEnd eduDegree
-eduRouter.get("education", login_required, async (req,res,next)=>{
+
+eduRouter.get("/education",  async (req,res,next)=>{
     res.json("");
 });
-eduRouter.post('/education/:user_id', async (req, res, next)=>{
-    const user_id = req.params;
-    const newEducation = req.body;
-    try{
-        const updatedUser = await educationService.createEducation({user_id, newEducation});
-        res.send(updatedUser);
-    }catch(error){
-        next(error);
-    }
-    
-})
 
-eduRouter.get('/education/:user_id', async(req, res, next)=>{
-    const {user_id} = req.params;
+eduRouter.get('/education/:userId', async(req, res, next)=>{
+    const {userId} = req.params;
     try{
-        const educations = await educationService.findAll({user_id});
+        const educations = await educationService.findAll({userId});
         res.status(200).json(educations);
     }catch(error){
         next(error);
@@ -31,20 +20,34 @@ eduRouter.get('/education/:user_id', async(req, res, next)=>{
 
 });
 
-eduRouter.patch("/education/:user_id/:education_id", async(req,res,next)=>{
-    const {user_id, education_id} = req.params;
+eduRouter.post('/education/:userId', async (req, res, next)=>{
+    const userId = req.params;
+    const newEducation = req.body;
+    try{
+        const updatedUser = await educationService.createEducation({userId, newEducation});
+        res.send(updatedUser);
+    }catch(error){
+        next(error);
+    }
+    
+})
+
+
+
+eduRouter.patch("/education/:userId/:educationId", async(req,res,next)=>{
+    const {userId, educationId} = req.params;
     const {fieldToUpdate, newValue} = req.body;
     try{
-        const updatedEducation = await educationService.updateEducation({user_id, education_id, fieldToUpdate, newValue});
+        const updatedEducation = await educationService.updateEducation({userId, educationId, fieldToUpdate, newValue});
         res.status(200).json(updatedEducation);
     }catch(error){
         next(error);
     }
 })
-eduRouter.delete("education/:user_id/:education_id", async(req, res, next)=>{
-    const {user_id, education_id} = req.params;
+eduRouter.delete("/education/:userId/:educationId", async(req, res, next)=>{
+    const {userId, educationId} = req.params;
     try{
-        const deletedEducation = await educationService.deletedEducation({user_id,education_id});
+        const deletedEducation = await educationService.deletedEducation({userId,educationId});
         res.status(200).json(deletedEducation);
     }catch(error){
         next(error)

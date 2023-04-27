@@ -4,10 +4,10 @@ import {UserModel} from "../schemas/user";
 
 class Education {
   // 특정 유저의 학력 추가
-  static async create({ user_id, newEducation }) {
-    const user = await UserModel.findById({user_id});
+  static async create({ userId, newEducation }) {
+    const user = await UserModel.findById({userId});
     if(!user){
-      throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
     user.educations.push(newEducation);
 
@@ -16,27 +16,27 @@ class Education {
   }
 
   // 특정 유저의 학력 조회
-  static async findAll({user_id}) {
-    const user = await UserModel.findById({user_id});
+  static async findAll({userId}) {
+    const user = await UserModel.findById({userId});
     if(!user){
-      throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
     return user.educations;
   }
 
   // 특정 유저의 학력 수정
-  static async update({ user_id, education_id, fieldToUpdate, newValue }) {
-    const user = await UserModel.findById({user_id});
+  static async update({ userId, educationId, fieldToUpdate, newValue }) {
+    const user = await UserModel.findById({userId});
     if(!user){
-      throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
-    const education = user.educations.id(education_id);
+    const education = user.educations.id(educationId);
 
     if(!education){
-      throw new Error(`${education_id} 학력은 존재하지 않습니다.`)
+      throw new Error(`${educationId} 학력은 존재하지 않습니다.`)
     }
-    if(user.id !== user_id){
-      throw new Error(`${user_id} 유저는 권한이 없습니다.`)
+    if(user.id !== userId){
+      throw new Error(`${userId} 유저는 권한이 없습니다.`)
     }
     education[fieldToUpdate] = newValue;
     await user.save();
@@ -44,15 +44,15 @@ class Education {
   }
 
   // 특정 유저의 학력 삭제
-  static async delete({user_id, education_id}){
-    const user = await UserModel.findById({user_id});
+  static async delete({userId, educationId}){
+    const user = await UserModel.findById({userId});
     if(!user){
-      throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
-    if(user.id !== user_id){
-      throw new Error(`${user_id} 유저는 권한이 없습니다.`)
+    if(user.id !== userId){
+      throw new Error(`${userId} 유저는 권한이 없습니다.`)
     }
-    const education = user.educations.id(education_id);
+    const education = user.educations.id(educationId);
     education.remove();
     await user.save();
     return user;

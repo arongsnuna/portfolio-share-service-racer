@@ -2,9 +2,7 @@ import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-// 다 클래스로 선언했지만 new 사용안하고 메소드(static)를 호출하고 있음 -> new와 메소드 호출
-// static - 메모리에 바로 올라감 -> 쓰지도 않는데 사용하면 비효율적 -> 좋을 수도 있고 안 좋을 수도 있음
-// new - 필요한 상황에만 객체를 만듦 (메모리를 차지하지 않고 ) 요청이 들어오면 요청이 들어올때만 만듦, 쓰고 앱을 바로 없앰
+
 class userAuthService {
   //create
   static async addUser({ name, email, password }) {
@@ -54,7 +52,7 @@ class userAuthService {
 
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
-    const token = jwt.sign({ user_id: user.id }, secretKey);
+    const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
     const id = user.id;
@@ -81,9 +79,9 @@ class userAuthService {
   ////////////////
 
   //update
-  static async setUser({ user_id, toUpdate }) {
+  static async setUser({ userId, toUpdate }) {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
-    let user = await User.findById({ user_id });
+    let user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -96,25 +94,25 @@ class userAuthService {
     if (toUpdate.name) {
       const fieldToUpdate = "name";
       const newValue = toUpdate.name;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.email) {
       const fieldToUpdate = "email";
       const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.password) {
       const fieldToUpdate = "password";
       const newValue = toUpdate.password;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     return user;
@@ -122,8 +120,8 @@ class userAuthService {
   /////////////
 
   // 특정 user read
-  static async getUserInfo({ user_id }) {
-    const user = await User.findById({ user_id });
+  static async getUserInfo({ userId }) {
+    const user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {

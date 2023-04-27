@@ -23,12 +23,6 @@ const EducationSchema = new Schema(
         required: true,
         // 수정필요!!!!
     },
-    author:{
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      index: true,
-    }
 
   },
   {

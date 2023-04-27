@@ -13,8 +13,8 @@ class User {
     return user;
   }
   // 아이디 조회
-  static async findById({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
+  static async findById({ userId }) {
+    const user = await UserModel.findOne({ id: userId });
     return user;
   }
   // 모든 유저 조회
@@ -23,8 +23,8 @@ class User {
     return users;
   }
   // 특정 유저 정보 수정
-  static async update({ user_id, fieldToUpdate, newValue }) {
-    const filter = { id: user_id };
+  static async update({ userId, fieldToUpdate, newValue }) {
+    const filter = { id: userId };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
