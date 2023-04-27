@@ -5,6 +5,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { UserStateContext } from '../App';
 import * as Api from '../api';
 import User from './user/User';
+
 import Award from './Award/Award';
 import Education from './user/education/Education';
 import Certificate from './user/certificate/Certificate';
@@ -73,7 +74,6 @@ function Portfolio() {
                             <Certificate portfolioOwnerId={portfolioOwner.id} />
                         </div>
                         <div className='mb-3'>{/* <Project portfolioOwnerId={portfolioOwner.id} /> */}</div>
-                        학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
                     </div>
                 </Col>
             </Row>

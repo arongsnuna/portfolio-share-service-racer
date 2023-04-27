@@ -51,7 +51,6 @@ function EducationDetail({ portfolioOwnerId }) {
         const ownerData = res.data.educations;
         // portfolioOwner을 해당 사용자 정보로 세팅함.
         setDbItem(ownerData);
-        console.log(ownerData);
     };
 
     const userId = portfolioOwnerId;
@@ -62,7 +61,7 @@ function EducationDetail({ portfolioOwnerId }) {
 
     const handleSubmit = async (id) => {
         const item = dbItem.filter((item) => item._id === id)[0];
-        console.log(item);
+
         if (item === undefined || item.isSave === false) {
             try {
                 // "education/user_id" 엔드포인트로 post요청함.
