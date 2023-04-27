@@ -63,13 +63,13 @@ function Portfolio() {
                 <Col>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
-                            <Education />
+                            <Education portfolioOwnerId={portfolioOwner.id} />
                         </div>
                         <div className='mb-3'>
-                            <Certificate />
+                            <Certificate portfolioOwnerId={portfolioOwner.id} />
                         </div>
                         <div className='mb-3'>
-                            <Project />
+                            <Project portfolioOwnerId={portfolioOwner.id} />
                         </div>
                         학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
                     </div>
