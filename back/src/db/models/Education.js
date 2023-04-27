@@ -5,7 +5,7 @@ import {UserModel} from "../schemas/user";
 class Education {
   // 특정 유저의 학력 추가
   static async create({ userId, newEducation }) {
-    const user = await UserModel.findById({userId});
+    const user = await UserModel.findOne({id: userId});
     if(!user){
       throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
@@ -17,7 +17,7 @@ class Education {
 
   // 특정 유저의 학력 조회
   static async findAll({userId}) {
-    const user = await UserModel.findById({userId});
+    const user = await UserModel.findOne({id: userId});
     if(!user){
       throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
@@ -26,7 +26,7 @@ class Education {
 
   // 특정 유저의 학력 수정
   static async update({ userId, educationId, fieldToUpdate, newValue }) {
-    const user = await UserModel.findById({userId});
+    const user = await UserModel.findOne({id: userId});
     if(!user){
       throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
@@ -45,7 +45,7 @@ class Education {
 
   // 특정 유저의 학력 삭제
   static async delete({userId, educationId}){
-    const user = await UserModel.findById({userId});
+    const user = await UserModel.findOne({id: userId});
     if(!user){
       throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
