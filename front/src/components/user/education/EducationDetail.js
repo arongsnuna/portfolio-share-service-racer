@@ -48,7 +48,7 @@ function EducationDetail({ portfolioOwnerId }) {
         // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
         const res = await Api.get('users', userId);
         // 사용자 정보는 response의 data임.
-        const ownerData = res.data.certs;
+        const ownerData = res.data.educations;
         // portfolioOwner을 해당 사용자 정보로 세팅함.
         setDbItem(ownerData);
         console.log(ownerData);
@@ -64,8 +64,8 @@ function EducationDetail({ portfolioOwnerId }) {
         const item = dbItem.filter((item) => item.id === id)[0];
         if (item.isSave === false || !item) {
             try {
-                // "cert/user_id" 엔드포인트로 post요청함.
-                await Api.post(`cert/${portfolioOwnerId}`, {
+                // "education/user_id" 엔드포인트로 post요청함.
+                await Api.post(`education/${portfolioOwnerId}`, {
                     eduSchool,
                     eduMajor,
                     eduStart,
@@ -86,8 +86,8 @@ function EducationDetail({ portfolioOwnerId }) {
             }
         } else {
             try {
-                // "cert/user_id/cert_id" 엔드포인트로 put요청함.
-                await Api.put(`cert/${portfolioOwnerId}/${item.id}`, {
+                // "education/user_id/cert_id" 엔드포인트로 put요청함.
+                await Api.put(`education/${portfolioOwnerId}/${item.id}`, {
                     eduSchool,
                     eduMajor,
                     eduStart,
@@ -117,8 +117,8 @@ function EducationDetail({ portfolioOwnerId }) {
 
     const handleDelete = async (id) => {
         try {
-            // "cert/user_id/cert_id" 엔드포인트로 delete 요청함.
-            await Api.delete(`cert/${portfolioOwnerId}/${id}`);
+            // "education/user_id/cert_id" 엔드포인트로 delete 요청함.
+            await Api.delete(`education/${portfolioOwnerId}/${id}`);
 
             certfetch({ userId });
         } catch (err) {
