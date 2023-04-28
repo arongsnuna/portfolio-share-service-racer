@@ -26,7 +26,7 @@ class userAuthService {
 
         return createdNewUser;
     }
-    ///////////////////////
+
     //로그인
     static async getUser({ email, password }) {
         // 이메일 db에 존재 여부 확인
@@ -64,13 +64,12 @@ class userAuthService {
 
         return loginUser;
     }
-    ///////
+
     //모든 users read - 커뮤니티
     static async getUsers() {
         const users = await User.findAll();
         return users;
     }
-    ////////////////
 
     //update
     static async setUser({ userId, toUpdate }) {
@@ -109,7 +108,6 @@ class userAuthService {
 
         return user;
     }
-    /////////////
 
     // 특정 user read
     static async getUserInfo({ userId }) {

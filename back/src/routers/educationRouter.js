@@ -9,42 +9,35 @@ eduRouter.get('/education', async (req, res, next) => {
     res.json('');
 });
 
-eduRouter.get('/education/:userId', async (req, res, next) => {
-    const { userId } = req.params;
+// 전체 학력 정보 조회
+eduRouter.get('/:user_id', async (req, res, next) => {
+    const { user_id } = req.params;
     try {
-        const educations = await educationService.findAll({ userId });
+        const educations = await educationService.findAll({ user_id });
         res.status(200).json(educations);
     } catch (error) {
         next(error);
     }
 });
 
-eduRouter.post('/education/:userId', async (req, res, next) => {
-    const userId = req.params;
-    const newEducation = req.body;
+eduRouter.post('/:user_id', async (req, res, next) => {
+    const { user_id } = req.params;
+    const { eduSchool, eduMajor, eduStart, eduEnd, eduDegree } = req.body;
+    const newEducation = { eduSchool, eduMajor, eduStart, eduEnd, eduDegree };
     try {
-        const updatedUser = await educationService.createEducation({ userId, newEducation });
-        res.send(updatedUser);
+        const createdEducation = await educationService.createEducation({ user_id, newEducation });
+        res.send(createdEducation);
     } catch (error) {
         next(error);
     }
 });
 
-eduRouter.patch('/education/:userId/:educationId', async (req, res, next) => {
+eduRouter.patch('/:userId/:educationId', async (req, res, next) => {
     const { userId, educationId } = req.params;
     const { fieldToUpdate, newValue } = req.body;
     try {
         const updatedEducation = await educationService.updateEducation({ userId, educationId, fieldToUpdate, newValue });
         res.status(200).json(updatedEducation);
-    } catch (error) {
-        next(error);
-    }
-});
-eduRouter.delete('/education/:userId/:educationId', async (req, res, next) => {
-    const { userId, educationId } = req.params;
-    try {
-        const deletedEducation = await educationService.deletedEducation({ userId, educationId });
-        res.status(200).json(deletedEducation);
     } catch (error) {
         next(error);
     }
