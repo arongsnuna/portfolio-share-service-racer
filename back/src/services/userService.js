@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
 class userAuthService {
+  //create
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
@@ -26,7 +27,8 @@ class userAuthService {
 
     return createdNewUser;
   }
-
+  ///////////////////////
+  //로그인
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
@@ -68,12 +70,15 @@ class userAuthService {
 
     return loginUser;
   }
-
+  ///////
+  //모든 users read - 커뮤니티
   static async getUsers() {
     const users = await User.findAll();
     return users;
   }
+  ////////////////
 
+  //update
   static async setUser({ user_id, toUpdate }) {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let user = await User.findById({ user_id });
@@ -111,7 +116,9 @@ class userAuthService {
 
     return user;
   }
+  /////////////
 
+  // 특정 user read
   static async getUserInfo({ user_id }) {
     const user = await User.findById({ user_id });
 
