@@ -26,6 +26,8 @@ class Cert {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
         }
 
+        const newCert = { id, certName, certAcdate };
+
         user.awards.push(newCert);
         await user.save();
         return user;

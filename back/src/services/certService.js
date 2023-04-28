@@ -42,7 +42,6 @@ class certService {
 
     // 유저의 개별 자격증 정보 수정
     static async updateCert({ user_id, cert_id, newCert }) {
-        console.log('Service 요청 들어옴');
         const user = await User.findById({ user_id });
         const newName = newCert.certName;
         const newAcdate = newCert.certAcdate;
