@@ -3,9 +3,28 @@ import {UserModel} from "../schemas/user";
 // eduSchool, eduMajor, eduStart, eduEnd, eduDegree
 
 class Education {
+  // 특정 유저의 전체 학력 조회
+  static async findAll({userId}) {
+    const user = await UserModel.findOne({id: userId}); // id를 뭐라 고쳐야되지?
+    if(!user){
+      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
+    }
+    return user.educations;
+  }
+  // 특정 유저의 특정 학력 조회
+  static async findById({userId}){
+    const user = await UserModel.findOne({id: userId}); //모르게써
+    if(!user){
+      throw new Error(`${userId} 유저의 학력 정보가 존재하지 않습니다.`);
+    }
+    return user.educations;
+  }
+
   // 특정 유저의 학력 추가
-  static async create({ userId, newEducation }) {
+  static async create({ userId, id, eduSchool, eduMajor, eduStart, eduEnd, eduDegree}) {
     const user = await UserModel.findOne({id: userId});
+    const newEducation = {id, eduSchool, eduMajor, eduStart, eduEnd, eduDegree};
+
     if(!user){
       throw new Error(`${userId} 유저는 존재하지 않습니다.`);
     }
@@ -13,15 +32,6 @@ class Education {
 
     await user.save();
     return user;
-  }
-
-  // 특정 유저의 학력 조회
-  static async findAll({userId}) {
-    const user = await UserModel.findOne({id: userId});
-    if(!user){
-      throw new Error(`${userId} 유저는 존재하지 않습니다.`);
-    }
-    return user.educations;
   }
 
   // 특정 유저의 학력 수정

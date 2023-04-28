@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 const EducationSchema = new Schema(
   {
+    id:{
+      type: String,
+      required: true,
+    },
     eduSchool:{
         type: String,
         required: true,
@@ -11,17 +15,24 @@ const EducationSchema = new Schema(
         required: true,
     },
     eduStart:{
-        type: Date,
+        type: String,
         required: true,
     },
     eduEnd:{
-        type: Date,
+        type: String,
         required: true,
     },
     eduDegree:{
         type: String,
         required: true,
-        // 수정필요!!!!
+    },
+    isSave:{
+      type: Boolean,
+      default: true,
+    },
+    idEdit:{
+      type: Boolean,
+      default: false,
     },
 
   },
@@ -30,6 +41,6 @@ const EducationSchema = new Schema(
   }
 );
 
-const EducationModel = model("Eucation", EducationSchema);
+const EducationModel = model("Education", EducationSchema);
 
 export { EducationModel, EducationSchema };
