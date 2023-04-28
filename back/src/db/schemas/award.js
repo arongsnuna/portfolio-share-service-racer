@@ -7,7 +7,7 @@ const AwardSchema = new Schema(
       required: true,
     },
     awardDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     awardInstitution: {
