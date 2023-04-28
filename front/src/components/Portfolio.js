@@ -56,16 +56,19 @@ function Portfolio() {
     }
 
     return (
-        <Container fluid>
+        <Container>
             <Row>
                 <Col>
                     <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                 </Col>
-                {/* <Col sm md='9' lg='9'>  */}
-                <Col>
+                <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
-                        <div>{/* <Award portfolioOwnerId={portfolioOwner.id} /> */}</div>
-                        <div className='mb-3'>{/* <Education portfolioOwnerId={portfolioOwner.id} /> */}</div>
+                        <div className='mb-3'>
+                            <Award portfolioOwnerId={portfolioOwner.id} />
+                        </div>
+                        <div className='mb-3'>
+                            <Education portfolioOwnerId={portfolioOwner.id} />
+                        </div>
                         <div className='mb-3'>
                             <Certificate portfolioOwnerId={portfolioOwner.id} />
                         </div>
