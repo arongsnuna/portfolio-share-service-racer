@@ -32,11 +32,15 @@ eduRouter.post('/:user_id', async (req, res, next) => {
     }
 });
 
-eduRouter.patch('/:userId/:educationId', async (req, res, next) => {
-    const { userId, educationId } = req.params;
-    const { fieldToUpdate, newValue } = req.body;
+// 학력 정보 수정
+eduRouter.put('/:user_id/:education_id', async (req, res, next) => {
+    const { user_id, education_id } = req.params;
+    const { eduSchool, eduMajor, eduStart, eduEnd, eduDegree } = req.body;
+    const newEducation = { eduSchool, eduMajor, eduStart, eduEnd, eduDegree };
+    console.log(user_id, education_id);
+
     try {
-        const updatedEducation = await educationService.updateEducation({ userId, educationId, fieldToUpdate, newValue });
+        const updatedEducation = await educationService.updateEducation({ user_id, education_id, newEducation });
         res.status(200).json(updatedEducation);
     } catch (error) {
         next(error);

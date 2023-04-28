@@ -125,7 +125,7 @@ function EducationDetail({ portfolioOwnerId }) {
         setEduStart(item.eduStart);
         setEduEnd(item.eduEnd);
         setEduDegree(item.eduDegree);
-        setEdit(item.id);
+        setEdit(() => item._id);
     };
 
     const handleCancel = () => {

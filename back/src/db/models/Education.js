@@ -57,7 +57,6 @@ class Education {
         }
 
         const education = user.educations.id(education_id);
-
         if (!education) {
             throw new Error('이 학력 정보는 존재하지 않습니다.');
         }
