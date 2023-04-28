@@ -18,8 +18,10 @@ class educationService{
         // eduSchool, eduMajor, eduStart, eduEnd, eduDegree
         const eduSchool = newEducation.eduSchool;
         const eduMajor = newEducation.eduMajor;
-        const eduStart = new Date(newEducation.eduStart).toISOString().substring(0,10);
-        const eduEnd = new Date(newEducation.eduEnd).toISOString().substring(0,10);
+        // const eduStart = new Date(newEducation.eduStart).toISOString().substring(0, 10);
+        // const eduEnd = new Date(newEducation.eduEnd).toISOString().substring(0, 10);
+        const eduStart= newEducation.eduStart;
+        const eduEnd = newEducation.eduEnd;
         const eduDegree = newEducation.eduDegree;
 
         if(!user){
@@ -28,9 +30,9 @@ class educationService{
         if(user.id !== userId){
             throw new Error(`학력 정보를 추가할 수 있는 권한이 없습니다.`);
         }
-        if(!id || !eduSchool || !eduMajor || !eduStart || !eduEnd || !eduDegree){
-            throw new Error('모든 값을 입력했는지 확인해주세요.')
-        }
+        // if(!eduSchool || !eduMajor || !eduStart || !eduEnd || !eduDegree){
+        //     throw new Error('모든 값을 입력했는지 확인해주세요.')
+        // }
         user.educations.push(newEducation);
         await user.save()
         return user;
