@@ -3,26 +3,25 @@ import { User } from "../db";
 class awardService {
 
   //유저의 전체 수상내역 조회
-  static async findAll({ userId }) {
-    const user = await User.findById({ userId });
-
+  static async findAll({ user_id }) {
+    const user = await User.findById({ user_id });
     if(!user) {
-        throw new Error(`${userId} 유저는 존재하지 않습니다!!!`)
+        throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
 
     return user.awards;
   }
   
   //유저 본인이 로그인했다면 개별 수상내역을 추가
-  static async createAward({ userId, newAward }) {
-    const user = await User.findById({userId});
+  static async createAward({ user_id, newAward }) {
+    const user = await User.findById({ user_id: user_id });
     const { awardName, awardInstitution, awardDescription } = newAward;
     const awardDate = new Date(newAward.awardDate).toISOString().substring(0, 10);
 
     if(!user) {
-      throw new Error(`${userId} 유저는 존재하지 않습니다.`)
+      throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
-    if (user.id !== userId) {
+    if (user.id !== user_id) {
       throw new Error(`수상내역을 추가할 수 있는 권한이 없습니다.`);
     }
 
@@ -40,16 +39,16 @@ class awardService {
   }
 
   //개별 수상내역 수정(awardId 로 populate)
-  static async updateAward({userId, awardId, newAward}) {
-    const user = await User.findById({userId});
+  static async updateAward({user_id, awardId, newAward}) {
+    const user = await User.findById({user_id: user_id});
     const { awardName, awardInstitution, awardDescription } = newAward;
     const awardDate = new Date(newAward.awardDate).toISOString().substring(0, 10);
 
     if (!user) {
-      throw new Error(`${userId} 유저는 존재하지 않습니다.`)
+      throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
 
-    if (user.id !== userId) {
+    if (user.id !== user_id) {
       throw new Error(`수상내역을 추가할 수 있는 권한이 없습니다.`);
     }
 
@@ -74,14 +73,14 @@ class awardService {
   }
 
   //개별 수상내역 삭제(awardId 로 populate)
-  static async deleteAward({userId, awardId}) {
-    const user = await User.findById({userId});
+  static async deleteAward({user_id, awardId}) {
+    const user = await User.findById({user_id: user_id});
 
     if (!user) {
-      throw new Error(`${userId} 유저는 존재하지 않습니다.`)
+      throw new Error(`${user_id} 유저는 존재하지 않습니다.`)
     }
 
-    if (user.id !== userId) {
+    if (user.id !== user_id) {
       throw new Error(`수상내역을 삭제할 수 있는 권한이 없습니다.`);
     }
 
