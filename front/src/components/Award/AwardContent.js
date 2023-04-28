@@ -1,60 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 
-function AwardContent() {
-  const [inputItems, setInputItems] = useState([]);
-  const [inputAddId, setInputAddId] = useState(0);
-  const [originItems, setOriginItems] = useState([]);
+import * as Api from "../../api";
+
+function AwardContent({ portfolioOwnerId }) {
+  const [dbItem, setDbItem] = useState([]);
+  const [toggle, setToggle] = useState(false);
+  const [save, setSave] = useState(false);
+  const [edit, setEdit] = useState("");
+
+  const [awardName, setAwardName] = useState("");
+  const [awardDate, setAwardDate] = useState("");
+  const [awardInstitution, setAwardInstitution] = useState("");
+  const [awardDescription, setAwardDescription] = useState("");
+
+  const onChangeName = (e) => {
+    setAwardName(e.target.value);
+  };
+
+  const onChangeDate = (e) => {
+    setAwardDate(e.target.value);
+  };
+
+  const onChangeInstitution = (e) => {
+    setAwardInstitution(e.target.value);
+  };
+
+  const onChangeDescription = (e) => {
+    setAwardDescription(e.target.value);
+  };
 
   const AddInput = () => {
-    const input = {
-      id: inputAddId,
-      awardName: "",
-      awardDate: "",
-      awardInstitution: "",
-      awardDescription: "",
-      isSubmit: false,
-      isEdit: false,
-    };
+    setToggle(true);
 
-    setInputItems((prevInputItems) => [...prevInputItems, input]);
-    setInputAddId((prevInputAddId) => prevInputAddId + 1);
+    setAwardName("");
+    setAwardDate("");
+    setAwardInstitution("");
+    setAwardDescription("");
   };
 
-  const handleSubmit = (index) => {
-    const newItem = { ...inputItems[index], isSubmit: true, isEdit: false };
-    const newItems = [...inputItems];
-    newItems.splice(index, 1, newItem);
-    setInputItems(newItems);
+  const certfetch = async (ownerId) => {
+    const { userId } = ownerId;
+    const res = await Api.get("users", userId);
+    const ownerData = res.data.awards;
+    setDbItem(ownerData);
+    console.log(ownerData);
   };
 
-  const handleEdit = (index) => {
-    const newItem = { ...inputItems[index], isEdit: true };
-    const newItems = [...inputItems];
-    newItems.splice(index, 1, newItem);
-    setInputItems(newItems);
-    setOriginItems(inputItems);
-  };
+  const userId = portfolioOwnerId;
 
-  const handleCancle = (id, index) => {
-    if (!inputItems[index].isEdit) {
-      const newItems = inputItems.filter((item) => item.id !== id);
-      setInputItems(newItems);
+  useEffect(() => {
+    certfetch({ userId });
+  }, [userId, save]);
+
+  const handleSubmit = async (id) => {
+    const item = dbItem.filter((item) => item._id === id)[0];
+    if (item === undefined || item.isSave === false) {
+      try {
+        await Api.post(`awards/${portfolioOwnerId}`, {
+          awardName,
+          awardDate,
+          awardInstitution,
+          awardDescription,
+        });
+
+        setSave(true);
+        setToggle(false);
+
+        certfetch({ userId });
+
+        setAwardName("");
+        setAwardDate("");
+        setAwardInstitution("");
+        setAwardDescription("");
+      } catch (err) {
+        console.log("수상이력 추가에 실패하였습니다.", err);
+      }
     } else {
-      setInputItems(originItems);
+      try {
+        await Api.put(`awards/${portfolioOwnerId}`, {
+          awardName,
+          awardDate,
+          awardInstitution,
+          awardDescription,
+        });
+        certfetch({ userId });
+      } catch (err) {
+        console.log("수상이력 수정에 실패하였습니다.", err);
+      }
     }
   };
 
-  const handleDelete = (id) => {
-    const newItems = inputItems.filter((item) => item.id !== id);
-    setInputItems(newItems);
+  const handleEdit = (id) => {
+    const item = dbItem.filter((item) => item._id === id)[0];
+    item.isEdit = true;
+    setAwardName(item.awardName);
+    setAwardDate(item.awardDate);
+    setAwardInstitution(item.awardInstitution);
+    setAwardDescription(item.awardDescription);
+    setEdit(item._id);
+  };
+
+  const handleCancel = () => {
+    certfetch({ userId });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await Api.delete(`awards/${portfolioOwnerId}/${id}`);
+      certfetch({ userId });
+    } catch (err) {
+      console.log("수상이력 삭제에 실패하였습니다.", err);
+    }
   };
 
   return (
     <div>
-      {inputItems.map((item, index) => (
-        <div key={item.id}>
-          {item.isSubmit && item.isEdit === false ? (
+      {dbItem.map((item) => (
+        <div key={item._id}>
+          {item.isSave === true && item.isEdit === false ? (
             <div>
               <p>
                 {item.awardName}
@@ -66,12 +130,14 @@ function AwardContent() {
                 {item.awardDescription}
                 <br />
                 <div className="mb-3 text-center">
-                  <Button variant="link" onClick={() => handleEdit(index)}>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => handleEdit(item._id)}
+                  >
                     편집
-                  </Button>{" "}
-                  <Button variant="link" onClick={() => handleDelete(item.id)}>
-                    삭제
                   </Button>
+                  <br />
+                  <hr className="one" />
                 </div>
               </p>
             </div>
@@ -82,16 +148,8 @@ function AwardContent() {
                   style={{ width: "100%" }}
                   type="text"
                   placeholder="수상명"
-                  value={item.awardName}
-                  onChange={(e) =>
-                    setInputItems((prevInputItems) =>
-                      prevInputItems.map((prevItem) =>
-                        prevItem.id === item.id
-                          ? { ...prevItem, awardName: e.target.value }
-                          : prevItem
-                      )
-                    )
-                  }
+                  value={awardName}
+                  onChange={onChangeName}
                 />
               </Form.Group>
 
@@ -99,17 +157,9 @@ function AwardContent() {
                 <Form.Control
                   style={{ width: "100%" }}
                   type="Date"
-                  placeholder="수상연도"
-                  value={item.awardDate}
-                  onChange={(e) =>
-                    setInputItems((prevInputItems) =>
-                      prevInputItems.map((prevItem) =>
-                        prevItem.id === item.id
-                          ? { ...prevItem, awardDate: e.target.value }
-                          : prevItem
-                      )
-                    )
-                  }
+                  placeholder="수상일자"
+                  value={awardDate}
+                  onChange={onChangeDate}
                 />
               </Form.Group>
 
@@ -118,16 +168,8 @@ function AwardContent() {
                   style={{ width: "100%" }}
                   type="text"
                   placeholder="수상기관"
-                  value={item.awardInstitution}
-                  onChange={(e) =>
-                    setInputItems((prevInputItems) =>
-                      prevInputItems.map((prevItem) =>
-                        prevItem.id === item.id
-                          ? { ...prevItem, awardInstitution: e.target.value }
-                          : prevItem
-                      )
-                    )
-                  }
+                  value={awardInstitution}
+                  onChange={onChangeInstitution}
                 />
               </Form.Group>
 
@@ -136,38 +178,105 @@ function AwardContent() {
                   style={{ width: "100%" }}
                   type="text"
                   placeholder="수여내용"
-                  value={item.awardDescription}
-                  onChange={(e) =>
-                    setInputItems((prevInputItems) =>
-                      prevInputItems.map((prevItem) =>
-                        prevItem.id === item.id
-                          ? { ...prevItem, awardDescription: e.target.value }
-                          : prevItem
-                      )
-                    )
-                  }
+                  value={awardDescription}
+                  onChange={onChangeDescription}
                 />
               </Form.Group>
+
               <div className="mb-3 text-center">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => handleSubmit(index)}
-                >
-                  확인
-                </Button>{" "}
-                <Button
-                  variant="secondary"
-                  type="delete"
-                  onClick={() => handleCancle(item.id, index)}
-                >
-                  취소
-                </Button>
+                {edit !== item._id ? (
+                  <React.Fragment>
+                    <Button
+                      variant="pimary"
+                      onClick={() => handleSubmit(item._id)}
+                    >
+                      확인
+                    </Button>{" "}
+                    <Button variant="secondary" onClick={() => handleCancel()}>
+                      취소
+                    </Button>{" "}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleSubmit(item._id)}
+                    >
+                      확인
+                    </Button>{" "}
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      삭제
+                    </Button>{" "}
+                    <Button variant="secondary" onClick={() => handleCancel()}>
+                      취소
+                    </Button>{" "}
+                  </React.Fragment>
+                )}
               </div>
             </div>
           )}
         </div>
       ))}
+
+      {toggle === true ? (
+        <div>
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="text"
+              placeholder="수상명"
+              value={awardName}
+              onChange={onChangeName}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="date"
+              placeholder="수상일자"
+              value={awardDate}
+              onChange={onChangeDate}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="text"
+              placeholder="수상기관"
+              value={awardInstitution}
+              onChange={onChangeInstitution}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="text"
+              placeholder="수여내용"
+              value={awardDescription}
+              onChange={onChangeDescription}
+            />
+          </Form.Group>
+
+          <div className="mb-3 text-center">
+            <React.Fragment>
+              <Button variant="primary" onClick={() => handleSubmit()}>
+                확인
+              </Button>{" "}
+              <Button variant="secondary" onClick={() => handleCancel()}>
+                취소
+              </Button>{" "}
+            </React.Fragment>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
 
       <div className="mb-3 text-center">
         <Button variant="primary" onClick={AddInput}>
