@@ -1,24 +1,16 @@
 import { Schema, model } from 'mongoose';
 
-const EducationSchema = new Schema(
+const CertSchema = new Schema(
     {
-        eduSchool: {
+        id: {
             type: String,
             required: true,
         },
-        eduMajor: {
+        certName: {
             type: String,
             required: true,
         },
-        eduStart: {
-            type: String,
-            required: true,
-        },
-        eduEnd: {
-            type: String,
-            required: true,
-        },
-        eduDegree: {
+        certAcdate: {
             type: String,
             required: true,
         },
@@ -40,6 +32,6 @@ const EducationSchema = new Schema(
     }
 );
 
-const EducationModel = model('Education', EducationSchema);
+const CertModel = model('Cert', CertSchema);
 
-export { EducationModel, EducationSchema };
+export { CertModel, CertSchema };

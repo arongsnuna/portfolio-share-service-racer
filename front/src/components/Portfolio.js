@@ -8,7 +8,7 @@ import User from './user/User';
 import Award from './Award/Award';
 import Education from './user/education/Education';
 import Certificate from './user/certificate/Certificate';
-import Project from './user/project/Project';
+// import Project from './user/project/Project';
 
 function Portfolio() {
     const navigate = useNavigate();
@@ -58,23 +58,18 @@ function Portfolio() {
     return (
         <Container fluid>
             <Row>
-                <Col md='3' lg='3'>
+                <Col>
                     <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                 </Col>
+                {/* <Col sm md='9' lg='9'>  */}
                 <Col>
                     <div style={{ textAlign: 'left' }}>
-                        <div>
-                            <Award portfolioOwnerId={portfolioOwner.id} />
-                        </div>
-                        <div className='mb-3'>
-                            <Education portfolioOwnerId={portfolioOwner.id} />
-                        </div>
+                        <div>{/* <Award portfolioOwnerId={portfolioOwner.id} /> */}</div>
+                        <div className='mb-3'>{/* <Education portfolioOwnerId={portfolioOwner.id} /> */}</div>
                         <div className='mb-3'>
                             <Certificate portfolioOwnerId={portfolioOwner.id} />
                         </div>
-                        <div className='mb-3'>
-                            <Project portfolioOwnerId={portfolioOwner.id} />
-                        </div>
+                        <div className='mb-3'>{/* <Project portfolioOwnerId={portfolioOwner.id} /> */}</div>
                         학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
                     </div>
                 </Col>
