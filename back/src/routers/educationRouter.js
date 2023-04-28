@@ -10,10 +10,10 @@ const educationRouter = Router();
 // });
 
 // 전체 학력 정보 조회
-educationRouter.get('/:userId', async(req, res, next)=>{
-    const {userId} = req.params;
+educationRouter.get('/:user_id', async(req, res, next)=>{
+    const {user_id} = req.params;
     try{
-        const educations = await educationService.findAll({userId});
+        const educations = await educationService.findAll({user_id});
         res.status(200).json(educations);
     }catch(error){
         next(error);
@@ -22,12 +22,12 @@ educationRouter.get('/:userId', async(req, res, next)=>{
 });
 
 
-educationRouter.post('/:userId', async (req, res, next)=>{
-    const {userId} = req.params;
+educationRouter.post('/:user_id', async (req, res, next)=>{
+    const {user_id} = req.params;
     const {eduSchool, eduMajor, eduStart, eduEnd, eduDegree} = req.body;
     const newEducation = {eduSchool, eduMajor, eduStart, eduEnd, eduDegree};
     try{
-        const createdEducation = await educationService.createEducation({userId, newEducation});
+        const createdEducation = await educationService.createEducation({user_id, newEducation});
         res.send(createdEducation);
     }catch(error){
         next(error);
@@ -37,13 +37,13 @@ educationRouter.post('/:userId', async (req, res, next)=>{
 
 
 // 학력 정보 수정
-educationRouter.put('/:userId/:educationId', async(req, res, next)=>{
-    const { userId, educationId } = req.params;
+educationRouter.put('/:user_id/:education_id', async(req, res, next)=>{
+    const {user_id, education_id } = req.params;
     const {eduSchool, eduMajor, eduStart, eduEnd, eduDegree} = req.body;
     const newEducation = {eduSchool, eduMajor, eduStart, eduEnd, eduDegree};
 
     try{
-        const updatedEducation = await educationService.updateEducation({userId, educationId, newEducation});
+        const updatedEducation = await educationService.updateEducation({user_id, education_id, newEducation});
         res.status(200).json(updatedEducation);
     }catch(error){
         next(error);
@@ -51,10 +51,10 @@ educationRouter.put('/:userId/:educationId', async(req, res, next)=>{
 });
 
 // 학력 정보 삭제
-educationRouter.delete("/:userId/:educationId", async(req, res, next)=>{
-    const {userId, educationId} = req.params;
+educationRouter.delete("/:user_id/:education_id", async(req, res, next)=>{
+    const {user_id, education_id} = req.params;
     try{
-        const deletedEducation = await educationService.deletedEducation({userId,educationId});
+        const deletedEducation = await educationService.deletedEducation({user_id,education_id});
         res.status(200).json(deletedEducation);
     }catch(error){
         next(error);
