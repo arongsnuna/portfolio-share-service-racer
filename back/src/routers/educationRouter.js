@@ -21,18 +21,7 @@ educationRouter.get('/:userId', async(req, res, next)=>{
 
 });
 
-// 전체 학력 정보 추가
-// educationRouter.post('/:userId', async (req, res, next)=>{
-//     const userId = req.params;
-//     const newEducation = req.body;
-//     try{
-//         const updatedUser = await educationService.createEducation({userId, newEducation});
-//         res.send(updatedUser);
-//     }catch(error){
-//         next(error);
-//     }
-    
-// })
+
 educationRouter.post('/:userId', async (req, res, next)=>{
     const {userId} = req.params;
     const {eduSchool, eduMajor, eduStart, eduEnd, eduDegree} = req.body;
