@@ -71,6 +71,8 @@ function CertificateDetail({ portfolioOwnerId }) {
                     certName,
                     certAcdate,
                 });
+
+                setToggle(false);
                 certfetch({ userId });
             } catch (err) {
                 console.log('자격증 수정에 실패하였습니다.', err);
@@ -79,8 +81,20 @@ function CertificateDetail({ portfolioOwnerId }) {
     };
 
     const handleEdit = (id) => {
+        setDbItem((prevItems) => {
+            return prevItems.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        isEdit: true,
+                    };
+                } else {
+                    return item;
+                }
+            });
+        });
+
         const item = dbItem.filter((item) => item.id === id)[0];
-        item.isEdit = true;
         setCertName(item.certName);
         setCertAcdate(item.certAcdate);
         setEdit(item.id);
@@ -88,7 +102,6 @@ function CertificateDetail({ portfolioOwnerId }) {
 
     const handleCancel = () => {
         certfetch({ userId });
-        setToggle(false);
     };
 
     const handleDelete = async (id) => {

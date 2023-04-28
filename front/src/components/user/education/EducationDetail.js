@@ -98,6 +98,7 @@ function EducationDetail({ portfolioOwnerId }) {
                     eduDegree,
                 });
 
+                setToggle(false);
                 certfetch({ userId });
             } catch (err) {
                 console.log('학위 수정에 실패하였습니다.', err);
@@ -106,19 +107,30 @@ function EducationDetail({ portfolioOwnerId }) {
     };
 
     const handleEdit = (id) => {
+        setDbItem((prevItems) => {
+            return prevItems.map((item) => {
+                if (item._id === id) {
+                    return {
+                        ...item,
+                        isEdit: true,
+                    };
+                } else {
+                    return item;
+                }
+            });
+        });
+
         const item = dbItem.filter((item) => item._id === id)[0];
-        item.isEdit = true;
         setEduSchool(item.eduSchool);
         setEduMajor(item.eduMajor);
         setEduStart(item.eduStart);
         setEduEnd(item.eduEnd);
         setEduDegree(item.eduDegree);
-        setEdit(() => item._id);
+        setEdit(item.id);
     };
 
     const handleCancel = () => {
         certfetch({ userId });
-        setToggle(false);
     };
 
     const handleDelete = async (id) => {
