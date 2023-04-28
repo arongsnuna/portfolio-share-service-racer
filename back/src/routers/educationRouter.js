@@ -51,7 +51,7 @@ eduRouter.delete('/education/:userId/:educationId', async (req, res, next) => {
 });
 
 // 학력 정보 삭제
-educationRouter.delete('/:user_id/:education_id', async (req, res, next) => {
+eduRouter.delete('/:user_id/:education_id', async (req, res, next) => {
     const { user_id, education_id } = req.params;
     try {
         const deletedEducation = await educationService.deletedEducation({ user_id, education_id });
@@ -61,4 +61,4 @@ educationRouter.delete('/:user_id/:education_id', async (req, res, next) => {
     }
 });
 
-export { educationRouter };
+export { eduRouter };
