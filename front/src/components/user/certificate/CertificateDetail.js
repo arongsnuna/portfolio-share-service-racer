@@ -102,6 +102,7 @@ function CertificateDetail({ portfolioOwnerId }) {
 
     const handleCancel = () => {
         certfetch({ userId });
+        setToggle(false);
     };
 
     const handleDelete = async (id) => {

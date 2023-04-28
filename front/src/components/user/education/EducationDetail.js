@@ -131,6 +131,7 @@ function EducationDetail({ portfolioOwnerId }) {
 
     const handleCancel = () => {
         certfetch({ userId });
+        setToggle(false);
     };
 
     const handleDelete = async (id) => {
