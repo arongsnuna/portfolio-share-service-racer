@@ -147,7 +147,7 @@ function EducationDetail({ portfolioOwnerId }) {
     return (
         <div>
             {dbItem.map((item) => (
-                <div key={item._id}>
+                <div key={item.id}>
                     {item.isSave === true && item.isEdit === false ? (
                         <div>
                             <p>
