@@ -3,27 +3,31 @@ import { Button, Form } from 'react-bootstrap';
 
 import * as Api from '../../../api';
 
+import CertificateForm from './CertificateForm';
+import CertificateP from './CertificateP';
+
 function CertificateDetail({ portfolioOwnerId, isEditable }) {
     const [dbItem, setDbItem] = useState([]);
     const [isToggle, setIsToggle] = useState(false); // 추가 버튼 클릭 유무
-    const [currentEditId, setcurrentEditId] = useState(''); // 수정 버튼 클릭 유무
+    const [isEdit, setIsEdit] = useState(false); // 편집 버튼 클릭 유무
+    const [currentEditId, setcurrentEditId] = useState(''); // Edit 버튼을 클릭 시 버튼 표시를 구분하기 위한 값
 
     const [certName, setCertName] = useState(''); // 자격증 명
-    const [certAcdate, setCertAcdate] = useState(''); // 취득일자
+    const [certAcDate, setcertAcDate] = useState(''); // 취득일자
 
     const onChangeName = (e) => {
         setCertName(e.target.value);
     };
 
     const onChangeDate = (e) => {
-        setCertAcdate(e.target.value);
+        setcertAcDate(e.target.value);
     };
 
     const AddInput = () => {
         setIsToggle(true);
 
         setCertName('');
-        setCertAcdate('');
+        setcertAcDate('');
     };
 
     const fetchCert = async (ownerId) => {
@@ -48,17 +52,18 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         if (item === undefined || item.isSave === false) {
             try {
                 // "cert/user_id" 엔드포인트로 post요청함.
-                await Api.post(`cert/${portfolioOwnerId}`, {
+                await Api.post(`cert/`, {
                     certName,
-                    certAcdate,
+                    certAcDate,
                 });
 
                 setIsToggle(false);
+                setIsEdit(false);
 
                 fetchCert({ userId });
 
                 setCertName('');
-                setCertAcdate('');
+                setcertAcDate('');
             } catch (err) {
                 console.log('자격증 추가에 실패하였습니다.', err);
             }
@@ -67,10 +72,12 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                 // "cert/user_id/cert_id" 엔드포인트로 put요청함.
                 await Api.put(`cert/${portfolioOwnerId}/${item._id}`, {
                     certName,
-                    certAcdate,
+                    certAcDate,
                 });
 
                 setIsToggle(false);
+                setIsEdit(false);
+
                 fetchCert({ userId });
             } catch (err) {
                 console.log('자격증 수정에 실패하였습니다.', err);
@@ -94,13 +101,15 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
         const item = dbItem.filter((item) => item._id === id)[0];
         setCertName(item.certName);
-        setCertAcdate(item.certAcdate);
-        setcurrentEditId(item.id);
+        setcertAcDate(item.certAcDate);
+        setcurrentEditId(item._id);
+        setIsEdit(true);
     };
 
     const handleCancel = () => {
         fetchCert({ userId });
         setIsToggle(false);
+        setIsEdit(false);
     };
 
     const handleDelete = async (id) => {
@@ -118,75 +127,19 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         fetchCert({ userId });
     }, [userId]);
 
+    const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate };
+    const currentData = { certName, certAcDate, currentEditId };
+    const pSendFunction = { handleEdit };
+    const isFlag = { isEditable };
+
     return (
         <div>
             {dbItem.map((item) => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
-                        <div>
-                            <p>
-                                {item.certName}
-                                <br />
-                                {item.certAcdate}
-                                <br />
-                            </p>
-                            <br />
-                            {isEditable && (
-                                <Button
-                                    className='position-absolute end-0 translate-middle'
-                                    variant='outline-primary'
-                                    onClick={() => handleEdit(item._id)}>
-                                    Edit
-                                </Button>
-                            )}
-                            <br />
-                            <hr className='one' />
-                        </div>
+                        <CertificateP pSendFunction={pSendFunction} isFlag={isFlag} item={item} />
                     ) : (
-                        <div>
-                            <div className='mb-2'>
-                                <Form.Control
-                                    style={{ width: '100%' }}
-                                    type='text'
-                                    placeholder='자격증 명'
-                                    value={certName}
-                                    onChange={onChangeName}
-                                />
-                            </div>
-                            <div className='mb-2'>
-                                <Form.Control
-                                    style={{ width: '100%' }}
-                                    type='date'
-                                    placeholder='취득일자'
-                                    value={certAcdate}
-                                    onChange={onChangeDate}
-                                />
-                            </div>
-                            <div className='mb-3 text-center'>
-                                {currentEditId !== item.id ? (
-                                    <React.Fragment>
-                                        <Button variant='primary' onClick={() => handleSubmit(item._id)}>
-                                            확인
-                                        </Button>
-                                        <Button variant='secondary' onClick={() => handleCancel()}>
-                                            취소
-                                        </Button>
-                                    </React.Fragment>
-                                ) : (
-                                    <React.Fragment>
-                                        <Button variant='primary' onClick={() => handleSubmit(item._id)}>
-                                            확인
-                                        </Button>
-                                        <Button variant='danger' onClick={() => handleDelete(item._id)}>
-                                            삭제
-                                        </Button>
-                                        <Button variant='secondary' onClick={() => handleCancel()}>
-                                            취소
-                                        </Button>
-                                    </React.Fragment>
-                                )}
-                            </div>
-                        </div>
+                        <CertificateForm formSendFunction={formSendFunction} currentData={currentData} item={item} />
                     )}
                 </div>
             ))}
@@ -196,7 +149,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                         <Form.Control style={{ width: '100%' }} type='text' placeholder='자격증 명' value={certName} onChange={onChangeName} />
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcdate} onChange={onChangeDate} />
+                        <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcDate} onChange={onChangeDate} />
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
@@ -210,12 +163,13 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                     </div>
                 </div>
             ) : (
+                // <CertificateForm formSendFunction={formSendFunction} currentData={currentData} item={item} />
                 ''
             )}
             {isEditable && (
                 <div className='mb-3 text-center'>
                     {dbItem.length < 10 && (
-                        <Button variant='primary' onClick={AddInput} disabled={isToggle ? true : false}>
+                        <Button variant='primary' onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
                             +
                         </Button>
                     )}
