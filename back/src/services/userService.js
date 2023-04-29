@@ -31,6 +31,7 @@ class userAuthService {
     static async getUser({ email, password }) {
         // 이메일 db에 존재 여부 확인
         const user = await User.findByEmail({ email });
+
         if (!user) {
             const errorMessage = '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
             return { errorMessage };
@@ -110,8 +111,8 @@ class userAuthService {
     }
 
     // 특정 user read
-    static async getUserInfo({ userId }) {
-        const user = await User.findById({ userId });
+    static async getUserInfo({ user_id }) {
+        const user = await User.findById({ user_id });
 
         // db에서 찾지 못한 경우, 에러 메시지 반환
         if (!user) {

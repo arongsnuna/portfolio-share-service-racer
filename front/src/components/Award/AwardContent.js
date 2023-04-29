@@ -37,8 +37,6 @@ function AwardContent({ portfolioOwnerId }) {
         setAwardDate('');
         setAwardInstitution('');
         setAwardDescription('');
-
-        console.log(toggle);
     };
 
     const certfetch = async (ownerId) => {
@@ -56,8 +54,7 @@ function AwardContent({ portfolioOwnerId }) {
 
     const handleSubmit = async (id) => {
         const item = dbItem.filter((item) => item._id === id)[0];
-        console.log(item);
-        console.log(item, item.isSave);
+
         if (item === undefined || item.isSave === false) {
             try {
                 await Api.post(`award/${portfolioOwnerId}`, {
