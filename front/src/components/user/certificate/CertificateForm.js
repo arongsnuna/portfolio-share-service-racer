@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 function CertificateForm({ formSendFunction, currentData, item }) {
-    const { certName, certAcDate, currentEditId } = currentData;
     const { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate } = formSendFunction;
-    console.log(currentEditId);
+    const { certName, certAcDate, currentEditId } = currentData;
+
     return (
         <div>
             <div>

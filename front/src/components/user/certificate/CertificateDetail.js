@@ -122,6 +122,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             fetchCert({ userId });
 
             setIsToggle(false);
+            setIsEdit(false);
         } catch (err) {
             console.log('자격증 삭제에 실패하였습니다.', err);
         }
@@ -132,18 +133,18 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
     }, [userId]);
 
     const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate };
-    const currentData = { certName, certAcDate, currentEditId };
+    const formSendcurrentData = { certName, certAcDate, currentEditId };
     const pSendFunction = { handleEdit };
-    const isFlag = { isEditable };
+    const pSendisFlag = { isEditable };
 
     return (
         <div>
             {dbItem.map((item) => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
-                        <CertificateP pSendFunction={pSendFunction} isFlag={isFlag} item={item} />
+                        <CertificateP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
                     ) : (
-                        <CertificateForm formSendFunction={formSendFunction} currentData={currentData} item={item} />
+                        <CertificateForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
                     )}
                 </div>
             ))}
