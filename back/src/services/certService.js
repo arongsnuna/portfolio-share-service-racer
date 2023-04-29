@@ -15,10 +15,8 @@ class certService {
 
     // 유저의 개별 자격증 정보 추가
     static async createCert({ user_id, newCert }) {
-        const user = await User.findById({ user_id });
-        const id = uuidv4();
-        const certName = newCert.certName;
-        const certAcdate = new Date(newCert.certAcdate).toISOString().substring(0, 10);
+        const user = await User.findById({ user_id: user_id });
+        const { certName, certAcDate } = newCert;
 
         if (!user) {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
@@ -28,11 +26,12 @@ class certService {
             throw new Error(`자격증 정보를 추가할 수 있는 권한이 없습니다.`);
         }
 
-        if (!id || !certName || !certAcdate) {
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        const certExists = user.certs.some((cert) => cert.certName === newCert.certName);
+        if (certExists) {
+            throw new Error(`${newCert.certName} 수상내역은 이미 존재합니다.`);
         }
 
-        const newData = { id, certName, certAcdate };
+        const newData = { certName, certAcDate };
         // const certs = await Cert.create({ user_id, id, certName, certAcdate });
 
         user.certs.push(newData);
@@ -41,10 +40,9 @@ class certService {
     }
 
     // 유저의 개별 자격증 정보 수정
-    static async updateCert({ user_id, cert_id, newCert }) {
-        const user = await User.findById({ user_id });
-        const newName = newCert.certName;
-        const newAcdate = newCert.certAcdate;
+    static async updateCert({ user_id, certId, newCert }) {
+        const user = await User.findById({ user_id: user_id });
+        const { certName, certAcDate } = newCert;
 
         if (!user) {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
@@ -54,26 +52,28 @@ class certService {
             throw new Error('자격증 정보를 수정할 수 있는 권한이 없습니다.');
         }
 
-        if (!newName || !newAcdate) {
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
-        }
-
-        const cert = user.certs.filter((data) => data.id === cert_id);
-        console.log(cert_id);
-
+        const cert = user.certs.id(certId);
         if (!cert) {
             throw new Error('이 자격증 정보는 존재하지 않습니다.');
         }
 
-        cert[0].certName = newName;
-        cert[0].certAcdate = newAcdate;
+        const certExists = user.certs.some((cert) => cert.certName === newCert.certName);
+        if (certExists) {
+            throw new Error(`${newCert.certName} 수상내역은 이미 존재합니다.`);
+        }
+
+        const newData = { certName, certAcDate };
+        Object.entries(newData).forEach(([key, value]) => {
+            cert[key] = value;
+        });
+
         await user.save();
-        return user;
+        return cert;
     }
 
     // 유저의 개별 자격증 정보 삭제
-    static async deleteCert({ user_id, cert_id }) {
-        const user = await User.findById({ user_id });
+    static async deleteCert({ user_id, certId }) {
+        const user = await User.findById({ user_id: user_id });
 
         if (!user) {
             throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
@@ -83,13 +83,12 @@ class certService {
             throw new Error('자격증 정보를 삭제할 수 있는 권한이 없습니다.');
         }
 
-        const cert = user.certs.filter((data) => data.id === cert_id);
-
+        const cert = user.awards.id(certId);
         if (!cert) {
             throw new Error('이 자격증 정보는 존재하지 않습니다.');
         }
 
-        cert[0].remove();
+        cert.remove();
         await user.save();
         return user;
     }

@@ -10,7 +10,7 @@ const CertSchema = new Schema(
             type: String,
             required: true,
         },
-        certAcdate: {
+        certAcDate: {
             type: String,
             required: true,
         },

@@ -145,14 +145,14 @@ function AwardContent({ portfolioOwnerId }) {
                                 <br />
                                 {item.awardDescription}
                                 <br />
-                                <div className='mb-3 text-center'>
-                                    <Button variant='outline-info' onClick={() => handleEdit(item._id)}>
-                                        편집
-                                    </Button>
-                                    <br />
-                                    <hr className='one' />
-                                </div>
                             </p>
+                            <div className='mb-3 text-center'>
+                                <Button variant='outline-info' onClick={() => handleEdit(item._id)}>
+                                    편집
+                                </Button>
+                                <br />
+                            </div>
+                            <hr className='one' />
                         </div>
                     ) : (
                         <div>

@@ -68,10 +68,10 @@ function Portfolio() {
                             <Award portfolioOwnerId={portfolioOwner.id} />
                         </div>
                         <div className='mb-3'>
-                            <Education portfolioOwnerId={portfolioOwner.id} />
+                            <Education portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>
-                            <Certificate portfolioOwnerId={portfolioOwner.id} />
+                            <Certificate portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>{/* <Project portfolioOwnerId={portfolioOwner.id} /> */}</div>
                     </div>
