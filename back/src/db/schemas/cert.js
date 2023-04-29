@@ -2,10 +2,6 @@ import { Schema, model } from 'mongoose';
 
 const CertSchema = new Schema(
     {
-        id: {
-            type: String,
-            required: true,
-        },
         certName: {
             type: String,
             required: true,

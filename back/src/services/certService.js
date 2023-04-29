@@ -1,5 +1,4 @@
 import { User, Cert } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import { v4 as uuidv4 } from 'uuid';
 
 class certService {
     // 유저의 전체 자격증 정보 조회
