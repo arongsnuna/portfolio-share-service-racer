@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 function CertificateForm({ formSendFunction, currentData, item }) {
     const { certName, certAcDate, currentEditId } = currentData;
     const { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate } = formSendFunction;
-
+    console.log(currentEditId);
     return (
         <div>
             <div>
@@ -15,7 +15,7 @@ function CertificateForm({ formSendFunction, currentData, item }) {
                     <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcDate} onChange={onChangeDate} />
                 </div>
                 <div className='mb-3 text-center'>
-                    {currentEditId !== item.id ? (
+                    {currentEditId !== item._id ? (
                         <React.Fragment>
                             <Button variant='primary' onClick={() => handleSubmit(item._id)}>
                                 확인

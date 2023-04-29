@@ -70,7 +70,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         } else {
             try {
                 // "cert/user_id/cert_id" 엔드포인트로 put요청함.
-                await Api.put(`cert/${portfolioOwnerId}/${item._id}`, {
+                await Api.put(`cert/${item._id}`, {
                     certName,
                     certAcDate,
                 });
@@ -102,12 +102,14 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         const item = dbItem.filter((item) => item._id === id)[0];
         setCertName(item.certName);
         setcertAcDate(item.certAcDate);
+
         setcurrentEditId(item._id);
         setIsEdit(true);
     };
 
     const handleCancel = () => {
         fetchCert({ userId });
+
         setIsToggle(false);
         setIsEdit(false);
     };
@@ -115,9 +117,11 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
     const handleDelete = async (id) => {
         try {
             // "cert/user_id/cert_id" 엔드포인트로 delete 요청함.
-            await Api.delete(`cert/${portfolioOwnerId}/${id}`);
+            await Api.delete(`cert/${id}`);
 
             fetchCert({ userId });
+
+            setIsToggle(false);
         } catch (err) {
             console.log('자격증 삭제에 실패하였습니다.', err);
         }
@@ -163,7 +167,6 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                     </div>
                 </div>
             ) : (
-                // <CertificateForm formSendFunction={formSendFunction} currentData={currentData} item={item} />
                 ''
             )}
             {isEditable && (
