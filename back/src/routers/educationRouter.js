@@ -66,7 +66,7 @@ eduRouter.put('/:education_id', async (req, res, next) => {
         }
 
         const newEducation = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree };
-        const updatedEducation = await educationService.createEducation({ user_id, education_id, newEducation });
+        const updatedEducation = await educationService.updateEducation({ user_id, education_id, newEducation });
         res.status(200).json(updatedEducation);
 
     }catch (error) {

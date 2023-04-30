@@ -6,15 +6,20 @@ import { EducationModel } from '../db/schemas/education';
 class educationService {
     // 아이디를 통한 특정 유저의 전체 학력 조회
     static async findAll({ user_id }) {
-        const user = await User.findById({ user_id });
-        if (!user) {
-            throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+        try{
+            const user = await User.findById({ user_id });
+            if (!user) {
+                throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+            }
+            const educations = await Education.findAll({user_id});
+            if(!educations){
+                throw new Error(`${user_id} 유저의 학력 정보가 존재하지 않습니다.`);
+            }
+            return educations;
+        }catch(error){
+            next(error);
         }
-        const educations = await Education.findAll({user_id});
-        if(!educations){
-            throw new Error(`${user_id} 유저의 학력 정보가 존재하지 않습니다.`);
-        }
-        return educations;
+        
     }
 
     // 특정 유저의 학력 추가
