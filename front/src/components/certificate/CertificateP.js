@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 
-function CertificateForm({ pSendFunction, isFlag, item }) {
+function CertificateP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
     const { isEditable } = isFlag;
 
@@ -24,4 +24,4 @@ function CertificateForm({ pSendFunction, isFlag, item }) {
     );
 }
 
-export default CertificateForm;
+export default CertificateP;
