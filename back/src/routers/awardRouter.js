@@ -1,49 +1,72 @@
+import is from '@sindresorhus/is';
 import { Router } from 'express';
 import { awardService } from '../services/awardService';
+import { util } from '../utils/util';
 
 const awardRouter = Router();
 
 //전체 수상내역 조회
-awardRouter.get('/:userId', async function (req, res, next) {
-    const { userId } = req.params;
+awardRouter.get('/', async (req, res, next) => {
+    const user_id = req.currentUserId;
 
     try {
-        const awards = await awardService.findAll({ userId });
+        const awards = await awardService.findAll({ user_id });
         res.status(200).json(awards);
     } catch (error) {
         next(error);
     }
+    
 });
 
 //수상내역 추가
-awardRouter.post('/:user_id', async (req, res, next) => {
-    const { user_id } = req.params;
-    const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
-    const newAward = { awardName, awardDate, awardInstitution, awardDescription };
-
-    if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
-        return res.status(400).json({ message: 'awardName, awardDate, awardInstitution, awardDescription 이 모두 입력되었는지 확인하세요.' });
-    }
-
+awardRouter.post('/', async (req, res, next) => {
     try {
-        const updatedUser = await awardService.createAward({ user_id, newAward });
-        res.send(updatedUser);
+        if (is.emptyObject(req.body)) {
+            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
+        }
+
+        const user_id = req.currentUserId;
+        const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
+
+        const newAward = { awardName, awardDate, awardInstitution, awardDescription };
+
+        if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+            throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
+        }
+
+        if (!util.regexp(awardDate)) {
+            throw new Error('취득일자 값을 확인해주세요');
+        }
+
+        const createdAward = await awardService.createAward({ user_id, newAward });
+
+        res.status(201).send(createdAward);
     } catch (error) {
         next(error);
     }
 });
 
 //수상내역 수정
-awardRouter.put('/:user_id/:awardId', async (req, res, next) => {
-    const { user_id, awardId } = req.params;
-    const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
-    const newAward = { awardName, awardDate, awardInstitution, awardDescription };
-
-    if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
-        return res.status(400).json({ message: 'awardName, awardDate, awardInstitution, awardDescription 이 모두 입력되었는지 확인하세요.' });
-    }
-
+awardRouter.put('/:awardId', async (req, res, next) => {
     try {
+        if (is.emptyObject(req.body)) {
+            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
+        }
+
+        const user_id = req.currentUserId;
+        const { awardId } = req.params;
+        const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
+
+        const newAward = { awardName, awardDate, awardInstitution, awardDescription };
+    
+        if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+            throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
+        }
+
+        if (!util.regexp(awardDate)) {
+            throw new Error('취득일자 값을 확인해주세요');
+        }
+    
         const updatedAward = await awardService.updateAward({ user_id, awardId, newAward });
         res.status(200).json(updatedAward);
     } catch (error) {
@@ -52,10 +75,13 @@ awardRouter.put('/:user_id/:awardId', async (req, res, next) => {
 });
 
 //수상내역 삭제
-awardRouter.delete('/:user_id/:awardId', async (req, res, next) => {
-    const { user_id, awardId } = req.params;
+awardRouter.delete('/:awardId', async (req, res, next) => {
     try {
+        const user_id = req.currentUserId;
+        const { awardId } = req.params;
+
         const deletedAward = await awardService.deleteAward({ user_id, awardId });
+
         res.status(200).json(deletedAward);
     } catch (error) {
         next(error);

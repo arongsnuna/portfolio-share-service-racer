@@ -18,6 +18,10 @@ const AwardSchema = new Schema(
             type: String,
             required: true,
         },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
         isSave: {
             type: Boolean,
             default: true,
