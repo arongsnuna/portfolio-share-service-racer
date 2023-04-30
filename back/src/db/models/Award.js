@@ -36,7 +36,7 @@ class Award {
     // 수상 정보 삭제
     static async delete({ user_id, awardId }) {
         const user = await UserModel.findOne({ id: user_id });
-        const deletedAward = await AwardModel.deleteOne({ awardId, userId: user._id });
+        const deletedAward = await AwardModel.deleteOne({ _id: awardId, userId: user._id });
 
         return deletedAward;
     }
