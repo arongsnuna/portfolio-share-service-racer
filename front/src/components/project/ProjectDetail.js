@@ -42,7 +42,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setProjectDescription('');
     };
 
-    const fetchCert = async (ownerId) => {
+    const fetchProject = async (ownerId) => {
         try {
             // "/project" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
             const res = await Api.get('project');
@@ -73,7 +73,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                 setIsToggle(false);
                 setIsEdit(false);
 
-                fetchCert({ userId });
+                fetchProject({ userId });
 
                 setProjectName('');
                 setProjectStartDate('');
@@ -95,7 +95,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                 setIsToggle(false);
                 setIsEdit(false);
 
-                fetchCert({ userId });
+                fetchProject({ userId });
             } catch (err) {
                 console.log('프로젝트 수정에 실패하였습니다.', err);
             }
@@ -127,7 +127,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
     };
 
     const handleCancel = () => {
-        fetchCert({ userId });
+        fetchProject({ userId });
 
         setIsToggle(false);
         setIsEdit(false);
@@ -138,7 +138,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             // "project/projectId" 엔드포인트로 delete 요청함.
             await Api.delete(`cert/${id}`);
 
-            fetchCert({ userId });
+            fetchProject({ userId });
 
             setIsToggle(false);
             setIsEdit(false);
@@ -148,7 +148,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
     };
 
     useEffect(() => {
-        fetchCert({ userId });
+        fetchProject({ userId });
     }, [userId]);
 
     const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeStartDate, onChangeEndDate, onChangeDescription };

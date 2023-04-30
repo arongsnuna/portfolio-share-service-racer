@@ -50,7 +50,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         setEduDegree('');
     };
 
-    const fetchCert = async (ownerId) => {
+    const fetchEducation = async (ownerId) => {
         try {
             // "/edu" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
             const res = await Api.get('edu');
@@ -87,7 +87,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     setIsToggle(false);
                     setIsEdit(false);
 
-                    fetchCert({ userId });
+                    fetchEducation({ userId });
 
                     setEduSchool('');
                     setEduMajor('');
@@ -114,7 +114,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                 setIsToggle(false);
                 setIsEdit(false);
 
-                fetchCert({ userId });
+                fetchEducation({ userId });
             } catch (err) {
                 console.log('학위 수정에 실패하였습니다.', err);
             }
@@ -147,7 +147,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     };
 
     const handleCancel = () => {
-        fetchCert({ userId });
+        fetchEducation({ userId });
 
         setIsToggle(false);
         setIsEdit(false);
@@ -158,7 +158,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             // "edu/educationId" 엔드포인트로 delete 요청함.
             await Api.delete(`edu/${id}`);
 
-            fetchCert({ userId });
+            fetchEducation({ userId });
 
             setIsToggle(false);
             setIsEdit(false);
@@ -168,7 +168,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     };
 
     useEffect(() => {
-        fetchCert({ userId });
+        fetchEducation({ userId });
     }, [userId]);
 
     const formSendFunction = {
