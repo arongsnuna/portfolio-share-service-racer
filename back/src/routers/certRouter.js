@@ -55,8 +55,6 @@ certRouter.put('/:certId', async (req, res, next) => {
         const { certId } = req.params;
         const { certName, certAcDate } = req.body;
 
-        const newCert = { certName, certAcDate };
-
         if (!certName || !certAcDate) {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
@@ -64,6 +62,8 @@ certRouter.put('/:certId', async (req, res, next) => {
         if (!util.regexp(certAcDate)) {
             throw new Error('취득일자 값을 확인해주세요');
         }
+
+        const newCert = { certName, certAcDate };
 
         const updatedCert = await certService.updateCert({ user_id, certId, newCert });
         res.status(200).json(updatedCert);

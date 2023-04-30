@@ -32,11 +32,10 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
     const fetchCert = async (ownerId) => {
         try {
-            const { userId } = ownerId;
-            // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
-            const res = await Api.get('users', userId);
+            // "/cert" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
+            const res = await Api.get('cert');
             // 사용자 정보는 response의 data임.
-            const ownerData = res.data.certs;
+            const ownerData = res.data;
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {

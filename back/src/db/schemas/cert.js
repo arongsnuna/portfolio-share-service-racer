@@ -10,10 +10,7 @@ const CertSchema = new Schema(
             type: String,
             required: true,
         },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
+
         isSave: {
             type: Boolean,
             default: true,
@@ -21,6 +18,10 @@ const CertSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     },
     {
