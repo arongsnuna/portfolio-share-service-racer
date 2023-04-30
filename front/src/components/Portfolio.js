@@ -59,13 +59,13 @@ function Portfolio() {
     return (
         <Container>
             <Row>
-                <Col>
+                <Col className='mb-2'>
                     <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                 </Col>
                 <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
-                            <Award portfolioOwnerId={portfolioOwner.id} />
+                            <Award portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>
                             <Education portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
@@ -74,7 +74,7 @@ function Portfolio() {
                             <Certificate portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>
-                            {/* <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} /> */}
+                            <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                     </div>
                 </Col>
