@@ -8,6 +8,7 @@ import { userAuthRouter } from './routers/userRouter';
 import { awardRouter } from './routers/awardRouter';
 import { eduRouter } from './routers/educationRouter';
 import { certRouter } from './routers/certRouter';
+import { projectRouter } from './routers/projectRouter';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(userAuthRouter);
 app.use('/award', login_required, awardRouter);
 app.use('/edu', login_required, eduRouter);
 app.use('/cert', login_required, certRouter);
+app.use('/project', login_required, projectRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
