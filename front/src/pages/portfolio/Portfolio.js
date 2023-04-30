@@ -1,15 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Col, Row } from 'react-bootstrap';
+import { UserStateContext } from '../../App';
+import * as Api from '../../api';
 
-import { UserStateContext } from '../App';
-import * as Api from '../api';
-import User from './user/User';
-
-import Award from './Award/Award';
-import Education from './user/education/Education';
-import Certificate from './user/certificate/Certificate';
-import Project from './user/project/Project';
+import User from '../../components/user/User';
+import Award from '../../components/award/Award';
+import Education from '../../components/education/Education';
+import Certificate from '../../components/certificate/Certificate';
+import Project from '../../components/project/Project';
 
 function Portfolio() {
     const navigate = useNavigate();
@@ -59,13 +58,13 @@ function Portfolio() {
     return (
         <Container>
             <Row>
-                <Col>
+                <Col className='mb-2'>
                     <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                 </Col>
                 <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
-                            <Award portfolioOwnerId={portfolioOwner.id} />
+                            <Award portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>
                             <Education portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
@@ -74,7 +73,7 @@ function Portfolio() {
                             <Certificate portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                         <div className='mb-3'>
-                            {/* <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} /> */}
+                            <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
                         </div>
                     </div>
                 </Col>

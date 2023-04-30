@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import * as Api from './api';
 import { loginReducer } from './reducer';
 
-import Header from './components/Header';
-import LoginForm from './components/user/LoginForm';
-import Network from './components/user/Network';
-import RegisterForm from './components/user/RegisterForm';
-import Portfolio from './components/Portfolio';
+import Header from './components/header/Header';
+import LoginForm from './pages/login/LoginForm';
+import Network from './pages/network/Network';
+import RegisterForm from './pages/register/RegisterForm';
+import Portfolio from './pages/portfolio/Portfolio';
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);

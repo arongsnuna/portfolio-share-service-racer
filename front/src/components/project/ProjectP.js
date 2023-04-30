@@ -1,15 +1,19 @@
 import { Button } from 'react-bootstrap';
 
-function CertificateForm({ pSendFunction, isFlag, item }) {
+function ProjectP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
     const { isEditable } = isFlag;
 
     return (
         <div>
             <p>
-                {item.certName}
+                {item.projectName}
                 <br />
-                {item.certAcDate}
+                {item.projectStartDate}
+                <br />
+                {item.projectEndDate}
+                <br />
+                {item.projectDescription}
                 <br />
             </p>
             <br />
@@ -24,4 +28,4 @@ function CertificateForm({ pSendFunction, isFlag, item }) {
     );
 }
 
-export default CertificateForm;
+export default ProjectP;

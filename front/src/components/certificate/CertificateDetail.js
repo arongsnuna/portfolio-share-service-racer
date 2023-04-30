@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-import * as Api from '../../../api';
+import * as Api from '../../api';
 
 import CertificateForm from './CertificateForm';
 import CertificateP from './CertificateP';
@@ -13,21 +13,21 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
     const [currentEditId, setcurrentEditId] = useState(''); // Edit 버튼을 클릭 시 버튼 표시를 구분하기 위한 값
 
     const [certName, setCertName] = useState(''); // 자격증 명
-    const [certAcDate, setcertAcDate] = useState(''); // 취득일자
+    const [certAcDate, setCertAcDate] = useState(''); // 취득일자
 
     const onChangeName = (e) => {
         setCertName(e.target.value);
     };
 
     const onChangeDate = (e) => {
-        setcertAcDate(e.target.value);
+        setCertAcDate(e.target.value);
     };
 
     const AddInput = () => {
         setIsToggle(true);
 
         setCertName('');
-        setcertAcDate('');
+        setCertAcDate('');
     };
 
     const fetchCert = async (ownerId) => {
@@ -50,7 +50,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
         if (item === undefined || item.isSave === false) {
             try {
-                // "cert/user_id" 엔드포인트로 post요청함.
+                // "/cert" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
                 await Api.post(`cert/`, {
                     certName,
                     certAcDate,
@@ -62,13 +62,13 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                 fetchCert({ userId });
 
                 setCertName('');
-                setcertAcDate('');
+                setCertAcDate('');
             } catch (err) {
                 console.log('자격증 추가에 실패하였습니다.', err);
             }
         } else {
             try {
-                // "cert/user_id/cert_id" 엔드포인트로 put요청함.
+                // "cert/certId" 엔드포인트로 put요청함.
                 await Api.put(`cert/${item._id}`, {
                     certName,
                     certAcDate,
@@ -100,7 +100,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
         const item = dbItem.filter((item) => item._id === id)[0];
         setCertName(item.certName);
-        setcertAcDate(item.certAcDate);
+        setCertAcDate(item.certAcDate);
 
         setcurrentEditId(item._id);
         setIsEdit(true);
@@ -115,7 +115,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
     const handleDelete = async (id) => {
         try {
-            // "cert/user_id/cert_id" 엔드포인트로 delete 요청함.
+            // "cert/certId" 엔드포인트로 delete 요청함.
             await Api.delete(`cert/${id}`);
 
             fetchCert({ userId });
