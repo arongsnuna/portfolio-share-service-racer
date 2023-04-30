@@ -52,12 +52,10 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
     const fetchCert = async (ownerId) => {
         try {
-            const { userId } = ownerId;
-            // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
-            const res = await Api.get('users', userId);
+            // "/edu" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
+            const res = await Api.get('edu');
             // 사용자 정보는 response의 data임.
-            const ownerData = res.data.educations;
-            console.log(ownerData);
+            const ownerData = res.data;
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
@@ -77,8 +75,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                 }
 
                 try {
-                    // "education/user_id" 엔드포인트로 post요청함.
-                    await Api.post(`educations/`, {
+                    // "/edu" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
+                    await Api.post(`edu/`, {
                         eduSchool,
                         eduMajor,
                         eduEnterDate,
@@ -104,8 +102,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             }
         } else {
             try {
-                // "education/user_id/cert_id" 엔드포인트로 put요청함.
-                await Api.put(`educations/${item._id}`, {
+                // "edu/educationId" 엔드포인트로 put요청함.
+                await Api.put(`edu/${item._id}`, {
                     eduSchool,
                     eduMajor,
                     eduEnterDate,
@@ -140,8 +138,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         const item = dbItem.filter((item) => item._id === id)[0];
         setEduSchool(item.eduSchool);
         setEduMajor(item.eduMajor);
-        setEduEnterDate(item.eduEnter);
-        setEduGraduateDate(item.eduGraduate);
+        setEduEnterDate(item.eduEnterDate);
+        setEduGraduateDate(item.eduGraduateDate);
         setEduDegree(item.eduDegree);
 
         setcurrentEditId(item._id);
@@ -157,8 +155,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
     const handleDelete = async (id) => {
         try {
-            // "education/user_id/cert_id" 엔드포인트로 delete 요청함.
-            await Api.delete(`educations/${id}`);
+            // "edu/educationId" 엔드포인트로 delete 요청함.
+            await Api.delete(`edu/${id}`);
 
             fetchCert({ userId });
 
