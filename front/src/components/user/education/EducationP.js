@@ -11,9 +11,9 @@ function EducationP({ pSendFunction, isFlag, item }) {
                 <br />
                 {item.eduMajor}
                 <br />
-                {item.eduEnter}
+                {item.eduEnterDate}
                 <br />
-                {item.eduGraduate}
+                {item.eduGraduateDate}
                 <br />
                 {item.eduDegree}
                 <br />

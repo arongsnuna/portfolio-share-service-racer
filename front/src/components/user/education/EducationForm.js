@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 function EducationForm({ formSendFunction, currentData, isFlag, item }) {
-    const { handleSubmit, handleCancel, handleDelete, onChangeSchool, onChangeMajor, onChangeEnter, onChangeGraduate, onChangeDegree } =
+    const { handleSubmit, handleCancel, handleDelete, onChangeSchool, onChangeMajor, onChangeEnterDate, onChangeGraduateDate, onChangeDegree } =
         formSendFunction;
-    const { eduSchool, eduMajor, eduEnter, eduGraduate, eduDegree, currentEditId } = currentData;
+    const { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree, currentEditId } = currentData;
     const { isDateValid } = isFlag;
 
     return (
@@ -16,11 +16,13 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
                 <Form.Control style={{ width: '100%' }} type='text' placeholder='전공' value={eduMajor} onChange={onChangeMajor} />
             </div>
             <div className='mb-2'>
-                <Form.Control style={{ width: '100%' }} type='date' placeholder='입학일자' value={eduEnter} onChange={onChangeEnter} />
+                <Form.Control style={{ width: '100%' }} type='date' placeholder='입학일자' value={eduEnterDate} onChange={onChangeEnterDate} />
             </div>
             <div className='mb-2'>
-                <Form.Control style={{ width: '100%' }} type='date' placeholder='졸업일자' value={eduGraduate} onChange={onChangeGraduate} />
-                {eduEnter && eduGraduate && !isDateValid && <Form.Text className='date-success'>입학날짜보다 졸업일자가 이전입니다.</Form.Text>}
+                <Form.Control style={{ width: '100%' }} type='date' placeholder='졸업일자' value={eduGraduateDate} onChange={onChangeGraduateDate} />
+                {eduEnterDate && eduGraduateDate && !isDateValid && (
+                    <Form.Text className='date-success'>입학날짜보다 졸업일자가 이전입니다.</Form.Text>
+                )}
             </div>
             <div className='mb-2'>
                 <Form.Control style={{ width: '100%' }} type='text' placeholder='학위' value={eduDegree} onChange={onChangeDegree} />

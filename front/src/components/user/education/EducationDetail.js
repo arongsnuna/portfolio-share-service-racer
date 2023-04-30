@@ -14,11 +14,11 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
     const [eduSchool, setEduSchool] = useState(''); // 학교이름
     const [eduMajor, setEduMajor] = useState(''); // 전공
-    const [eduEnter, setEduEnter] = useState(''); // 입학일자
-    const [eduGraduate, setEduGraduate] = useState(''); // 졸업일자
+    const [eduEnterDate, setEduEnterDate] = useState(''); // 입학일자
+    const [eduGraduateDate, setEduGraduateDate] = useState(''); // 졸업일자
     const [eduDegree, setEduDegree] = useState(''); // 학위
 
-    const isDateValid = eduEnter < eduGraduate;
+    const isDateValid = eduEnterDate < eduGraduateDate;
 
     const onChangeSchool = (e) => {
         setEduSchool(e.target.value);
@@ -28,12 +28,12 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         setEduMajor(e.target.value);
     };
 
-    const onChangeEnter = (e) => {
-        setEduEnter(e.target.value);
+    const onChangeEnterDate = (e) => {
+        setEduEnterDate(e.target.value);
     };
 
-    const onChangeGraduate = (e) => {
-        setEduGraduate(e.target.value);
+    const onChangeGraduateDate = (e) => {
+        setEduGraduateDate(e.target.value);
     };
 
     const onChangeDegree = (e) => {
@@ -45,8 +45,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
         setEduSchool('');
         setEduMajor('');
-        setEduEnter('');
-        setEduGraduate('');
+        setEduEnterDate('');
+        setEduGraduateDate('');
         setEduDegree('');
     };
 
@@ -57,6 +57,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             const res = await Api.get('users', userId);
             // 사용자 정보는 response의 data임.
             const ownerData = res.data.educations;
+            console.log(ownerData);
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
@@ -80,8 +81,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     await Api.post(`educations/`, {
                         eduSchool,
                         eduMajor,
-                        eduEnter,
-                        eduGraduate,
+                        eduEnterDate,
+                        eduGraduateDate,
                         eduDegree,
                     });
 
@@ -92,8 +93,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
                     setEduSchool('');
                     setEduMajor('');
-                    setEduEnter('');
-                    setEduGraduate('');
+                    setEduEnterDate('');
+                    setEduGraduateDate('');
                     setEduDegree('');
                 } catch (err) {
                     console.log('학위 추가에 실패하였습니다.', err);
@@ -107,8 +108,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                 await Api.put(`educations/${item._id}`, {
                     eduSchool,
                     eduMajor,
-                    eduEnter,
-                    eduGraduate,
+                    eduEnterDate,
+                    eduGraduateDate,
                     eduDegree,
                 });
 
@@ -139,8 +140,8 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         const item = dbItem.filter((item) => item._id === id)[0];
         setEduSchool(item.eduSchool);
         setEduMajor(item.eduMajor);
-        setEduEnter(item.eduEnter);
-        setEduGraduate(item.eduGraduate);
+        setEduEnterDate(item.eduEnter);
+        setEduGraduateDate(item.eduGraduate);
         setEduDegree(item.eduDegree);
 
         setcurrentEditId(item._id);
@@ -178,11 +179,11 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         handleDelete,
         onChangeSchool,
         onChangeMajor,
-        onChangeEnter,
-        onChangeGraduate,
+        onChangeEnterDate,
+        onChangeGraduateDate,
         onChangeDegree,
     };
-    const formSendcurrentData = { eduSchool, eduMajor, eduEnter, eduGraduate, eduDegree, currentEditId };
+    const formSendcurrentData = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree, currentEditId };
     const formSendisFlag = { isDateValid };
     const pSendFunction = { handleEdit };
     const pSendisFlag = { isEditable };
@@ -207,11 +208,23 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                         <Form.Control style={{ width: '100%' }} type='text' placeholder='전공' value={eduMajor} onChange={onChangeMajor} />
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='date' placeholder='입학일자' value={eduEnter} onChange={onChangeEnter} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='date'
+                            placeholder='입학일자'
+                            value={eduEnterDate}
+                            onChange={onChangeEnterDate}
+                        />
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='date' placeholder='졸업일자' value={eduGraduate} onChange={onChangeGraduate} />
-                        {eduEnter && eduGraduate && !isDateValid && (
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='date'
+                            placeholder='졸업일자'
+                            value={eduGraduateDate}
+                            onChange={onChangeGraduateDate}
+                        />
+                        {eduEnterDate && eduGraduateDate && !isDateValid && (
                             <Form.Text className='date-success'>입학날짜보다 졸업일자가 이전입니다.</Form.Text>
                         )}
                     </div>
