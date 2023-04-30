@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-import * as Api from '../../../api';
+import * as Api from '../../api';
 
 import EducationForm from './EducationForm';
 import EducationP from './EducationP';

@@ -1,15 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Col, Row } from 'react-bootstrap';
+import { UserStateContext } from '../../App';
+import * as Api from '../../api';
 
-import { UserStateContext } from '../App';
-import * as Api from '../api';
-import User from './user/User';
-
-import Award from './Award/Award';
-import Education from './user/education/Education';
-import Certificate from './user/certificate/Certificate';
-import Project from './user/project/Project';
+import User from '../../components/user/User';
+import Award from '../../components/award/Award';
+import Education from '../../components/education/Education';
+import Certificate from '../../components/certificate/Certificate';
+import Project from '../../components/project/Project';
 
 function Portfolio() {
     const navigate = useNavigate();
