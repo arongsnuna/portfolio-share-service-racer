@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 function AwardForm({ formSendFunction, currentData, item }) {
   const {
@@ -11,13 +11,12 @@ function AwardForm({ formSendFunction, currentData, item }) {
     onChangeInstitution,
     onChangeDescription,
   } = formSendFunction;
-  const { awardName, awardDate, awardInstitution, awardDescription } =
-    currentData;
+  const { awardName, awardDate, awardInstitution, awardDescription, currentEditId } = currentData;
 
   return (
     <div>
       <div>
-        <Form.Group className="mb-2">
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
             type="text"
@@ -25,19 +24,17 @@ function AwardForm({ formSendFunction, currentData, item }) {
             value={awardName}
             onChange={onChangeName}
           />
-        </Form.Group>
-
-        <Form.Group className="mb-2">
+        </div>
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
-            type="Date"
+            type="date"
             placeholder="수상일자"
             value={awardDate}
             onChange={onChangeDate}
           />
-        </Form.Group>
-
-        <Form.Group className="mb-2">
+        </div>
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
             type="text"
@@ -45,9 +42,8 @@ function AwardForm({ formSendFunction, currentData, item }) {
             value={awardInstitution}
             onChange={onChangeInstitution}
           />
-        </Form.Group>
-
-        <Form.Group className="mb-2">
+        </div>
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
             type="text"
@@ -55,12 +51,11 @@ function AwardForm({ formSendFunction, currentData, item }) {
             value={awardDescription}
             onChange={onChangeDescription}
           />
-        </Form.Group>
-
+        </div>
         <div className="mb-3 text-center">
-          {editCurrentId !== item.id ? (
+          {currentEditId !== item._id ? (
             <React.Fragment>
-              <Button variant="pimary" onClick={() => handleSubmit(item._id)}>
+              <Button variant="primary" onClick={() => handleSubmit(item._id)}>
                 확인
               </Button>
               <Button variant="secondary" onClick={() => handleCancel()}>
