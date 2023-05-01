@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import { AwardSchema } from './award.js';
 import { EducationSchema } from './education';
 import { CertSchema } from './cert';
+import { StackSchema } from './stack.js';
 
 const UserSchema = new Schema(
     {
@@ -29,6 +30,7 @@ const UserSchema = new Schema(
         awards: [AwardSchema],
         educations: [EducationSchema],
         certs: [CertSchema],
+        stacks: [StackSchema],
     },
     {
         timestamps: true,
