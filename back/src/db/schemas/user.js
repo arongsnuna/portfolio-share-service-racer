@@ -25,10 +25,7 @@ const UserSchema = new Schema(
             type: String,
             required: false,
             default: '설명이 아직 없습니다. 추가해 주세요.',
-        },
-        awards: [AwardSchema],
-        educations: [EducationSchema],
-        certs: [CertSchema],
+        }
     },
     {
         timestamps: true,
