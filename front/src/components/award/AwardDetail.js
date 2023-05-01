@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 import * as Api from "../../api";
 
@@ -10,7 +10,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
   const [dbItem, setDbItem] = useState([]);
   const [isToggle, setIsToggle] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [editCurrentId, setEditCurrentId] = useState("");
+  const [currentEditId, setcurrentEditId] = useState("");
 
   const [awardName, setAwardName] = useState("");
   const [awardDate, setAwardDate] = useState("");
@@ -42,13 +42,13 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
     setAwardDescription("");
   };
 
-  const fetchCert = async () => {
+  const fetchAward = async (ownerId) => {
     try {
-      const res = await Api.get("awards");
+      const res = await Api.get("award");
       const ownerData = res.data;
       setDbItem(ownerData);
     } catch (err) {
-      console.log("사용자 데이터 불러오기에 실패하였습니다.", err);
+      console.log("데이터 불러오기에 실패하였습니다.", err);
     }
   };
 
@@ -69,7 +69,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
         setIsToggle(false);
         setIsEdit(false);
 
-        fetchCert({ userId });
+        fetchAward({ userId });
 
         setAwardName("");
         setAwardDate("");
@@ -90,7 +90,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
         setIsToggle(false);
         setIsEdit(false);
 
-        fetchCert({ userId });
+        fetchAward({ userId });
       } catch (err) {
         console.log("수상이력 수정에 실패하였습니다.", err);
       }
@@ -117,12 +117,13 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
     setAwardInstitution(item.awardInstitution);
     setAwardDescription(item.awardDescription);
 
-    setEditCurrentId(item.id);
+    setcurrentEditId(item._id);
     setIsEdit(true);
   };
 
   const handleCancel = () => {
-    fetchCert({ userId });
+    fetchAward({ userId });
+
     setIsToggle(false);
     setIsEdit(false);
   };
@@ -131,7 +132,8 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
     try {
       await Api.delete(`award/${id}`);
 
-      fetchCert({ userId });
+      fetchAward({ userId });
+
       setIsToggle(false);
       setIsEdit(false);
     } catch (err) {
@@ -140,7 +142,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
   };
 
   useEffect(() => {
-    fetchCert({ userId });
+    fetchAward({ userId });
   }, [userId]);
 
   const formSendFunction = {
@@ -152,39 +154,24 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
     onChangeInstitution,
     onChangeDescription,
   };
-  const formSendcurrentData = {
-    awardName,
-    awardDate,
-    awardInstitution,
-    awardDescription,
-    editCurrentId,
-  };
+  const formSendcurrentData = { awardName, awardDate, awardInstitution, awardDescription, currentEditId };
   const pSendFunction = { handleEdit };
-  const pSendIsFlag = { isEditable };
+  const pSendisFlag = { isEditable };
 
   return (
     <div>
       {dbItem.map((item) => (
         <div key={item._id}>
           {item.isSave === true && item.isEdit === false ? (
-            <AwardP
-              pSendFunction={pSendFunction}
-              isFlag={pSendIsFlag}
-              item={item}
-            />
+            <AwardP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
           ) : (
-            <AwardForm
-              formSendFunction={formSendFunction}
-              currentData={formSendcurrentData}
-              item={item}
-            />
+            <AwardForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
           )}
         </div>
       ))}
-
       {isToggle === true ? (
         <div>
-          <Form.Group className="mb-2">
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="text"
@@ -192,9 +179,8 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
               value={awardName}
               onChange={onChangeName}
             />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
+          </div>
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="date"
@@ -202,9 +188,8 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
               value={awardDate}
               onChange={onChangeDate}
             />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
+          </div>
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="text"
@@ -212,9 +197,8 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
               value={awardInstitution}
               onChange={onChangeInstitution}
             />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
+          </div>
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="text"
@@ -222,8 +206,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
               value={awardDescription}
               onChange={onChangeDescription}
             />
-          </Form.Group>
-
+          </div>
           <div className="mb-3 text-center">
             <React.Fragment>
               <Button variant="primary" onClick={() => handleSubmit()}>
@@ -238,16 +221,13 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
       ) : (
         ""
       )}
-
       {isEditable && (
         <div className="mb-3 text-center">
-          <Button
-            variant="primary"
-            onClick={AddInput}
-            disabled={isToggle || isEdit ? true : false}
-          >
-            +
-          </Button>
+          {dbItem.length < 10 && (
+            <Button variant="primary" onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
+              +
+            </Button>
+          )}
         </div>
       )}
     </div>
