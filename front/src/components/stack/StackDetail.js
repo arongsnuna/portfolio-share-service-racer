@@ -1,0 +1,191 @@
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
+
+import * as Api from "../../api";
+
+import StackForm from "./StackForm";
+import StackP from "./StackP";
+
+function StackDetail({ portfolioOwnerId, isEditable }) {
+  const [dbItem, setDbItem] = useState([]);
+  const [isToggle, setIsToggle] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editCurrentId, setEditCurrentId] = useState("");
+
+  const [stackName, setStackName] = useState("");
+  const [stackDescription, setStackDescription] = useState("");
+
+  const onChangeName = (e) => {
+    setStackName(e.target.value);
+  };
+
+  const onChangeDescription = (e) => {
+    setStackDescription(e.target.value);
+  };
+
+  const AddInput = () => {
+    setIsToggle(true);
+
+    setStackName("");
+    setStackDescription("");
+  };
+
+  const fetchCert = async () => {
+    try {
+      const res = await Api.get("stacks");
+      const ownerData = res.data;
+      setDbItem(ownerData);
+    } catch (err) {
+      console.log("사용자 데이터 불러오기에 실패하였습니다.", err);
+    }
+  };
+
+  const userId = portfolioOwnerId;
+
+  const handleSubmit = async (id) => {
+    const item = dbItem.filter((item) => item._id === id)[0];
+
+    if (item === undefined || item.isSave === false) {
+      try {
+        await Api.post(`stack/`, {
+          stackName,
+          stackDescription,
+        });
+
+        setIsToggle(false);
+        setIsEdit(false);
+
+        fetchCert({ userId });
+
+        setStackName("");
+        setStackDescription("");
+      } catch (err) {
+        console.log("기술 스택 추가에 실패하였습니다.", err);
+      }
+    } else {
+      try {
+        await Api.put(`stack/${item._id}`, {
+          stackName,
+          stackDescription,
+        });
+
+        setIsToggle(false);
+        setIsEdit(false);
+
+        fetchCert({ userId });
+      } catch (err) {
+        console.log("기술 스택 수정에 실패하였습니다.", err);
+      }
+    }
+  };
+
+  const handleEdit = (id) => {
+    setDbItem((prevItems) => {
+      return prevItems.map((item) => {
+        if (item._id === id) {
+          return {
+            ...item,
+            isEdit: true,
+          };
+        } else {
+          return item;
+        }
+      });
+    });
+
+    const item = dbItem.filter((item) => item._id === id)[0];
+    setStackName(item.stackName);
+    setStackDescription(item.stackDescription);
+
+    setEditCurrentId(item.id);
+    setIsEdit(true);
+  };
+
+  const handleCancel = () => {
+    fetchCert({ userId });
+    setIsToggle(false);
+    setIsEdit(false);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await Api.delete(`stack/${id}`);
+
+      fetchCert({ userId });
+      setIsToggle(false);
+      setIsEdit(false);
+    } catch (err) {
+      console.log("기술 스택 삭제에 실패하였습니다.", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCert({ userId });
+  }, [userId]);
+
+  const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDescription };
+  const formSendcurrentData = { stackName, stackDescription, editCurrentId };
+  const pSendFunction = { handleEdit };
+  const pSendIsFlag = { isEditable };
+
+  return (
+    <div>
+      {dbItem.map((item) => (
+        <div key={item._id}>
+          {item.isSave === true && item.isEdit === false ? (
+            <StackP pSendFunction={pSendFunction} isFlag={pSendIsFlag} item={item} />
+          ) : (
+            <StackForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
+          )}
+        </div>
+      ))}
+
+      {isToggle === true ? (
+        <div>
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="text"
+              placeholder="기술 이름"
+              value={stackName}
+              onChange={onChangeName}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Control
+              style={{ width: "100%" }}
+              type="text"
+              placeholder="기술 설명"
+              value={stackDescription}
+              onChange={onChangeDescription}
+            />
+          </Form.Group>
+
+          <div className="mb-3 text-center">
+            <React.Fragment>
+              <Button variant="primary" onClick={() => handleSubmit()}>
+                확인
+              </Button>
+              <Button variant="secondary" onClick={() => handleCancel()}>
+                취소
+              </Button>
+            </React.Fragment>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
+      {isEditable && (
+        <div className="mb-3 text-center">
+          <Button variant="primary" onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
+            +
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default StackDetail;
