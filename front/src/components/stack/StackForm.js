@@ -20,7 +20,7 @@ function StackForm({ formSendFunction, currentData, item }) {
         <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
-            type="date"
+            type="text"
             placeholder="기술 설명"
             value={stackDescription}
             onChange={onChangeDescription}
