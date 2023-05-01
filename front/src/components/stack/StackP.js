@@ -16,7 +16,7 @@ function StackP({ pSendFunction, isFlag, item }) {
       {isEditable && (
         <Button
           className="position-absolute end-0 translate-middle"
-          variant="outline-primary"
+          variant="outline-info"
           onClick={() => handleEdit(item._id)}
         >
           편집

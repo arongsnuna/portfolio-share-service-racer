@@ -5,7 +5,7 @@ import StackDetail from "./StackDetail";
 function Stack({ portfolioOwnerId, isEditable }) {
   return (
     <Card className="ms-3" style={{ width: "100%" }}>
-      <Card.Title className="ms-3 mt-3">기술 스택</Card.Title>
+      <Card.Title className="ms-3 mt-3">보유 기술</Card.Title>
       <Card.Body>
         <Row>
           <div>

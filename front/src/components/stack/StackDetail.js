@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 import * as Api from "../../api";
 
@@ -10,7 +10,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
   const [dbItem, setDbItem] = useState([]);
   const [isToggle, setIsToggle] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [editCurrentId, setEditCurrentId] = useState("");
+  const [currentEditId, setcurrentEditId] = useState("");
 
   const [stackName, setStackName] = useState("");
   const [stackDescription, setStackDescription] = useState("");
@@ -30,13 +30,13 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
     setStackDescription("");
   };
 
-  const fetchCert = async () => {
+  const fetchStack = async (ownerId) => {
     try {
-      const res = await Api.get("stacks");
+      const res = await Api.get("stack");
       const ownerData = res.data;
       setDbItem(ownerData);
     } catch (err) {
-      console.log("사용자 데이터 불러오기에 실패하였습니다.", err);
+      console.log("데이터 불러오기에 실패하였습니다.", err);
     }
   };
 
@@ -55,12 +55,12 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         setIsToggle(false);
         setIsEdit(false);
 
-        fetchCert({ userId });
+        fetchStack({ userId });
 
         setStackName("");
         setStackDescription("");
       } catch (err) {
-        console.log("기술 스택 추가에 실패하였습니다.", err);
+        console.log("보유 기술 추가에 실패하였습니다.", err);
       }
     } else {
       try {
@@ -72,9 +72,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         setIsToggle(false);
         setIsEdit(false);
 
-        fetchCert({ userId });
+        fetchStack({ userId });
       } catch (err) {
-        console.log("기술 스택 수정에 실패하였습니다.", err);
+        console.log("보유 기술 수정에 실패하였습니다.", err);
       }
     }
   };
@@ -97,12 +97,13 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
     setStackName(item.stackName);
     setStackDescription(item.stackDescription);
 
-    setEditCurrentId(item.id);
+    setcurrentEditId(item._id);
     setIsEdit(true);
   };
 
   const handleCancel = () => {
-    fetchCert({ userId });
+    fetchStack({ userId });
+
     setIsToggle(false);
     setIsEdit(false);
   };
@@ -111,38 +112,38 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
     try {
       await Api.delete(`stack/${id}`);
 
-      fetchCert({ userId });
+      fetchStack({ userId });
+
       setIsToggle(false);
       setIsEdit(false);
     } catch (err) {
-      console.log("기술 스택 삭제에 실패하였습니다.", err);
+      console.log("보유 기술 삭제에 실패하였습니다.", err);
     }
   };
 
   useEffect(() => {
-    fetchCert({ userId });
+    fetchStack({ userId });
   }, [userId]);
 
   const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDescription };
-  const formSendcurrentData = { stackName, stackDescription, editCurrentId };
+  const formSendcurrentData = { stackName, stackDescription, currentEditId };
   const pSendFunction = { handleEdit };
-  const pSendIsFlag = { isEditable };
+  const pSendisFlag = { isEditable };
 
   return (
     <div>
       {dbItem.map((item) => (
         <div key={item._id}>
           {item.isSave === true && item.isEdit === false ? (
-            <StackP pSendFunction={pSendFunction} isFlag={pSendIsFlag} item={item} />
+            <StackP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
           ) : (
             <StackForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
           )}
         </div>
       ))}
-
       {isToggle === true ? (
         <div>
-          <Form.Group className="mb-2">
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="text"
@@ -150,9 +151,8 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
               value={stackName}
               onChange={onChangeName}
             />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
+          </div>
+          <div className="mb-2">
             <Form.Control
               style={{ width: "100%" }}
               type="text"
@@ -160,11 +160,10 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
               value={stackDescription}
               onChange={onChangeDescription}
             />
-          </Form.Group>
-
+          </div>
           <div className="mb-3 text-center">
             <React.Fragment>
-              <Button variant="primary" onClick={() => handleSubmit()}>
+              <Button className="me-3" variant="primary" onClick={() => handleSubmit()}>
                 확인
               </Button>
               <Button variant="secondary" onClick={() => handleCancel()}>
@@ -176,12 +175,13 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
       ) : (
         ""
       )}
-
       {isEditable && (
         <div className="mb-3 text-center">
-          <Button variant="primary" onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
-            +
-          </Button>
+          {dbItem.length < 10 && (
+            <Button variant="primary" onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
+              +
+            </Button>
+          )}
         </div>
       )}
     </div>

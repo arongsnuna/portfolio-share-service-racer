@@ -1,14 +1,14 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 function StackForm({ formSendFunction, currentData, item }) {
   const { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDescription } = formSendFunction;
-  const { stackName, stackDescription, editCurrentId } = currentData;
+  const { stackName, stackDescription, currentEditId } = currentData;
 
   return (
     <div>
       <div>
-        <Form.Group className="mb-2">
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
             type="text"
@@ -16,22 +16,20 @@ function StackForm({ formSendFunction, currentData, item }) {
             value={stackName}
             onChange={onChangeName}
           />
-        </Form.Group>
-
-        <Form.Group className="mb-2">
+        </div>
+        <div className="mb-2">
           <Form.Control
             style={{ width: "100%" }}
-            type="text"
+            type="date"
             placeholder="기술 설명"
             value={stackDescription}
             onChange={onChangeDescription}
           />
-        </Form.Group>
-
+        </div>
         <div className="mb-3 text-center">
-          {editCurrentId !== item.id ? (
+          {currentEditId !== item._id ? (
             <React.Fragment>
-              <Button variant="pimary" onClick={() => handleSubmit(item._id)}>
+              <Button className="me-3" variant="primary" onClick={() => handleSubmit(item._id)}>
                 확인
               </Button>
               <Button variant="secondary" onClick={() => handleCancel()}>
@@ -40,10 +38,10 @@ function StackForm({ formSendFunction, currentData, item }) {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Button variant="primary" onClick={() => handleSubmit(item._id)}>
+              <Button className="me-3" variant="primary" onClick={() => handleSubmit(item._id)}>
                 확인
               </Button>
-              <Button variant="danger" onClick={() => handleDelete(item._id)}>
+              <Button className="me-3" variant="danger" onClick={() => handleDelete(item._id)}>
                 삭제
               </Button>
               <Button variant="secondary" onClick={() => handleCancel()}>
