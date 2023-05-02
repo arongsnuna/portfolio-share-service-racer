@@ -61,7 +61,7 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
     }
 });
 
-// 프로젝트 정보 삭제
+// 모집 정보 삭제
 wantedRouter.delete('/:wantedId', async (req, res, next) => {
     try {
         const user_id = req.currentUserId;
