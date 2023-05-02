@@ -2,14 +2,14 @@ import React from 'react';
 import { Card, Row } from 'react-bootstrap';
 import EducationDetail from './EducationDetail';
 
-function EducationCreate({ portfolioOwnerId }) {
+function Education({ portfolioOwnerId, isEditable }) {
     return (
-        <Card style={{ width: '100%' }}>
+        <Card className='ms-3' style={{ width: '100%' }}>
             <Card.Title className='ms-3 mt-3'>학력</Card.Title>
             <Card.Body>
                 <Row>
                     <div>
-                        <EducationDetail portfolioOwnerId={portfolioOwnerId} />
+                        <EducationDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                     </div>
                 </Row>
             </Card.Body>
@@ -17,4 +17,4 @@ function EducationCreate({ portfolioOwnerId }) {
     );
 }
 
-export default EducationCreate;
+export default Education;
