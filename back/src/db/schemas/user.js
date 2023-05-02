@@ -1,7 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { AwardSchema } from './award.js';
-import { EducationSchema } from './education';
-import { CertSchema } from './cert';
 
 const UserSchema = new Schema(
     {
@@ -26,9 +23,16 @@ const UserSchema = new Schema(
             required: false,
             default: '설명이 아직 없습니다. 추가해 주세요.',
         },
-        awards: [AwardSchema],
-        educations: [EducationSchema],
-        certs: [CertSchema],
+        gitLink: {
+            type: String,
+            required: false,
+        },
+        userImage: {
+            contentType: String,
+            imageUri: String,
+            filename: String,
+            required: false,
+        },
     },
     {
         timestamps: true,
