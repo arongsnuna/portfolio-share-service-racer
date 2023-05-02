@@ -96,6 +96,40 @@ class wantedService {
             throw new Error(`deleteWanted() 에러 발생: ${err.message}`);
         }
     }
+    
+    // 댓글 추가
+    static async createComment({ user_id, wantedId, newComment }) {
+        try {
+            const { commentContent } = newComment;
+            console.log(commentContent)
+            const updatedWanted = await Wanted.createComment({ user_id, wantedId, commentContent })
+            return updatedWanted;
+        } catch (err) {
+        throw new Error(`createComment() 에러 발생: ${err.message}`);
+        }
+    }
+
+// 댓글 수정
+    static async updateComment({ user_id, wantedId, commentId, commentContent }) {
+        try {
+            const updatedWanted = await Wanted.updateComment({ user_id, wantedId, commentId, commentContent });
+            return updatedWanted;
+        } catch (err) {
+            throw new Error(`updateComment() 에러 발생: ${err.message}`);
+        }
+    }
+
+// 댓글 삭제
+    static async deleteComment({ user_id, wantedId, commentId }) {
+        try {
+            const updatedWanted = await Wanted.deleteComment({ user_id, wantedId, commentId });
+            return updatedWanted;
+        } catch (err) {
+            throw new Error(`deleteComment() 에러 발생: ${err.message}`);
+        }
+    }
+    
+
 }
 
 export { wantedService };

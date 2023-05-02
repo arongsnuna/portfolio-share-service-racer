@@ -10,10 +10,6 @@ const CommentSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
-        wantedId: {
-            type: Schema.Types.ObjectId,
-            ref: 'Wanted',
-        },
         isSave: {
             type: Boolean,
             default: true,

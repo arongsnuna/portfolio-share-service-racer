@@ -75,4 +75,62 @@ wantedRouter.delete('/:wantedId', async (req, res, next) => {
     }
 });
 
+// 댓글 추가
+wantedRouter.post('/:wantedId/comment', async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.body)) {
+            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
+        }
+        const user_id = req.currentUserId;
+        const { wantedId } = req.params;
+        const { commentContent } = req.body;
+        const newComment = { commentContent };
+
+        if (!commentContent) {
+            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        }
+
+        const createdComment = await wantedService.createComment({ user_id, wantedId, newComment });
+        res.status(201).json(createdComment);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// 댓글 수정
+wantedRouter.put('/:wantedId/comment/:commentId', async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.body)) {
+            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
+        }
+
+        const user_id = req.currentUserId;
+        const { wantedId, commentId } = req.params;
+        const { commentContent } = req.body;
+
+        if (!commentContent) {
+            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        }
+
+        const updatedComment = await wantedService.updateComment({ user_id, wantedId, commentId, commentContent });
+        res.status(200).json(updatedComment);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// 댓글 삭제
+wantedRouter.delete('/:wantedId/comment/:commentId', async (req, res, next) => {
+    try {
+        const user_id = req.currentUserId;
+        const { wantedId, commentId } = req.params;
+
+        const deletedComment = await wantedService.deleteComment({ user_id, wantedId, commentId });
+
+        res.status(200).json(deletedComment);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { wantedRouter };
