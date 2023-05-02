@@ -9,16 +9,23 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     const [email, setEmail] = useState(user.email);
     //useState로 description 상태를 생성함.
     const [description, setDescription] = useState(user.description);
+    //useState로 gitLink 상태를 생성함.
+    const [gitLink, setGitLink] = useState(user.gitLink);
+    //useState로 userImage 상태를 생성함.
+    const [userImage, setUserImage] = useState(user.userImage);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
+        formData.append('userImage', userImage);
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('description', description);
+        formData.append('gitLink', gitLink);
+
         // "users/유저id" 엔드포인트로 PUT 요청함.
-        const res = await Api.put(`users/${user.id}`, {
-            name,
-            email,
-            description,
-        });
+        const res = await Api.putFile(`users/${user.id}`, formData);
         // 유저 정보는 response의 data임.
         const updatedUser = res.data;
         // 해당 유저 정보로 user을 세팅함.
@@ -37,11 +44,34 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                     </Form.Group>
 
                     <Form.Group controlId='userEditEmail' className='mb-3'>
-                        <Form.Control type='email' placeholder='이메일' value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <Form.Control
+                            type='email'
+                            placeholder='이메일'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </Form.Group>
 
-                    <Form.Group controlId='userEditDescription'>
-                        <Form.Control type='text' placeholder='정보, 인사말' value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <Form.Group controlId='userEditDescription' className='mb-3'>
+                        <Form.Control
+                            type='text'
+                            placeholder='정보, 인사말'
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId='userEditGitLink' className='mb-3'>
+                        <Form.Control
+                            type='text'
+                            placeholder='Git 주소'
+                            value={gitLink}
+                            onChange={(e) => setGitLink(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId='userEditGitLink'>
+                        <Form.Control type='file' onChange={(e) => setUserImage(e.target.files[0])} />
                     </Form.Group>
 
                     <Form.Group as={Row} className='mt-3 text-center'>

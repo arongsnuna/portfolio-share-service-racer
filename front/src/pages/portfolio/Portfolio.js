@@ -59,21 +59,36 @@ function Portfolio() {
         <Container>
             <Row>
                 <Col className='mb-2'>
-                    <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                    <User
+                        portfolioOwnerId={portfolioOwner.userInfo.id}
+                        isEditable={portfolioOwner.userInfo.id === userState.user?.id}
+                    />
                 </Col>
                 <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
-                            <Award portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Award
+                                portfolioOwnerId={portfolioOwner.userInfo.id}
+                                isEditable={portfolioOwner.userInfo.id === userState.user?.id}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Education portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Education
+                                portfolioOwnerId={portfolioOwner.userInfo.id}
+                                isEditable={portfolioOwner.userInfo.id === userState.user?.id}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Certificate portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Certificate
+                                portfolioOwnerId={portfolioOwner.userInfo.id}
+                                isEditable={portfolioOwner.userInfo.id === userState.user?.id}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Project
+                                portfolioOwnerId={portfolioOwner.userInfo.id}
+                                isEditable={portfolioOwner.userInfo.id === userState.user?.id}
+                            />
                         </div>
                     </div>
                 </Col>

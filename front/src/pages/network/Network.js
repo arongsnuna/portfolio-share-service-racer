@@ -11,6 +11,7 @@ function Network() {
     const userState = useContext(UserStateContext);
     // useState 훅을 통해 users 상태를 생성함.
     const [users, setUsers] = useState([]);
+    // useState 훅을 통해 userImageUrl 상태를 생성함.
 
     useEffect(() => {
         // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -26,7 +27,14 @@ function Network() {
         <Container fluid>
             <Row xs='auto' className='jusify-content-center'>
                 {users.map((user) => (
-                    <UserCard key={user.id} user={user} isNetwork />
+                    <React.Fragment key={user.id}>
+                        {user.userImage ? (
+                            <UserCard user={user} isNetwork userImageUrl={user.userImage.imageUri} />
+                        ) : (
+                            <UserCard user={user} isNetwork userImageUrl={'http://placekitten.com/200/200'} />
+                        )}
+                    </React.Fragment>
+                    // <UserCard key={user.id} user={user} isNetwork />
                 ))}
             </Row>
         </Container>
