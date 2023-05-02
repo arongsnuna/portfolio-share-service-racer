@@ -100,6 +100,7 @@ wantedRouter.post('/:wantedId/comment', async (req, res, next) => {
 // 댓글 수정
 wantedRouter.put('/:wantedId/comment/:commentId', async (req, res, next) => {
     try {
+        
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }

@@ -40,7 +40,6 @@ class Wanted {
     static async createComment({ user_id, wantedId, commentContent }) { 
         const user = await UserModel.findOne({ id: user_id });
         const newComment = { userId: user._id, commentContent };
-        console.log("모델네", newComment);
         const updatedWanted = await WantedModel.findOneAndUpdate(
             { _id: wantedId },
             { $push: { comment: newComment } },
@@ -52,20 +51,21 @@ class Wanted {
     // 코멘트 수정
     static async updateComment({ user_id, wantedId, commentId, commentContent }) {
         const user = await UserModel.findOne({ id: user_id });
+    
         const updatedWanted = await WantedModel.findOneAndUpdate(
-            { _id: wantedId, 'comment._id': commentId, 'comment.userId': user._id },
-            { $set: { 'comment.$.commentContent': commentContent } },
-            { new: true }
+            { _id: wantedId },
+            { $set: { 'comment.$[elem].commentContent': commentContent } },
+            { new: true, arrayFilters: [{ 'elem._id': commentId, 'elem.userId': user._id }] }
         );
         return updatedWanted;
     }
 
-    // 코멘트 삭제
+// 코멘트 삭제
     static async deleteComment({ user_id, wantedId, commentId }) {
         const user = await UserModel.findOne({ id: user_id });
         const updatedWanted = await WantedModel.findOneAndUpdate(
-            { _id: wantedId },
-            { $pull: { comment: { _id: commentId, userId: user._id } } },
+            { _id: wantedId, comment: { $elemMatch: { _id: commentId, userId: user._id } } },
+            { $pull: { comment: { _id: commentId } } },
             { new: true }
         );
         return updatedWanted;
