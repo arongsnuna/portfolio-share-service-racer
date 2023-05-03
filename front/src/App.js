@@ -9,6 +9,10 @@ import LoginForm from './pages/login/LoginForm';
 import Network from './pages/network/Network';
 import RegisterForm from './pages/register/RegisterForm';
 import Portfolio from './pages/portfolio/Portfolio';
+import Wanted from './pages/wanted/Wanted';
+import WantedCreate from './pages/wanted/WantedCreate';
+import WantedRead from './pages/wanted/WantedRead';
+import WantedUpdate from './pages/wanted/WantedUpdate';
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -63,6 +67,10 @@ function App() {
                         <Route path='/register' element={<RegisterForm />} />
                         <Route path='/users/:userId' element={<Portfolio />} />
                         <Route path='/network' element={<Network />} />
+                        <Route path='/wanted' element={<Wanted />} />
+                        <Route path='/wanted/create' element={<WantedCreate />} />
+                        <Route path='/wanted/read' element={<WantedRead />} />
+                        <Route path='/wanted/update' element={<WantedUpdate />} />
                         <Route path='*' element={<Portfolio />} />
                     </Routes>
                 </Router>
