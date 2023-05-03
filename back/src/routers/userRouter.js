@@ -167,7 +167,7 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
 // 유저정보 불러오기
 userAuthRouter.get('/:id', login_required, async function (req, res, next) {
     try {
-        const userId = req.currentUserId;
+        const userId = req.params.id;
         const currentUserInfo = await userAuthService.getUserInfo({ userId });
 
         if (currentUserInfo.errorMessage) {

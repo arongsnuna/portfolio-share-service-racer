@@ -54,6 +54,8 @@ function Portfolio() {
     if (!isFetchCompleted) {
         return 'loading...';
     }
+    console.log(portfolioOwner.userInfo._id);
+    console.log(userState);
 
     return (
         <Container>
