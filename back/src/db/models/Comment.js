@@ -37,11 +37,17 @@ class Comment {
     }
 
     // 댓글 삭제
-        static async delete({ userId, commentId }) {
-            const user = await UserModel.findOne({ _id: userId });
-            const deletedComment = await CommentModel.deleteOne({ _id: commentId, userId: user._id });
-            return deletedComment;
-        }
+    static async delete({ userId, commentId }) {
+        const user = await UserModel.findOne({ _id: userId });
+        const deletedComment = await CommentModel.deleteOne({ _id: commentId, userId: user._id });
+        return deletedComment;
+    }
+
+    // 전체댓글 삭제(본문 자체가 삭제 될 때 실행시키는 용도)
+    static async deleteAll({ wantedId }) {
+        const deletedComments = await CommentModel.deleteMany({ wantedId });
+        return deletedComments;
+    }
 }
 
 export { Comment };

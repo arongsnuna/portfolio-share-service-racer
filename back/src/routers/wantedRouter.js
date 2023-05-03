@@ -19,6 +19,12 @@ wantedRouter.get('/:wantedId', async (req, res, next) => {
     try {
         const { wantedId } = req.params;
         const wanted = await wantedService.findWanted({ wantedId });
+
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
+
         res.status(200).json(wanted);
     } catch (error) {
         next(error);
@@ -37,6 +43,7 @@ wantedRouter.post('/', async (req, res, next) => {
         const newWanted = { wantedTitle, wantedContent };
 
         if (!wantedTitle || !wantedContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
@@ -58,12 +65,18 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
         const { wantedId } = req.params;
         const { wantedTitle, wantedContent } = req.body;
 
+        const wanted = await wantedService.findWanted({ wantedId });
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
+
         if (!wantedTitle || !wantedContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
         const newWanted = { wantedTitle, wantedContent };
-
         const updatedWanted = await wantedService.updateWanted({ userId, wantedId, newWanted });
         res.status(200).json(updatedWanted);
     } catch (error) {
@@ -76,6 +89,12 @@ wantedRouter.delete('/:wantedId', async (req, res, next) => {
     try {
         const userId = req.currentUserId;
         const { wantedId } = req.params;
+
+        const wanted = await wantedService.findWanted({ wantedId });
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
 
         const deletedWanted = await wantedService.deleteWanted({ userId, wantedId });
 

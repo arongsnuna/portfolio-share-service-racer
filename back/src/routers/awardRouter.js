@@ -11,6 +11,10 @@ awardRouter.get('/', async (req, res, next) => {
 
     try {
         const awards = await awardService.findAll({ userId });
+        if (!awards) {
+            res.status(400).send({ error: "유저의 수상내역 정보가 존재하지 않습니다."})
+            throw new Error(`${userId} 유저의 수상내역 정보가 존재하지 않습니다.`);
+        }
         res.status(200).json(awards);
     } catch (error) {
         next(error);
@@ -27,14 +31,15 @@ awardRouter.post('/', async (req, res, next) => {
 
         const userId = req.currentUserId;
         const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
-
         const newAward = { awardName, awardDate, awardInstitution, awardDescription };
 
         if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
 
         if (!util.regexp(awardDate)) {
+            res.status(400).send({error: '취득일자 값을 확인해주세요.'})
             throw new Error('취득일자 값을 확인해주세요');
         }
 
@@ -58,12 +63,20 @@ awardRouter.put('/:awardId', async (req, res, next) => {
         const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
 
         const newAward = { awardName, awardDate, awardInstitution, awardDescription };
-    
+
+        const award = await awardService.findOne({ awardId });
+        if (!award) {
+            res.status(400).send({ error: "이 수상내역 정보는 존재하지 않습니다."})
+            throw new Error(`이 수상내역 정보는 존재하지 않습니다.`);
+        }
+
         if (!awardName || !awardDate || !awardInstitution || !awardDescription) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'});
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
 
         if (!util.regexp(awardDate)) {
+            res.status(400).send({error: '취득일자 값을 확인해주세요.'});
             throw new Error('취득일자 값을 확인해주세요');
         }
     
@@ -80,6 +93,11 @@ awardRouter.delete('/:awardId', async (req, res, next) => {
         const userId = req.currentUserId;
         const { awardId } = req.params;
 
+        const award = await awardService.findOne({ awardId });
+        if (!award) {
+            res.status(400).send({ error: "이 수상내역 정보는 존재하지 않습니다."})
+            throw new Error(`이 수상내역 정보는 존재하지 않습니다.`);
+        }
         const deletedAward = await awardService.deleteAward({ userId, awardId });
 
         res.status(200).json(deletedAward);
