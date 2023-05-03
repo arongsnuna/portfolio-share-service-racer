@@ -7,6 +7,7 @@ const wantedRouter = Router();
 // 전체 모집 정보 조회
 wantedRouter.get('/', async (req, res, next) => {
     try {
+        console.log('라우터들어옴')
         const wanted = await wantedService.findAll();
         res.status(200).json(wanted);
     } catch (error) {
@@ -20,10 +21,11 @@ wantedRouter.post('/', async (req, res, next) => {
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
-
+        
         const userId = req.currentUserId;
+        
         const { wantedTitle, wantedContent } = req.body;
-
+        
         const newWanted = { wantedTitle, wantedContent };
 
         if (!wantedTitle || !wantedContent) {

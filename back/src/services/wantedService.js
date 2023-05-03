@@ -29,7 +29,7 @@ class wantedService {
     //모집 정보 추가
     static async createWanted({ userId, newWanted }) {
         try {
-            const user = await User.findById({ _id : userId });
+            const user = await User.findById({ userId });
             const { wantedTitle, wantedContent } = newWanted;
 
             if (!user) {
@@ -37,7 +37,7 @@ class wantedService {
             }
 
             const createdWanted = await Wanted.create({ userId, wantedTitle, wantedContent });
-            
+
             return createdWanted;
         } catch (err) {
             throw new Error(`createWanted() 에러 발생: ${err.message}`);
@@ -47,14 +47,14 @@ class wantedService {
     //모집 정보 수정
     static async updateWanted({ userId, wantedId, newWanted }) {
         try{  
-            const user = await User.findById({ _id: userId });
+            const user = await User.findById({ userId });
             const { wantedTitle, wantedContent } = newWanted;
 
             if (!user) {
                 throw new Error(`${userId} 유저는 존재하지 않습니다.`);
             }
 
-            if (user.id !== userId) {
+            if (user._id.toString() !== userId) {
                 throw new Error(`모집 정보를 수정할 수 있는 권한이 없습니다.`);
             }
 
@@ -74,14 +74,14 @@ class wantedService {
     //모집 정보 삭제
     static async deleteWanted({ userId, wantedId }) {
         try {    
-            const user = await User.findById({ _id: userId });
+            const user = await User.findById({ userId });
 
             if (!user) {
                 throw new Error(`${userId} 유저는 존재하지 않습니다.`);
             }
 
-            if (user.id !== userId) {
-                throw new Error(`모집 정보를 삭제할 수 있는 권한이 없습니다.`);
+            if (user._id.toString() !== userId) {
+                throw new Error(`모집 정보를 수정할 수 있는 권한이 없습니다.`);
             }
 
             const wanted = await Wanted.findById({ wantedId });

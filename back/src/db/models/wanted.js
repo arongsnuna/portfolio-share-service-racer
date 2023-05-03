@@ -15,22 +15,22 @@ class Wanted {
     }
 
     // 모집 정보 추가
-    static async create({ user_id, wantedTitle, wantedContent }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async create({ userId, wantedTitle, wantedContent }) {
+        const user = await UserModel.findOne({ _id: userId });
         const createWanted = await WantedModel.create({ wantedTitle, wantedContent, userId: user._id });
         return createWanted;
     }
 
     // 모집 정보 수정
-    static async update({ user_id, wantedId, wantedTitle, wantedContent }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async update({ userId, wantedId, wantedTitle, wantedContent }) {
+        const user = await UserModel.findOne({ _id: userId });
         const updatedWanted = await WantedModel.updateOne({ userId: user._id, _id: wantedId }, { wantedTitle, wantedContent });
         return updatedWanted;
     }
 
     // 모집 정보 삭제
-    static async delete({ user_id, wantedId }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async delete({ userId, wantedId }) {
+        const user = await UserModel.findOne({ _id: userId });
         const deletedWanted = await WantedModel.deleteOne({ _id: wantedId, userId: user._id });
 
         return deletedWanted;
