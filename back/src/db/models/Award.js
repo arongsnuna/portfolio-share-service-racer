@@ -4,7 +4,7 @@ import { UserModel } from '../schemas/user';
 class Award {
     // 유저의 모든 수상 정보 조회
     static async findAll({ userId }) {
-        const user = await UserModel.findOne({ id: userId });
+        const user = await UserModel.findOne({ _id: userId });
         const awards = await AwardModel.find({ userId: user._id });
 
         return awards;
