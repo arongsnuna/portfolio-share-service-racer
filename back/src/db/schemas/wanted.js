@@ -22,8 +22,7 @@ const WantedSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
-        },
-        comment: [CommentSchema]
+        }
     },
     {
         timestamps: true,
