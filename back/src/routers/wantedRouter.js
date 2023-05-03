@@ -21,7 +21,7 @@ wantedRouter.post('/', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { wantedTitle, wantedContent } = req.body;
 
         const newWanted = { wantedTitle, wantedContent };
@@ -30,7 +30,7 @@ wantedRouter.post('/', async (req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
-        const createdWanted = await wantedService.createWanted({ user_id, newWanted });
+        const createdWanted = await wantedService.createWanted({ userId, newWanted });
         res.status(201).json(createdWanted);
     } catch (error) {
         next(error);
@@ -44,7 +44,7 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { wantedId } = req.params;
         const { wantedTitle, wantedContent } = req.body;
 
@@ -54,7 +54,7 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
 
         const newWanted = { wantedTitle, wantedContent };
 
-        const updatedWanted = await wantedService.updateWanted({ user_id, wantedId, newWanted });
+        const updatedWanted = await wantedService.updateWanted({ userId, wantedId, newWanted });
         res.status(200).json(updatedWanted);
     } catch (error) {
         next(error);
@@ -64,10 +64,10 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
 // 모집 정보 삭제
 wantedRouter.delete('/:wantedId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { wantedId } = req.params;
 
-        const deletedWanted = await wantedService.deleteWanted({ user_id, wantedId });
+        const deletedWanted = await wantedService.deleteWanted({ userId, wantedId });
 
         res.status(200).json(deletedWanted);
     } catch (error) {

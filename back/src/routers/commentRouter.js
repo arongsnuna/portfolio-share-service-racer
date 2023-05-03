@@ -21,7 +21,7 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { wantedId } = req.params;
         console.log(wantedId);
         const { commentContent } = req.body;
@@ -31,7 +31,7 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
-        const createdComment = await commentService.createComment({ user_id, wantedId, newComment });
+        const createdComment = await commentService.createComment({ userId, wantedId, newComment });
         res.status(201).json(createdComment);
     } catch (error) {
         next(error);
@@ -45,7 +45,7 @@ commentRouter.put('/:commentId', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { commentId } = req.params;
         const { commentContent } = req.body;
         const newComment = { commentContent };
@@ -53,7 +53,7 @@ commentRouter.put('/:commentId', async (req, res, next) => {
         if (!commentContent) {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
-        const updatedComment = await commentService.updateComment({ user_id, commentId, newComment });
+        const updatedComment = await commentService.updateComment({ userId, commentId, newComment });
         console.log(updatedComment)
         res.status(200).json(updatedComment);
     } catch (error) {
@@ -64,10 +64,10 @@ commentRouter.put('/:commentId', async (req, res, next) => {
 // 댓글 삭제
 commentRouter.delete('/:commentId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { commentId } = req.params;
 
-        const deletedComment = await commentService.deleteComment({ user_id, commentId });
+        const deletedComment = await commentService.deleteComment({ userId, commentId });
 
         res.status(200).json(deletedComment);
     } catch (error) {

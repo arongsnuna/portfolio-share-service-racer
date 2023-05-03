@@ -7,10 +7,10 @@ const awardRouter = Router();
 
 //전체 수상내역 조회
 awardRouter.get('/', async (req, res, next) => {
-    const user_id = req.currentUserId;
+    const userId = req.currentUserId;
 
     try {
-        const awards = await awardService.findAll({ user_id });
+        const awards = await awardService.findAll({ userId });
         res.status(200).json(awards);
     } catch (error) {
         next(error);
@@ -25,7 +25,7 @@ awardRouter.post('/', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
 
         const newAward = { awardName, awardDate, awardInstitution, awardDescription };
@@ -38,7 +38,7 @@ awardRouter.post('/', async (req, res, next) => {
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        const createdAward = await awardService.createAward({ user_id, newAward });
+        const createdAward = await awardService.createAward({ userId, newAward });
 
         res.status(201).send(createdAward);
     } catch (error) {
@@ -53,7 +53,7 @@ awardRouter.put('/:awardId', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { awardId } = req.params;
         const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
 
@@ -67,7 +67,7 @@ awardRouter.put('/:awardId', async (req, res, next) => {
             throw new Error('취득일자 값을 확인해주세요');
         }
     
-        const updatedAward = await awardService.updateAward({ user_id, awardId, newAward });
+        const updatedAward = await awardService.updateAward({ userId, awardId, newAward });
         res.status(200).json(updatedAward);
     } catch (error) {
         next(error);
@@ -77,10 +77,10 @@ awardRouter.put('/:awardId', async (req, res, next) => {
 //수상내역 삭제
 awardRouter.delete('/:awardId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { awardId } = req.params;
 
-        const deletedAward = await awardService.deleteAward({ user_id, awardId });
+        const deletedAward = await awardService.deleteAward({ userId, awardId });
 
         res.status(200).json(deletedAward);
     } catch (error) {

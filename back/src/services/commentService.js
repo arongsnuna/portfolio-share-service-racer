@@ -13,12 +13,12 @@ class commentService {
     }    
 
     // 댓글 추가
-    static async createComment({ user_id, wantedId, newComment }) {
+    static async createComment({ userId, wantedId, newComment }) {
         try {
-            const user = await User.findById({ user_id: user_id });
+            const user = await User.findById({ _id : userId });
             const { commentContent } = newComment;
 
-            const createdComment = await Comment.create({ user_id, wantedId, commentContent })
+            const createdComment = await Comment.create({ userId, wantedId, commentContent })
             return createdComment;
         } catch (err) {
         throw new Error(`createComment() 에러 발생: ${err.message}`);
@@ -26,12 +26,12 @@ class commentService {
     }
 
 // 댓글 수정
-    static async updateComment({ user_id, commentId, newComment }) {
+    static async updateComment({ userId, commentId, newComment }) {
         try {
-            const user = await User.findById({ user_id: user_id });
+            const user = await User.findById({ _id: userId });
             const { commentContent } = newComment;
 
-            if (user.id !== user_id) {
+            if (user.id !== userId) {
                 throw new Error(`댓글을 수정할 권한이 없습니다.`);
             }
 
@@ -39,7 +39,7 @@ class commentService {
             if (!comment) {
                 throw new Error(`${commentId} 코멘트는 존재하지 않습니다.`);
             }
-            const updatedComment = await Comment.update({ user_id, commentId, commentContent });
+            const updatedComment = await Comment.update({ userId, commentId, commentContent });
 
             return updatedComment;
         } catch (err) {
@@ -48,10 +48,10 @@ class commentService {
     }
 
 // 댓글 삭제
-    static async deleteComment({ user_id, commentId }) {
+    static async deleteComment({ userId, commentId }) {
         try {
-            const user = await User.findById({ user_id: user_id });
-            if (user.id !== user_id) {
+            const user = await User.findById({ _id : userId });
+            if (user.id !== userId) {
                 throw new Error(`댓글을 삭제할 권한이 없습니다.`);
             }
 
@@ -60,7 +60,7 @@ class commentService {
                 throw new Error(`${commentId} 코멘트는 존재하지 않습니다.`);
             }
 
-            const deletedComment = await Comment.delete({ user_id, commentId });
+            const deletedComment = await Comment.delete({ userId, commentId });
             return deletedComment;
         } catch (err) {
             throw new Error(`deleteComment() 에러 발생: ${err.message}`);

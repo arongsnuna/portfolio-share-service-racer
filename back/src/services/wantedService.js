@@ -27,16 +27,16 @@ class wantedService {
     }
 
     //모집 정보 추가
-    static async createWanted({ user_id, newWanted }) {
+    static async createWanted({ userId, newWanted }) {
         try {
-            const user = await User.findById({ user_id: user_id });
+            const user = await User.findById({ _id : userId });
             const { wantedTitle, wantedContent } = newWanted;
 
             if (!user) {
-                throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+                throw new Error(`${userId} 유저는 존재하지 않습니다.`);
             }
 
-            const createdWanted = await Wanted.create({ user_id, wantedTitle, wantedContent });
+            const createdWanted = await Wanted.create({ userId, wantedTitle, wantedContent });
             
             return createdWanted;
         } catch (err) {
@@ -45,16 +45,16 @@ class wantedService {
     }
 
     //모집 정보 수정
-    static async updateWanted({ user_id, wantedId, newWanted }) {
+    static async updateWanted({ userId, wantedId, newWanted }) {
         try{  
-            const user = await User.findById({ user_id: user_id });
+            const user = await User.findById({ _id: userId });
             const { wantedTitle, wantedContent } = newWanted;
 
             if (!user) {
-                throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+                throw new Error(`${userId} 유저는 존재하지 않습니다.`);
             }
 
-            if (user.id !== user_id) {
+            if (user.id !== userId) {
                 throw new Error(`모집 정보를 수정할 수 있는 권한이 없습니다.`);
             }
 
@@ -63,7 +63,7 @@ class wantedService {
                 throw new Error(`이 모집 정보는 존재하지 않습니다.`);
             }
 
-            const updatedWanted = await Wanted.update({ user_id, wantedId, wantedTitle, wantedContent });
+            const updatedWanted = await Wanted.update({ userId, wantedId, wantedTitle, wantedContent });
 
             return updatedWanted;
         } catch (err) {
@@ -72,15 +72,15 @@ class wantedService {
     }
 
     //모집 정보 삭제
-    static async deleteWanted({ user_id, wantedId }) {
+    static async deleteWanted({ userId, wantedId }) {
         try {    
-            const user = await User.findById({ user_id: user_id });
+            const user = await User.findById({ _id: userId });
 
             if (!user) {
-                throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
+                throw new Error(`${userId} 유저는 존재하지 않습니다.`);
             }
 
-            if (user.id !== user_id) {
+            if (user.id !== userId) {
                 throw new Error(`모집 정보를 삭제할 수 있는 권한이 없습니다.`);
             }
 
@@ -89,47 +89,13 @@ class wantedService {
                 throw new Error(`이 모집 정보는 존재하지 않습니다.`);
             }
 
-            const deletedWanted = await Wanted.delete({ user_id, wantedId });
+            const deletedWanted = await Wanted.delete({ userId, wantedId });
 
             return deletedWanted;
         } catch (err) {
             throw new Error(`deleteWanted() 에러 발생: ${err.message}`);
         }
     }
-    
-    // 댓글 추가
-    static async createComment({ user_id, wantedId, newComment }) {
-        try {
-            const { commentContent } = newComment;
-            console.log(commentContent)
-            const updatedWanted = await Wanted.createComment({ user_id, wantedId, commentContent })
-            return updatedWanted;
-        } catch (err) {
-        throw new Error(`createComment() 에러 발생: ${err.message}`);
-        }
-    }
-
-// 댓글 수정
-    static async updateComment({ user_id, wantedId, commentId, commentContent }) {
-        try {
-            const updatedWanted = await Wanted.updateComment({ user_id, wantedId, commentId, commentContent });
-            return updatedWanted;
-        } catch (err) {
-            throw new Error(`updateComment() 에러 발생: ${err.message}`);
-        }
-    }
-
-// 댓글 삭제
-    static async deleteComment({ user_id, wantedId, commentId }) {
-        try {
-            const updatedWanted = await Wanted.deleteComment({ user_id, wantedId, commentId });
-            return updatedWanted;
-        } catch (err) {
-            throw new Error(`deleteComment() 에러 발생: ${err.message}`);
-        }
-    }
-    
-
 }
 
 export { wantedService };
