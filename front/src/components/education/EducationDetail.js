@@ -59,6 +59,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('DB 불러오기를 실패하였습니다.', err);
         }
     };
@@ -71,6 +74,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         if (item === undefined || item.isSave === false) {
             try {
                 if (!isDateValid) {
+                    alert('입학날짜보다 졸업일자가 이전입니다.');
                     throw new Error('입학날짜보다 졸업일자가 이전입니다.');
                 }
 
@@ -95,6 +99,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     setEduGraduateDate('');
                     setEduDegree('');
                 } catch (err) {
+                    if(err.response.status === 400){
+                        alert(err.response.data.error);
+                    }
                     console.log('학위 추가에 실패하였습니다.', err);
                 }
             } catch (err) {
@@ -116,6 +123,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchEducation({ userId });
             } catch (err) {
+                if(err.response.status === 400){
+                    alert(err.response.data.error);
+                }
                 console.log('학위 수정에 실패하였습니다.', err);
             }
         }
@@ -163,6 +173,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('학위 삭제에 실패하였습니다.', err);
         }
     };
