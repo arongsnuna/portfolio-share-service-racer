@@ -45,7 +45,7 @@ function Portfolio() {
             fetchPorfolioOwner(ownerId);
         } else {
             // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
-            const ownerId = userState.user.id;
+            const ownerId = userState.user.id ?? userState.user._id;
             // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
             fetchPorfolioOwner(ownerId);
         }
@@ -54,8 +54,6 @@ function Portfolio() {
     if (!isFetchCompleted) {
         return 'loading...';
     }
-    console.log(portfolioOwner.userInfo._id);
-    console.log(userState);
 
     return (
         <Container>
@@ -68,30 +66,30 @@ function Portfolio() {
                 </Col>
                 <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
-                        <div className='mb-3'>
+                        {/* <div className='mb-3'>
                             <Award
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
-                            />
-                        </div>
+                            /> */}
+                        {/* </div>
                         <div className='mb-3'>
                             <Education
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
                             />
-                        </div>
+                        </div> */}
                         <div className='mb-3'>
                             <Certificate
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
                             />
                         </div>
-                        <div className='mb-3'>
+                        {/* <div className='mb-3'>
                             <Project
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </Col>
             </Row>
