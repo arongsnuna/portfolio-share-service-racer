@@ -16,24 +16,22 @@ class Comment {
     }
 
     // 댓글 추가
-    static async create({ user_id, wantedId, commentContent }) { 
-        const user = await UserModel.findOne({ id: user_id });
+    static async create({ userId, wantedId, commentContent }) { 
+        const user = await UserModel.findOne({ _id: userId });
         const createdComment = await CommentModel.create({ wantedId, commentContent, userId: user._id })
-        
         return createdComment
     }
 
     // 댓글 수정
-    static async update({ user_id, commentId, commentContent }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async update({ userId, commentId, commentContent }) {
+        const user = await UserModel.findOne({ _id: userId });
         const updatedComment = await CommentModel.updateOne({ userId: user._id, _id: commentId }, { commentContent });
-
         return updatedComment;
     }
 
     // 댓글 삭제
-        static async delete({ user_id, commentId }) {
-            const user = await UserModel.findOne({ id: user_id });
+        static async delete({ userId, commentId }) {
+            const user = await UserModel.findOne({ _id: userId });
             const deletedComment = await CommentModel.deleteOne({ _id: commentId, userId: user._id });
 
             return deletedComment;

@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { CommentSchema } from './comment';
 
 const WantedSchema = new Schema(
     {

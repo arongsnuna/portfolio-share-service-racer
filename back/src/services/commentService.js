@@ -15,7 +15,7 @@ class commentService {
     // 댓글 추가
     static async createComment({ userId, wantedId, newComment }) {
         try {
-            const user = await User.findById({ _id : userId });
+            const user = await User.findById({ userId });
             const { commentContent } = newComment;
 
             const createdComment = await Comment.create({ userId, wantedId, commentContent })
@@ -28,10 +28,10 @@ class commentService {
 // 댓글 수정
     static async updateComment({ userId, commentId, newComment }) {
         try {
-            const user = await User.findById({ _id: userId });
+            const user = await User.findById({ userId });
             const { commentContent } = newComment;
 
-            if (user.id !== userId) {
+            if (user._id.toString() !== userId) {
                 throw new Error(`댓글을 수정할 권한이 없습니다.`);
             }
 
@@ -50,8 +50,8 @@ class commentService {
 // 댓글 삭제
     static async deleteComment({ userId, commentId }) {
         try {
-            const user = await User.findById({ _id : userId });
-            if (user.id !== userId) {
+            const user = await User.findById({ userId });
+            if (user._id.toString() !== userId) {
                 throw new Error(`댓글을 삭제할 권한이 없습니다.`);
             }
 

@@ -7,8 +7,18 @@ const wantedRouter = Router();
 // 전체 모집 정보 조회
 wantedRouter.get('/', async (req, res, next) => {
     try {
-        console.log('라우터들어옴')
         const wanted = await wantedService.findAll();
+        res.status(200).json(wanted);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// 특정 모집 정보 조회
+wantedRouter.get('/:wantedId', async (req, res, next) => {
+    try {
+        const { wantedId } = req.params;
+        const wanted = await wantedService.findWanted({ wantedId });
         res.status(200).json(wanted);
     } catch (error) {
         next(error);
@@ -23,9 +33,7 @@ wantedRouter.post('/', async (req, res, next) => {
         }
         
         const userId = req.currentUserId;
-        
         const { wantedTitle, wantedContent } = req.body;
-        
         const newWanted = { wantedTitle, wantedContent };
 
         if (!wantedTitle || !wantedContent) {
