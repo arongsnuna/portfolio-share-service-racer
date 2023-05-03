@@ -213,7 +213,7 @@ function WantedUpdate() {
                                     <Row>
                                         <Col xs={10}>{comment.commentContent}</Col>
                                         <Col xs={2} className='mb-3 text-end'>
-                                            {userState.user._id === comment.userId && (
+                                            {userState.user.id === comment.userId && (
                                                 <Button
                                                     variant='primary'
                                                     className='me-3'

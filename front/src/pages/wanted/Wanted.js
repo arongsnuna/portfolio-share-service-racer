@@ -11,6 +11,12 @@ function Wanted() {
     // useState 훅을 통해 users 상태를 생성함.
     const [wantedList, setWantedList] = useState([]);
 
+    const wantedCommentLength = async (wantedId) => {
+        const res = await Api.get(`comment/${wantedId}`);
+        const commentLength = res.data.length;
+        return commentLength;
+    };
+
     useEffect(() => {
         // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
         if (!userState.user) {
@@ -19,10 +25,8 @@ function Wanted() {
         }
         // "wantedlist" 엔드포인트로 GET 요청을 하고, wantedList response의 data로 세팅함.
         Api.get('wanted').then((res) => setWantedList(res.data));
-
-        //
     }, [userState, navigate]);
-
+    console.log(wantedList);
     return (
         <Container>
             <Row>
@@ -56,7 +60,7 @@ function Wanted() {
                                 {item.wantedContent}
                             </div>
                             <Badge bg='primary' pill>
-                                14
+                                {wantedCommentLength(item._id)}
                             </Badge>
                         </ListGroup.Item>
                     ))}
