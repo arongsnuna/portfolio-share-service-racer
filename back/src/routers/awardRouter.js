@@ -28,7 +28,7 @@ awardRouter.post('/', async (req, res, next) => {
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
-
+        
         const userId = req.currentUserId;
         const { awardName, awardDate, awardInstitution, awardDescription } = req.body;
         const newAward = { awardName, awardDate, awardInstitution, awardDescription };
@@ -37,7 +37,6 @@ awardRouter.post('/', async (req, res, next) => {
             res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
-
         if (!util.regexp(awardDate)) {
             res.status(400).send({error: '취득일자 값을 확인해주세요.'})
             throw new Error('취득일자 값을 확인해주세요');

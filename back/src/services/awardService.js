@@ -17,6 +17,7 @@ class awardService {
     // 개별 수상내역 추가
     static async createAward({ userId, newAward }) {
         const { awardName, awardDate, awardInstitution, awardDescription } = newAward;
+        console.log(userId);
         const createdAward = await Award.create({ userId, awardName, awardDate, awardInstitution, awardDescription });            
         return createdAward;
 
