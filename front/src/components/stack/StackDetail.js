@@ -36,6 +36,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
       const ownerData = res.data;
       setDbItem(ownerData);
     } catch (err) {
+      if(err.response.status === 400){
+        alert(err.response.data.error);
+      }
       console.log("데이터 불러오기에 실패하였습니다.", err);
     }
   };
@@ -60,6 +63,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         setStackName("");
         setStackDescription("");
       } catch (err) {
+        if(err.response.status === 400){
+          alert(err.response.data.error);
+        }
         console.log("보유 기술 추가에 실패하였습니다.", err);
       }
     } else {
@@ -74,6 +80,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
 
         fetchStack({ userId });
       } catch (err) {
+        if(err.response.status === 400){
+          alert(err.response.data.error);
+        }
         console.log("보유 기술 수정에 실패하였습니다.", err);
       }
     }
@@ -117,6 +126,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
       setIsToggle(false);
       setIsEdit(false);
     } catch (err) {
+      if(err.response.status === 400){
+        alert(err.response.data.error);
+      }
       console.log("보유 기술 삭제에 실패하였습니다.", err);
     }
   };
