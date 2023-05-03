@@ -14,7 +14,6 @@ commentRouter.get('/:wantedId', async (req, res, next) => {
     }
 });
 
-
 // 댓글 추가
 commentRouter.post('/:wantedId', async (req, res, next) => {
     try {
@@ -23,7 +22,6 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
         }
         const userId = req.currentUserId;
         const { wantedId } = req.params;
-        console.log(wantedId);
         const { commentContent } = req.body;
         const newComment = { commentContent };
 
