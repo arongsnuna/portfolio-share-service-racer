@@ -1,5 +1,6 @@
 import { ProjectModel } from '../schemas/project';
 import { UserModel } from '../schemas/user';
+import fs from 'fs';
 
 class Project {
     // 유저의 모든 프로젝트 정보 조회
@@ -18,13 +19,14 @@ class Project {
     }
 
     // 프로젝트 정보 추가
-    static async create({ user_id, projectName, projectStartDate, projectEndDate, projectDescription }) {
+    static async create({ user_id, projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink }) {
         const user = await UserModel.findOne({ id: user_id });
         const createProject = await ProjectModel.create({
             projectName,
             projectStartDate,
             projectEndDate,
             projectDescription,
+            projectGitLink,
             userId: user._id,
         });
 
@@ -32,11 +34,25 @@ class Project {
     }
 
     // 프로젝트 정보 수정
-    static async update({ user_id, projectId, projectName, projectStartDate, projectEndDate, projectDescription }) {
+    static async update({
+        user_id,
+        projectId,
+        projectName,
+        projectStartDate,
+        projectEndDate,
+        projectDescription,
+        projectGitLink,
+    }) {
         const user = await UserModel.findOne({ id: user_id });
         const updatedProject = await ProjectModel.updateOne(
             { userId: user._id, _id: projectId },
-            { projectName, projectStartDate, projectEndDate, projectDescription }
+            {
+                projectName,
+                projectStartDate,
+                projectEndDate,
+                projectDescription,
+                projectGitLink,
+            }
         );
 
         return updatedProject;

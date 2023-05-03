@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
@@ -25,7 +25,7 @@ function WantedUpdate() {
         setCommentContent(e.target.value);
     };
 
-    const fetchWriterInfo = async () => {
+    const fetchWriterInfo = useCallback(async () => {
         try {
             const userId = wanted.userId;
             // "/user/user_id" 엔드포인트로 get요청함.(userId는 req.currentUserId 사용)
@@ -43,16 +43,16 @@ function WantedUpdate() {
         } catch (err) {
             console.log('작성자 불러오기에 실패하였습니다.', err);
         }
-    };
+    }, [wanted.userId]);
 
-    const fetchCommentList = async () => {
+    const fetchCommentList = useCallback(async () => {
         try {
             await Api.get(`comment/${wanted._id}`).then((res) => setCommentList(res.data));
             setIsSave(false);
         } catch (err) {
             console.log('');
         }
-    };
+    }, [wanted._id]);
 
     const handleSubmit = async () => {
         try {
@@ -95,7 +95,7 @@ function WantedUpdate() {
 
         fetchWriterInfo();
         fetchCommentList();
-    }, [userState, navigate, isSave]);
+    }, [userState, navigate, fetchWriterInfo, fetchCommentList]);
 
     return (
         <Container>

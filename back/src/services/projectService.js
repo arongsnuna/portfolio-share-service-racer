@@ -20,15 +20,7 @@ class projectService {
     // 유저의 개별 프로젝트 정보 추가
     static async createProject({ user_id, newProject }) {
         const user = await User.findById({ user_id: user_id });
-        const { projectName, projectStartDate, projectEndDate, projectDescription } = newProject;
-
-        if (!user) {
-            throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
-        }
-
-        if (user.id !== user_id) {
-            throw new Error(`프로젝트 정보를 추가할 수 있는 권한이 없습니다.`);
-        }
+        const { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink } = newProject;
 
         const projects = await Project.findAll({ user_id });
         const projectExists = projects.some((project) => project.projectName === newProject.projectName);
@@ -42,6 +34,7 @@ class projectService {
             projectStartDate,
             projectEndDate,
             projectDescription,
+            projectGitLink,
         });
 
         return createdProject;
@@ -50,25 +43,11 @@ class projectService {
     // 유저의 개별 프로젝트 정보 수정
     static async updateProject({ user_id, projectId, newProject }) {
         const user = await User.findById({ user_id: user_id });
-        const { projectName, projectStartDate, projectEndDate, projectDescription } = newProject;
-
-        if (!user) {
-            throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
-        }
-
-        if (user.id !== user_id) {
-            throw new Error('프로젝트 정보를 수정할 수 있는 권한이 없습니다.');
-        }
+        const { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink } = newProject;
 
         const project = await Project.findById({ projectId, userId: user_id });
         if (!project) {
             throw new Error('이 프로젝트 정보는 존재하지 않습니다.');
-        }
-
-        const projects = await Project.findAll({ user_id });
-        const projectExists = projects.some((project) => project.projectName === newProject.projectName);
-        if (projectExists) {
-            throw new Error(`${newProject.projectName} 프로젝트는 이미 존재합니다.`);
         }
 
         const updatedProject = await Project.update({
@@ -78,6 +57,7 @@ class projectService {
             projectStartDate,
             projectEndDate,
             projectDescription,
+            projectGitLink,
         });
 
         return updatedProject;

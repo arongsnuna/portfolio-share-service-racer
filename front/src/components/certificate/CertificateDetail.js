@@ -39,7 +39,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            console.log('DB 불러오기를 실패하였습니다.', err);
+            console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
         }
     };
 
@@ -150,14 +150,26 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='자격증 명' value={certName} onChange={onChangeName} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='자격증 명'
+                            value={certName}
+                            onChange={onChangeName}
+                        />
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcDate} onChange={onChangeDate} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='date'
+                            placeholder='취득일자'
+                            value={certAcDate}
+                            onChange={onChangeDate}
+                        />
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit()}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

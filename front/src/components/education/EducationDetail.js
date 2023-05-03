@@ -16,7 +16,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     const [eduMajor, setEduMajor] = useState(''); // 전공
     const [eduEnterDate, setEduEnterDate] = useState(''); // 입학일자
     const [eduGraduateDate, setEduGraduateDate] = useState(''); // 졸업일자
-    const [eduDegree, setEduDegree] = useState(''); // 학위
+    const [eduDegree, setEduDegree] = useState('재학중'); // 학위
 
     const isDateValid = eduEnterDate < eduGraduateDate;
 
@@ -47,7 +47,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         setEduMajor('');
         setEduEnterDate('');
         setEduGraduateDate('');
-        setEduDegree('');
+        setEduDegree('재학중');
     };
 
     const fetchEducation = async (ownerId) => {
@@ -59,7 +59,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            console.log('DB 불러오기를 실패하였습니다.', err);
+            console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
         }
     };
 
@@ -193,17 +193,34 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     {item.isSave === true && item.isEdit === false ? (
                         <EducationP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
                     ) : (
-                        <EducationForm formSendFunction={formSendFunction} currentData={formSendcurrentData} isFlag={formSendisFlag} item={item} />
+                        <EducationForm
+                            formSendFunction={formSendFunction}
+                            currentData={formSendcurrentData}
+                            isFlag={formSendisFlag}
+                            item={item}
+                        />
                     )}
                 </div>
             ))}
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='학교이름' value={eduSchool} onChange={onChangeSchool} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='학교이름'
+                            value={eduSchool}
+                            onChange={onChangeSchool}
+                        />
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='전공' value={eduMajor} onChange={onChangeMajor} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='전공'
+                            value={eduMajor}
+                            onChange={onChangeMajor}
+                        />
                     </div>
                     <div className='mb-2'>
                         <Form.Control
@@ -227,11 +244,46 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                         )}
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='학위' value={eduDegree} onChange={onChangeDegree} />
+                        <Form.Check
+                            inline
+                            label='재학중'
+                            name='group1'
+                            type='radio'
+                            value='재학중'
+                            checked={eduDegree === '재학중'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='학사졸업'
+                            name='group1'
+                            type='radio'
+                            value='학사졸업'
+                            checked={eduDegree === '학사졸업'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='석사졸업'
+                            name='group1'
+                            type='radio'
+                            value='석사졸업'
+                            checked={eduDegree === '석사졸업'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='박사졸업'
+                            name='group1'
+                            type='radio'
+                            value='박사졸업'
+                            checked={eduDegree === '박사졸업'}
+                            onChange={onChangeDegree}
+                        />
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit()}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

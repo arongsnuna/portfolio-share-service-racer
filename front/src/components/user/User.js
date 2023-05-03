@@ -8,10 +8,17 @@ function User({ portfolioOwnerId, isEditable }) {
     const [isEditing, setIsEditing] = useState(false);
     // useState 훅을 통해 user 상태를 생성함.
     const [user, setUser] = useState(null);
+    // useState 훅을 통해 userImageUrl 상태를 생성함.
+    const [userImageUrl, setUserImageUrl] = useState('');
 
     useEffect(() => {
-        // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
-        Api.get('users', portfolioOwnerId).then((res) => setUser(res.data));
+        async function fetchData() {
+            // "user/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
+            const res = await Api.get('user', portfolioOwnerId);
+            setUser(res.data.userInfo);
+            setUserImageUrl(res.data.imagePath);
+        }
+        fetchData();
     }, [portfolioOwnerId]);
 
     return (
@@ -19,7 +26,7 @@ function User({ portfolioOwnerId, isEditable }) {
             {isEditing ? (
                 <UserEditForm user={user} setIsEditing={setIsEditing} setUser={setUser} />
             ) : (
-                <UserCard user={user} setIsEditing={setIsEditing} isEditable={isEditable} />
+                <UserCard user={user} setIsEditing={setIsEditing} isEditable={isEditable} userImageUrl={userImageUrl} />
             )}
         </>
     );

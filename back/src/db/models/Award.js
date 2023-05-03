@@ -20,7 +20,13 @@ class Award {
     // 수상 정보 추가
     static async create({ user_id, awardName, awardDate, awardInstitution, awardDescription }) {
         const user = await UserModel.findOne({ id: user_id });
-        const createAward = await AwardModel.create({ awardName, awardDate, awardInstitution, awardDescription, userId: user._id });
+        const createAward = await AwardModel.create({
+            awardName,
+            awardDate,
+            awardInstitution,
+            awardDescription,
+            userId: user._id,
+        });
 
         return createAward;
     }
@@ -28,7 +34,10 @@ class Award {
     // 수상 정보 수정
     static async update({ user_id, awardId, awardName, awardDate, awardInstitution, awardDescription }) {
         const user = await UserModel.findOne({ id: user_id });
-        const updatedAward = await AwardModel.updateOne({ userId: user._id, _id: awardId }, { awardName, awardDate, awardInstitution, awardDescription });
+        const updatedAward = await AwardModel.updateOne(
+            { userId: user._id, _id: awardId },
+            { awardName, awardDate, awardInstitution, awardDescription }
+        );
 
         return updatedAward;
     }

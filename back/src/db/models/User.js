@@ -6,28 +6,45 @@ class User {
         const createdNewUser = await UserModel.create(newUser);
         return createdNewUser;
     }
+
     // 이메일 조회
     static async findByEmail({ email }) {
         const user = await UserModel.findOne({ email });
         return user;
     }
+
     // 아이디 조회
-    static async findById({ user_id }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async findById({ userId }) {
+        const user = await UserModel.findOne({ _id: userId });
         return user;
     }
+
     // 모든 유저 조회
     static async findAll() {
         const users = await UserModel.find({});
         return users;
     }
+
     // 특정 유저 정보 수정
-    static async update({ user_id, fieldToUpdate, newValue }) {
-        const filter = { id: user_id };
-        const update = { [fieldToUpdate]: newValue };
+    static async update({ userId, fieldToUpdate, newValue }) {
+        const filter = { _id: userId };
+
+        let update = {};
+        if (fieldToUpdate !== 'imageInfo') {
+            update = { [fieldToUpdate]: newValue };
+        } else {
+            update = {
+                [fieldToUpdate]: {
+                    contentType: newValue.userImage.mimetype,
+                    imageUri: newValue.imageUri,
+                    filename: newValue.userImage.filename,
+                },
+            };
+        }
         const option = { returnOriginal: false };
 
         const updatedUser = await UserModel.findOneAndUpdate(filter, update, option);
+
         return updatedUser;
     }
 }

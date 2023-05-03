@@ -16,6 +16,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
     const [projectStartDate, setProjectStartDate] = useState(''); // 프로젝트 시작일자
     const [projectEndDate, setProjectEndDate] = useState(''); // 프로젝트 종료일자
     const [projectDescription, setProjectDescription] = useState(''); // 프로젝트 설명
+    const [projectGitLink, setProjectGitLink] = useState(''); // 프로젝트 GitLink 주소
+
+    const isDateValid = projectStartDate < projectEndDate;
 
     const onChangeName = (e) => {
         setProjectName(e.target.value);
@@ -33,6 +36,10 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setProjectDescription(e.target.value);
     };
 
+    const onChangeGitLink = (e) => {
+        setProjectGitLink(e.target.value);
+    };
+
     const AddInput = () => {
         setIsToggle(true);
 
@@ -40,6 +47,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setProjectStartDate('');
         setProjectEndDate('');
         setProjectDescription('');
+        setProjectGitLink('');
     };
 
     const fetchProject = async (ownerId) => {
@@ -51,7 +59,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            console.log('DB 불러오기를 실패하였습니다.', err);
+            console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
         }
     };
 
@@ -62,12 +70,17 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
 
         if (item === undefined || item.isSave === false) {
             try {
+                if (!isDateValid) {
+                    throw new Error('프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.');
+                }
+
                 // "/project" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
                 await Api.post(`project/`, {
                     projectName,
                     projectStartDate,
                     projectEndDate,
                     projectDescription,
+                    projectGitLink,
                 });
 
                 setIsToggle(false);
@@ -79,6 +92,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                 setProjectStartDate('');
                 setProjectEndDate('');
                 setProjectDescription('');
+                setProjectGitLink('');
             } catch (err) {
                 console.log('프로젝트 추가에 실패하였습니다.', err);
             }
@@ -90,6 +104,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                     projectStartDate,
                     projectEndDate,
                     projectDescription,
+                    projectGitLink,
                 });
 
                 setIsToggle(false);
@@ -121,6 +136,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setProjectStartDate(item.projectStartDate);
         setProjectEndDate(item.projectEndDate);
         setProjectDescription(item.projectDescription);
+        setProjectGitLink(item.projectGitLink);
 
         setcurrentEditId(item._id);
         setIsEdit(true);
@@ -136,7 +152,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
     const handleDelete = async (id) => {
         try {
             // "project/projectId" 엔드포인트로 delete 요청함.
-            await Api.delete(`cert/${id}`);
+            await Api.delete(`project/${id}`);
 
             fetchProject({ userId });
 
@@ -151,8 +167,25 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         fetchProject({ userId });
     }, [userId]);
 
-    const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeStartDate, onChangeEndDate, onChangeDescription };
-    const formSendcurrentData = { projectName, projectStartDate, projectEndDate, projectDescription, currentEditId };
+    const formSendFunction = {
+        handleSubmit,
+        handleCancel,
+        handleDelete,
+        onChangeName,
+        onChangeStartDate,
+        onChangeEndDate,
+        onChangeDescription,
+        onChangeGitLink,
+    };
+    const formSendcurrentData = {
+        projectName,
+        projectStartDate,
+        projectEndDate,
+        projectDescription,
+        projectGitLink,
+        currentEditId,
+    };
+    const formSendisFlag = { isDateValid };
     const pSendFunction = { handleEdit };
     const pSendisFlag = { isEditable };
 
@@ -163,14 +196,25 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                     {item.isSave === true && item.isEdit === false ? (
                         <ProjectP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
                     ) : (
-                        <ProjectForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
+                        <ProjectForm
+                            formSendFunction={formSendFunction}
+                            currentData={formSendcurrentData}
+                            isFlag={formSendisFlag}
+                            item={item}
+                        />
                     )}
                 </div>
             ))}
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='프로젝트 명' value={projectName} onChange={onChangeName} />
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='프로젝트 명'
+                            value={projectName}
+                            onChange={onChangeName}
+                        />
                     </div>
                     <div className='mb-2'>
                         <Form.Control
@@ -189,6 +233,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                             value={projectEndDate}
                             onChange={onChangeEndDate}
                         />
+                        {projectStartDate && projectEndDate && !isDateValid && (
+                            <Form.Text className='date-success'>프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
+                        )}
                     </div>
                     <div className='mb-2'>
                         <Form.Control
@@ -199,9 +246,18 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                             onChange={onChangeDescription}
                         />
                     </div>
+                    <div className='mb-2'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='프로젝트 GitLink'
+                            value={projectGitLink}
+                            onChange={onChangeGitLink}
+                        />
+                    </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit()}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

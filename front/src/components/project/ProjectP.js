@@ -15,11 +15,15 @@ function ProjectP({ pSendFunction, isFlag, item }) {
                 <br />
                 {item.projectDescription}
                 <br />
+                <a href={`https://${item.projectGitLink}`}>{item.projectGitLink}</a>
             </p>
             <br />
             {isEditable && (
-                <Button className='position-absolute end-0 translate-middle' variant='outline-primary' onClick={() => handleEdit(item._id)}>
-                    Edit
+                <Button
+                    className='position-absolute top-60 start-50 translate-middle'
+                    variant='outline-info'
+                    onClick={() => handleEdit(item._id)}>
+                    편집
                 </Button>
             )}
             <br />

@@ -5,14 +5,14 @@ class awardService {
     static async findAll({ user_id }) {
         try {
             const user = await User.findById({ user_id });
-            
+
             if (!user) {
                 throw new Error(`${user_id} 유저는 존재하지 않습니다.`);
             }
 
             const awards = await Award.findAll({ user_id });
             if (!awards) {
-                throw new Error(`${user_id} 유저의 자격증 정보가 존재하지 않습니다.`)
+                throw new Error(`${user_id} 유저의 자격증 정보가 존재하지 않습니다.`);
             }
 
             return awards;
@@ -37,7 +37,7 @@ class awardService {
             }
 
             const createdAward = await Award.create({ user_id, awardName, awardDate, awardInstitution, awardDescription });
-            
+
             return createdAward;
         } catch (err) {
             throw new Error(`createAward() 에러 발생: ${err.message}`);
@@ -46,7 +46,7 @@ class awardService {
 
     //유저의 개별 수상내역 수정
     static async updateAward({ user_id, awardId, newAward }) {
-        try{  
+        try {
             const user = await User.findById({ user_id: user_id });
             const { awardName, awardDate, awardInstitution, awardDescription } = newAward;
 
@@ -69,12 +69,11 @@ class awardService {
         } catch (err) {
             throw new Error(`updateAward() 에러 발생: ${err.message}`);
         }
-
     }
 
     //개별 수상내역 삭제(awardId 로 populate)
     static async deleteAward({ user_id, awardId }) {
-        try {    
+        try {
             const user = await User.findById({ user_id: user_id });
 
             if (!user) {

@@ -7,10 +7,10 @@ const certRouter = Router();
 
 // 전체 자격증 정보 조회
 certRouter.get('/', async (req, res, next) => {
-    const user_id = req.currentUserId;
+    const userId = req.currentUserId;
 
     try {
-        const certs = await certService.findAll({ user_id });
+        const certs = await certService.findAll({ userId });
         res.status(200).json(certs);
     } catch (error) {
         next(error);
@@ -24,7 +24,7 @@ certRouter.post('/', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { certName, certAcDate } = req.body;
 
         const newCert = { certName, certAcDate };
@@ -37,7 +37,7 @@ certRouter.post('/', async (req, res, next) => {
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        const createdCert = await certService.createCert({ user_id, newCert });
+        const createdCert = await certService.createCert({ userId, newCert });
         res.status(201).json(createdCert);
     } catch (error) {
         next(error);
@@ -51,7 +51,7 @@ certRouter.put('/:certId', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { certId } = req.params;
         const { certName, certAcDate } = req.body;
 
@@ -65,7 +65,7 @@ certRouter.put('/:certId', async (req, res, next) => {
 
         const newCert = { certName, certAcDate };
 
-        const updatedCert = await certService.updateCert({ user_id, certId, newCert });
+        const updatedCert = await certService.updateCert({ userId, certId, newCert });
         res.status(200).json(updatedCert);
     } catch (error) {
         next(error);
@@ -75,10 +75,10 @@ certRouter.put('/:certId', async (req, res, next) => {
 // 자격증 정보 삭제
 certRouter.delete('/:certId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { certId } = req.params;
 
-        const deletedCert = await certService.deleteCert({ user_id, certId });
+        const deletedCert = await certService.deleteCert({ userId, certId });
 
         res.status(200).json(deletedCert);
     } catch (error) {
