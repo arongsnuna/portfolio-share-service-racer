@@ -10,6 +10,14 @@ const CommentSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
+        userName: {
+            type: String,
+            required: true,
+        },
+        userImageUri: {
+            type: String,
+            required: false,
+        },
         wantedId: {
             type: Schema.Types.ObjectId,
             ref: 'Wanted',    
