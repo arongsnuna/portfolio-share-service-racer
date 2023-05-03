@@ -5,8 +5,6 @@ import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import * as Api from '../../api';
 import { UserStateContext } from '../../App';
 
-import moment from 'moment';
-
 function WantedUpdate() {
     const navigate = useNavigate();
     const [commentContent, setCommentContent] = useState('');
@@ -15,10 +13,13 @@ function WantedUpdate() {
     const [writerImage, setWriterImage] = useState('');
     const [commentList, setCommentList] = useState([]);
     const [isSave, setIsSave] = useState(false);
+    const [iscommentEdit, setIsCommentEdit] = useState(false);
 
     const userState = useContext(UserStateContext);
     const { state } = useLocation();
     const { wanted } = state;
+
+    const isWantedEditable = userState.user._id ?? userState.user.id === wanted.userId;
 
     const onChangeComment = (e) => {
         setCommentContent(e.target.value);
@@ -53,7 +54,7 @@ function WantedUpdate() {
         }
     };
 
-    const handelSubmit = async () => {
+    const handleSubmit = async () => {
         try {
             // "comment/wantedId" 엔드포인트로 post요청함.
             await Api.post(`comment/${wanted._id}`, {
@@ -66,6 +67,23 @@ function WantedUpdate() {
         } catch (err) {
             console.log('댓글 추가에 실패하였습니다.', err);
         }
+    };
+
+    const handleCommentEdit = (id) => {
+        setCommentList((prevComments) => {
+            return prevComments.map((comment) => {
+                if (comment._id === id) {
+                    return {
+                        ...comment,
+                        isEdit: true,
+                    };
+                } else {
+                    return comment;
+                }
+            });
+        });
+
+        setIsCommentEdit(true);
     };
 
     useEffect(() => {
@@ -90,11 +108,16 @@ function WantedUpdate() {
                         원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
                     </p>
                 </Col>
-                <Col className='position-relative'>
-                    <Button
-                        className='m-3 position-absolute bottom-0 end-0'
-                        variant='primary'
-                        onClick={() => navigate('/wanted')}>
+                <Col className='mb-3 text-end'>
+                    {isWantedEditable && (
+                        <Button
+                            className='me-3 '
+                            variant='primary'
+                            onClick={() => navigate('/wanted/update', { state: { wanted: wanted } })}>
+                            수정하기
+                        </Button>
+                    )}
+                    <Button variant='primary' onClick={() => navigate('/wanted')}>
                         목록으로
                     </Button>
                 </Col>
@@ -129,7 +152,7 @@ function WantedUpdate() {
                             </Col>
                         </Row>
                         <Row>
-                            <Card.Subtitle className='mb-3'>13개의 댓글</Card.Subtitle>
+                            <Card.Subtitle className='mb-3'>{commentList.length}개의 댓글</Card.Subtitle>
                             <Form.Control
                                 placeholder='댓글을 작성하세요.'
                                 as='textarea'
@@ -140,7 +163,7 @@ function WantedUpdate() {
                         </Row>
                         <Row>
                             <Col className='p-0'>
-                                <Button className='mt-3' variant='primary' onClick={handelSubmit}>
+                                <Button className='mt-3' variant='primary' onClick={() => handleSubmit(wanted.userId)}>
                                     댓글 작성
                                 </Button>
                             </Col>
@@ -165,9 +188,43 @@ function WantedUpdate() {
                                         </Row>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col>{comment.commentContent}</Col>
-                                </Row>
+
+                                {comment.isEdit === true ? (
+                                    <Row>
+                                        <Col>
+                                            <Form.Control
+                                                placeholder='댓글을 작성하세요.'
+                                                as='textarea'
+                                                rows={1}
+                                                value={commentContent}
+                                                onChange={onChangeComment}
+                                            />
+                                        </Col>
+                                        <Col>
+                                            <Button
+                                                variant='primary'
+                                                className='me-3'
+                                                onClick={() => handleCommentEdit(comment._id)}>
+                                                확인
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                ) : (
+                                    <Row>
+                                        <Col xs={10}>{comment.commentContent}</Col>
+                                        <Col xs={2} className='mb-3 text-end'>
+                                            {userState.user._id === comment.userId && (
+                                                <Button
+                                                    variant='primary'
+                                                    className='me-3'
+                                                    onClick={() => handleCommentEdit(comment._id)}>
+                                                    댓글 수정
+                                                </Button>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                )}
+
                                 <hr />
                             </div>
                         ))}

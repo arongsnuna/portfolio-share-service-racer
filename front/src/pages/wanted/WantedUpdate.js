@@ -96,8 +96,11 @@ function WantedUpdate() {
                     <Button variant='primary' className='me-3' onClick={() => handleEdit()}>
                         게시글 편집
                     </Button>
-                    <Button variant='danger' onClick={() => handleDelete()}>
+                    <Button variant='danger' className='me-3' onClick={() => handleDelete()}>
                         게시글 삭제
+                    </Button>
+                    <Button variant='secondary' onClick={() => navigate('/wanted/read', { state: { wanted: wanted } })}>
+                        취소
                     </Button>
                 </Col>
             </Row>
