@@ -29,6 +29,8 @@ class commentService {
     static async updateComment({ user_id, commentId, newComment }) {
         try {
             const user = await User.findById({ user_id: user_id });
+            const { commentContent } = newComment;
+
             if (user.id !== user_id) {
                 throw new Error(`댓글을 수정할 권한이 없습니다.`);
             }
@@ -37,8 +39,7 @@ class commentService {
             if (!comment) {
                 throw new Error(`${commentId} 코멘트는 존재하지 않습니다.`);
             }
-    
-            const updatedComment = await Comment.update({ user_id, commentId, newComment });
+            const updatedComment = await Comment.update({ user_id, commentId, commentContent });
 
             return updatedComment;
         } catch (err) {
@@ -69,4 +70,4 @@ class commentService {
 
 }
 
-export { wantedService };
+export { commentService };

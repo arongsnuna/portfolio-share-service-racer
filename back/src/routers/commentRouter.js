@@ -3,11 +3,21 @@ import { Router } from 'express';
 import { commentService } from '../services/commentService';
 const commentRouter = Router();
 
+//해당 게시글의 모든 댓글 조회
+commentRouter.get('/:wantedId', async (req, res, next) => {
+    try {
+        const { wantedId } = req.params;
+        const comments = await commentService.findAll({ wantedId });
+        res.status(201).json(comments);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 // 댓글 추가
 commentRouter.post('/:wantedId', async (req, res, next) => {
     try {
-        console.log("라우터들어옴")
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
@@ -31,7 +41,6 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
 // 댓글 수정
 commentRouter.put('/:commentId', async (req, res, next) => {
     try {
-        
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
@@ -44,8 +53,8 @@ commentRouter.put('/:commentId', async (req, res, next) => {
         if (!commentContent) {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
-
         const updatedComment = await commentService.updateComment({ user_id, commentId, newComment });
+        console.log(updatedComment)
         res.status(200).json(updatedComment);
     } catch (error) {
         next(error);
