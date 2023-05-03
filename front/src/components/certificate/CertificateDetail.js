@@ -39,6 +39,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('DB 불러오기를 실패하였습니다.', err);
         }
     };
@@ -64,6 +67,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                 setCertName('');
                 setCertAcDate('');
             } catch (err) {
+                if(err.response.status === 400){
+                    alert(err.response.data.error);
+                }
                 console.log('자격증 추가에 실패하였습니다.', err);
             }
         } else {
@@ -79,6 +85,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchCert({ userId });
             } catch (err) {
+                if(err.response.status === 400){
+                    alert(err.response.data.error);
+                }
                 console.log('자격증 수정에 실패하였습니다.', err);
             }
         }
@@ -123,6 +132,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('자격증 삭제에 실패하였습니다.', err);
         }
     };

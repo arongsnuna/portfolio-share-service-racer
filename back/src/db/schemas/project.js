@@ -18,6 +18,10 @@ const ProjectSchema = new Schema(
             type: String,
             required: true,
         },
+        projectGitLink: {
+            type: String,
+            required: false,
+        },
         isSave: {
             type: Boolean,
             default: true,

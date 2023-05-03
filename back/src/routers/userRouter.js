@@ -42,6 +42,7 @@ userAuthRouter.post('/register', async function (req, res, next) {
         });
 
         if (newUser.errorMessage) {
+            res.status(400).send({error: `${newUser.errorMessage}`})
             throw new Error(newUser.errorMessage);
         }
 
@@ -62,6 +63,7 @@ userAuthRouter.post('/login', async function (req, res, next) {
         const user = await userAuthService.getUser({ email, password });
 
         if (user.errorMessage) {
+            res.status(400).send({error: `${user.errorMessage}`})
             throw new Error(user.errorMessage);
         }
 
@@ -85,9 +87,9 @@ userAuthRouter.get('/userlist', login_required, async function (req, res, next) 
 // 유저인증??
 userAuthRouter.get('/current', login_required, async function (req, res, next) {
     try {
+        console.log('current 들어옴');
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const userId = req.currentUserId;
-
         const currentUserInfo = await userAuthService.getUserInfo({
             userId,
         });
@@ -155,6 +157,7 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         const updatedUser = await userAuthService.setUser({ userId, toUpdate });
 
         if (updatedUser.errorMessage) {
+            res.status(400).send({error: `${updatedUser.errorMessage}`})
             throw new Error(updatedUser.errorMessage);
         }
 
@@ -167,10 +170,12 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
 // 유저정보 불러오기
 userAuthRouter.get('/:id', login_required, async function (req, res, next) {
     try {
-        const userId = req.currentUserId;
+        const userId = req.params.id;
+
         const currentUserInfo = await userAuthService.getUserInfo({ userId });
 
         if (currentUserInfo.errorMessage) {
+            res.status(400).send({error: `${currentUserInfo.errorMessage}`})
             throw new Error(currentUserInfo.errorMessage);
         }
 

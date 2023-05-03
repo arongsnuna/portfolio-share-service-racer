@@ -24,28 +24,27 @@ stackRouter.get('/', async(req,res,next)=>{
 stackRouter.post('/', async(req, res, next) => {
     try{
         if(is.emptyObject(req.body)){
-            res.status(400).send(error);
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
         const userId = req.currentUserId;
 
-        const stacks = await stackService.findAll({ userId });
-
         const {stackName, stackDescription} = req.body;
-        const newStack = {stackName, stackDescription};
-        
-        const stackExists = stacks.some((stack) => stack.stackName === newStack.stackName);
-        if (stackExists ){
-            res.status(400).send({error: `${newStack.stackName} 프로젝트는 이미 존재합니다.`})
-            throw new Error(`${newStack.stackName} 프로젝트는 이미 존재합니다.`);
-        }
-        
 
         if(!stackName || !stackDescription){
             res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
+
+        const newStack = {stackName, stackDescription};
+
+        const stacks = await stackService.findAll({ userId });
+        const stackExists = stacks.some((stack) => stack.stackName === newStack.stackName);
+        if (stackExists ){
+            res.status(400).send({error: `${newStack.stackName} 스택은 이미 존재합니다.`})
+            throw new Error(`${newStack.stackName} 스택은 이미 존재합니다.`);
+        }
+    
 
         const createdStack = await stackService.createStack({ userId, newStack });
         res.status(201).json(createdStack);
@@ -72,18 +71,19 @@ stackRouter.put('/:stackId', async(req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
-        const newStack = {stackName, stackDescription};
         const stack = await stackService.findOne({stackId});
         if (!stack) {
             res.status(400).send({error: '이 스택 정보는 존재하지 않습니다.'});
             throw new Error('이 스택 정보는 존재하지 않습니다.');
         }
+
+        const newStack = {stackName, stackDescription};
         // 수정하려는 스택만 제외하고 다른 모든 스택을 가져올 수 있는 방법
         const exceptStacks = await stackService.findExcept({ userId, stackId });
         const stackExists = exceptStacks.some((stack) => stack.stackName === newStack.stackName);
         if (stackExists ){
-            res.status(400).send({error: `${newStack.stackName} 프로젝트는 이미 존재합니다.`})
-            throw new Error(`${newStack.stackName} 프로젝트는 이미 존재합니다.`);
+            res.status(400).send({error: `${newStack.stackName} 스택은 이미 존재합니다.`})
+            throw new Error(`${newStack.stackName} 스택은 이미 존재합니다.`);
         }
         const updatedStack = await stackService.updateStack({ userId, stackId, newStack });
         res.status(200).json(updatedStack);

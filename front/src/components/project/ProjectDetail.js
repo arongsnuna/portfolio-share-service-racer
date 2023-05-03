@@ -51,6 +51,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('DB 불러오기를 실패하였습니다.', err);
         }
     };
@@ -80,6 +83,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                 setProjectEndDate('');
                 setProjectDescription('');
             } catch (err) {
+                if(err.response.status === 400){
+                    alert(err.response.data.error);
+                }
                 console.log('프로젝트 추가에 실패하였습니다.', err);
             }
         } else {
@@ -97,6 +103,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchProject({ userId });
             } catch (err) {
+                if(err.response.status === 400){
+                    alert(err.response.data.error);
+                }
                 console.log('프로젝트 수정에 실패하였습니다.', err);
             }
         }
@@ -143,6 +152,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
+            if(err.response.status === 400){
+                alert(err.response.data.error);
+            }
             console.log('프로젝트 삭제에 실패하였습니다.', err);
         }
     };
