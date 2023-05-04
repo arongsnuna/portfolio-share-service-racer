@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState, useCallback } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useContext, useState, useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
@@ -7,6 +8,7 @@ import { UserStateContext } from '../../App';
 
 function WantedUpdate() {
     const navigate = useNavigate();
+    const [commentSaveContent, setCommentSaveContent] = useState('');
     const [commentContent, setCommentContent] = useState('');
     const [writerName, setWriterName] = useState('');
     const [writerDescription, setWriterDescription] = useState('');
@@ -20,6 +22,10 @@ function WantedUpdate() {
     const { wanted } = state;
 
     const isWantedEditable = userState.user._id ?? userState.user.id === wanted.userId;
+
+    const onChangeSaveComment = (e) => {
+        setCommentSaveContent(e.target.value);
+    };
 
     const onChangeComment = (e) => {
         setCommentContent(e.target.value);
@@ -41,23 +47,52 @@ function WantedUpdate() {
                 setWriterImage(writerInfo.userImage.imageUri);
             }
         } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+
             console.log('작성자 불러오기에 실패하였습니다.', err);
         }
     }, [wanted.userId]);
 
     const fetchCommentList = useCallback(async () => {
         try {
-            await Api.get(`comment/${wanted._id}`).then((res) => setCommentList(res.data));
+            console.log('여기 탄다');
+            const res = await Api.get(`comment/${wanted._id}`);
+            setCommentList(res.data);
             setIsSave(false);
         } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+
             console.log('');
         }
-    }, [wanted._id]);
+    }, [wanted._id, isSave]);
 
     const handleSubmit = async () => {
         try {
             // "comment/wantedId" 엔드포인트로 post요청함.
             await Api.post(`comment/${wanted._id}`, {
+                commentSaveContent,
+            });
+
+            setCommentSaveContent('');
+
+            setIsSave(true);
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+
+            console.log('댓글 추가에 실패하였습니다.', err);
+        }
+    };
+
+    const handleCommentEditSubmit = async (id) => {
+        try {
+            // "comment/commentId" 엔드포인트로 put요청함.
+            await Api.put(`comment/${id}`, {
                 commentContent,
             });
 
@@ -65,7 +100,11 @@ function WantedUpdate() {
 
             setIsSave(true);
         } catch (err) {
-            console.log('댓글 추가에 실패하였습니다.', err);
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+
+            console.log('댓글수정에 실패하였습니다.');
         }
     };
 
@@ -82,8 +121,27 @@ function WantedUpdate() {
                 }
             });
         });
+        const comment = commentList.filter((comment) => comment._id === id)[0];
+        setCommentContent(comment.commentContent);
 
         setIsCommentEdit(true);
+    };
+
+    const handleCancel = (id) => {
+        setCommentList((prevComments) => {
+            return prevComments.map((comment) => {
+                if (comment._id === id) {
+                    return {
+                        ...comment,
+                        isEdit: false,
+                    };
+                } else {
+                    return comment;
+                }
+            });
+        });
+
+        setIsCommentEdit(false);
     };
 
     useEffect(() => {
@@ -157,8 +215,8 @@ function WantedUpdate() {
                                 placeholder='댓글을 작성하세요.'
                                 as='textarea'
                                 rows={3}
-                                value={commentContent}
-                                onChange={onChangeComment}
+                                value={commentSaveContent}
+                                onChange={onChangeSaveComment}
                             />
                         </Row>
                         <Row>
@@ -191,21 +249,24 @@ function WantedUpdate() {
 
                                 {comment.isEdit === true ? (
                                     <Row>
-                                        <Col>
+                                        <Col xs={8}>
                                             <Form.Control
                                                 placeholder='댓글을 작성하세요.'
                                                 as='textarea'
-                                                rows={1}
+                                                rows={2}
                                                 value={commentContent}
                                                 onChange={onChangeComment}
                                             />
                                         </Col>
-                                        <Col>
+                                        <Col xs={2}>
                                             <Button
-                                                variant='primary'
                                                 className='me-3'
-                                                onClick={() => handleCommentEdit(comment._id)}>
+                                                variant='primary'
+                                                onClick={() => handleCommentEditSubmit(comment._id)}>
                                                 확인
+                                            </Button>
+                                            <Button variant='primary' onClick={() => handleCancel(comment._id)}>
+                                                취소
                                             </Button>
                                         </Col>
                                     </Row>
@@ -213,7 +274,7 @@ function WantedUpdate() {
                                     <Row>
                                         <Col xs={10}>{comment.commentContent}</Col>
                                         <Col xs={2} className='mb-3 text-end'>
-                                            {userState.user.id === comment.userId && (
+                                            {(userState.user._id ?? userState.user.id) === comment.userId && (
                                                 <Button
                                                     variant='primary'
                                                     className='me-3'

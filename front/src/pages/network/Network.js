@@ -19,8 +19,15 @@ function Network() {
             navigate('/login');
             return;
         }
-        // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
-        Api.get('user/userlist').then((res) => setUsers(res.data));
+        try {
+            // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
+            Api.get('user/userlist').then((res) => setUsers(res.data));
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert('err.response.data.error');
+            }
+            console.log('유저 목록을 불러오는데 실패하였습니다.', err);
+        }
     }, [userState, navigate]);
 
     return (
@@ -34,7 +41,6 @@ function Network() {
                             <UserCard user={user} isNetwork userImageUrl={'http://placekitten.com/200/200'} />
                         )}
                     </React.Fragment>
-                    // <UserCard key={user.id} user={user} isNetwork />
                 ))}
             </Row>
         </Container>

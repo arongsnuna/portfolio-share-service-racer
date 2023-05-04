@@ -21,15 +21,22 @@ function Portfolio() {
     const userState = useContext(UserStateContext);
 
     const fetchPorfolioOwner = async (ownerId) => {
-        // 유저 id를 가지고 "/user/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
-        console.log(ownerId);
-        const res = await Api.get('user', ownerId);
-        // 사용자 정보는 response의 data임.
-        const ownerData = res.data;
-        // portfolioOwner을 해당 사용자 정보로 세팅함.
-        setPortfolioOwner(ownerData);
-        // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
-        setIsFetchCompleted(true);
+        try {
+            // 유저 id를 가지고 "/user/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
+            console.log(ownerId);
+            const res = await Api.get('user', ownerId);
+            // 사용자 정보는 response의 data임.
+            const ownerData = res.data;
+            // portfolioOwner을 해당 사용자 정보로 세팅함.
+            setPortfolioOwner(ownerData);
+            // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
+            setIsFetchCompleted(true);
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert('유저 정보를 불러오는데 실패하였습니다.');
+            }
+            console.log('유저 정보를 불러오는데 실패하였습니다.', err);
+        }
     };
 
     useEffect(() => {
@@ -68,30 +75,30 @@ function Portfolio() {
                 </Col>
                 <Col sm md='9' lg='9'>
                     <div style={{ textAlign: 'left' }}>
-                        {/* <div className='mb-3'>
+                        <div className='mb-3'>
                             <Award
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
-                            /> */}
-                        {/* </div>
+                            />
+                        </div>
                         <div className='mb-3'>
                             <Education
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
                             />
-                        </div> */}
+                        </div>
                         <div className='mb-3'>
                             <Certificate
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                             />
                         </div>
-                        {/* <div className='mb-3'>
+                        <div className='mb-3'>
                             <Project
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
                                 isEditable={portfolioOwner.userInfo._id === userState.user?.id}
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </Col>
             </Row>

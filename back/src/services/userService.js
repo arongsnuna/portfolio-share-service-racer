@@ -16,9 +16,7 @@ class userAuthService {
         // 비밀번호 해쉬화
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // id 는 유니크 값 부여
-        const id = uuidv4();
-        const newUser = { id, name, email, password: hashedPassword };
+        const newUser = { name, email, password: hashedPassword };
 
         // db에 저장
         const createdNewUser = await User.create({ newUser });

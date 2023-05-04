@@ -16,23 +16,29 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('userImage', userImage);
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('description', description);
+            formData.append('gitLink', gitLink);
 
-        const formData = new FormData();
-        formData.append('userImage', userImage);
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('description', description);
-        formData.append('gitLink', gitLink);
+            // "user/유저id" 엔드포인트로 PUT 요청함.
+            const res = await Api.putFile(`user/${user.id}`, formData);
+            // 유저 정보는 response의 data임.
+            const updatedUser = res.data;
+            // 해당 유저 정보로 user을 세팅함.
+            setUser(updatedUser);
 
-        // "user/유저id" 엔드포인트로 PUT 요청함.
-        const res = await Api.putFile(`user/${user.id}`, formData);
-        // 유저 정보는 response의 data임.
-        const updatedUser = res.data;
-        // 해당 유저 정보로 user을 세팅함.
-        setUser(updatedUser);
-
-        // isEditing을 false로 세팅함.
-        setIsEditing(false);
+            // isEditing을 false로 세팅함.
+            setIsEditing(false);
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+            console.log('유저 수정에 실패하였습니다.', err);
+        }
     };
 
     return (

@@ -31,6 +31,10 @@ function WantedCreate() {
 
             navigate('/wanted');
         } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+
             console.log('팀원구하기 정보 추가에 실패하였습니다.', err);
         }
     };
