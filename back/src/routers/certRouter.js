@@ -57,6 +57,11 @@ certRouter.post('/', async (req, res, next) => {
             throw new Error('취득일자 값을 확인해주세요');
         }
 
+        if (util.isFutureDate(certAcDate)) {
+            res.status(400).send({ error: '미래의 취득일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 취득일자는 입력할 수 없습니다.');
+        }
+
         const newCert = { certName, certAcDate };
         const certs = await certService.findAll({ userId });
         const certExists = certs.some((cert) => cert.certName === newCert.certName);
@@ -93,6 +98,11 @@ certRouter.put('/:certId', async (req, res, next) => {
             throw new Error('취득일자 값을 확인해주세요');
         }
 
+        if (util.isFutureDate(certAcDate)) {
+            res.status(400).send({ error: '미래의 취득일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 취득일자는 입력할 수 없습니다.');
+        }
+
         const cert = await certService.findOne({ certId });
         if (!cert) {
             res.status(400).send({ error: '이 자격증 정보는 존재하지 않습니다.' });
@@ -103,8 +113,8 @@ certRouter.put('/:certId', async (req, res, next) => {
         const exceptCerts = await certService.findExcept({ userId, certId });
         const certExists = exceptCerts.some((cert) => cert.certName === newCert.certName);
         if (certExists) {
-            res.status(400).send({ error: `${newCert.certName} 프로젝트는 이미 존재합니다.` });
-            throw new Error(`${newCert.certName} 프로젝트는 이미 존재합니다.`);
+            res.status(400).send({ error: `${newCert.certName} 자격증은 이미 존재합니다.` });
+            throw new Error(`${newCert.certName} 자격증은 이미 존재합니다.`);
         }
 
         const updatedCert = await certService.updateCert({ userId, certId, newCert });
