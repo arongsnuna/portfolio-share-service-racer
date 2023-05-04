@@ -53,9 +53,15 @@ awardRouter.post('/', async (req, res, next) => {
             res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
+
         if (!util.regexp(awardDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요.' });
             throw new Error('취득일자 값을 확인해주세요');
+        }
+
+        if (util.isFutureDate(awardDate)) {
+            res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 수상일자는 입력할 수 없습니다.');
         }
 
         const createdAward = await awardService.createAward({ userId, newAward });
@@ -93,6 +99,16 @@ awardRouter.put('/:awardId', async (req, res, next) => {
         if (!util.regexp(awardDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요.' });
             throw new Error('취득일자 값을 확인해주세요');
+        }
+
+        if (util.isFutureDate(awardDate)) {
+            res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 수상일자는 입력할 수 없습니다.');
+        }
+
+        if (util.isFutureDate(awardDate)) {
+            res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 수상일자는 입력할 수 없습니다.');
         }
 
         const updatedAward = await awardService.updateAward({ userId, awardId, newAward });

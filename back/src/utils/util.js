@@ -1,4 +1,5 @@
 import moment from 'moment';
+const { DateTime } = require("luxon");
 
 class util {
     static regexp(data) {
@@ -11,6 +12,13 @@ class util {
         } else {
             return false;
         }
+    }
+
+    static isFutureDate(inputDate) {
+        const formattedInputDate = DateTime.fromISO(inputDate);
+        const now = DateTime.now();
+        console.log(formattedInputDate > now)
+        return formattedInputDate > now;
     }
 }
 
