@@ -13,6 +13,7 @@ function WantedUpdate() {
     const userState = useContext(UserStateContext);
     const { state } = useLocation();
     const { wanted } = state;
+    const modifiedWanted = { ...wanted, wantedTitle: wantedTitle, wantedContent: wantedContent };
 
     const onChangeTitle = (e) => {
         setWantedTitle(e.target.value);
@@ -65,7 +66,7 @@ function WantedUpdate() {
 
         setWantedTitle(wanted.wantedTitle);
         setWantedContent(wanted.wantedContent);
-    }, [userState, navigate]);
+    }, [userState, navigate, wanted.wantedTitle, wanted.wantedContent]);
 
     return (
         <Container>
@@ -104,7 +105,7 @@ function WantedUpdate() {
                         className='me-3'
                         onClick={() => {
                             handleEdit();
-                            navigate('/wanted/read', { state: { wanted: wanted } });
+                            navigate('/wanted/read', { state: { wanted: modifiedWanted } });
                         }}>
                         게시글 편집
                     </Button>

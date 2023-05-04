@@ -25,7 +25,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             formData.append('gitLink', gitLink);
 
             // "user/유저id" 엔드포인트로 PUT 요청함.
-            const res = await Api.putFile(`user/${user.id}`, formData);
+            const res = await Api.putFile(`user/${user._id}`, formData);
             // 유저 정보는 response의 data임.
             const updatedUser = res.data;
             // 해당 유저 정보로 user을 세팅함.
@@ -42,7 +42,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     };
 
     return (
-        <Card className='mb-2'>
+        <Card className='mb-2 ms-3 mr-5' style={{ width: '18rem' }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId='useEditName' className='mb-3'>
