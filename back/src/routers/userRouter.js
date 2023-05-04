@@ -150,9 +150,8 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
             toUpdate = { name, email, password, description, gitLink, userImage };
 
             fs.unlinkSync(imagePath);
-        } else {
-            toUpdate = { name, email, password, description, gitLink };
-        }
+        } 
+        toUpdate = { name, email, password, description, gitLink };
 
         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
         const updatedUser = await userAuthService.setUser({ userId, toUpdate });
