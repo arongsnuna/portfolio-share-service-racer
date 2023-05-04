@@ -24,7 +24,7 @@ class awardService {
     // 개별 수상내역 수정
     static async updateAward({ userId, awardId, newAward }) {
         const { awardName, awardDate, awardInstitution, awardDescription } = newAward;
-        const updatedAward = await Award.update({ userId, awardId, awardName, awardDate });
+        const updatedAward = await Award.update({ userId, awardId, awardName, awardDate, awardInstitution, awardDescription  });
         return updatedAward;
     }
 
