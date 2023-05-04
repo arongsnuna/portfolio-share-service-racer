@@ -41,9 +41,6 @@ function App() {
 
             console.log('%c sessionStorage에 토큰 있음.', 'color: #d93d1a;');
         } catch (err) {
-            if (err.response.status === 400) {
-                alert('유저 토큰이 없습니다. 다시 로그인 해주세요.');
-            }
             console.log('%c SessionStorage에 토큰 없음.', 'color: #d93d1a;');
         }
         // fetchCurrentUser 과정이 끝났으므로, isFetchCompleted 상태를 true로 바꿔줌

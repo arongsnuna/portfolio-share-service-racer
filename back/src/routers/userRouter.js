@@ -15,9 +15,9 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, '../uploads/users')); // 파일 업로드 위치 설정
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname); // 파일 이름 설정
-    },
+    // filename: function (req, file, cb) {
+    //     cb(null, Date.now() + file.originalname); // 파일 이름 설정
+    // },
 });
 
 const upload = multer({ storage: storage });
@@ -114,41 +114,45 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         const gitLink = req.body.gitLink ?? null;
         const uploadImage = req.file ?? null;
 
-        // 업로드 된 파일을 서버의 파일 시스템에 저장
-        const filePath = path.join(__dirname, '../uploads/users', Date.now() + uploadImage.originalname);
-        const fileStream = fs.createWriteStream(filePath);
-        fileStream.on('error', (err) => {
-            console.error(err);
-        });
-
         let userImage = {};
+        let toUpdate = {};
 
-        if (uploadImage) {
+        if (uploadImage !== null) {
+            // 업로드 된 파일을 서버의 파일 시스템에 저장
+            const filePath = path.join(__dirname, '../uploads/users', Date.now() + uploadImage.originalname);
+            const fileStream = fs.createWriteStream(filePath);
+            fileStream.on('error', (err) => {
+                console.error(err);
+            });
+
             // 이미지파일의 경로를 불러와 데이터 URI로 변환(로컬 파일 시스템의 경로를 사용하기 때문)
             // 이미지 파일 이름
-            const imageName = uploadImage.filename;
+            // const imageName = uploadImage.originalname;
             // 이미지 파일 경로
-            const imagePath = path.join(__dirname, '../uploads/users', imageName);
+            // const imagePath = path.join(__dirname, '../uploads/users', imageName);
+
             // 이미지 파일 읽기
-            const imageData = fs.readFileSync(imagePath);
+            const imageData = fs.readFileSync(filePath);
             // MIME 타입을 가져오기
-            const mimeType = mime.lookup(imagePath);
+            const mimeType = mime.lookup(filePath);
+
             // 데이터 URI로 변환
             const imageUri = `data:${mimeType};base64,${imageData.toString('base64')}`;
 
             userImage = { uploadImage, imageUri };
 
             // 파일 저장 및 처리 로직
-            fileStream.write(uploadImage.buffer);
+            fileStream.write(imageData);
             fileStream.end();
+
+            console.log('여기니?4');
+
+            toUpdate = { name, email, password, description, gitLink, userImage };
+
+            fs.unlinkSync(imagePath);
         } else {
-            userImage = uploadImage;
-
-            fileStream.write(uploadImage.buffer);
-            fileStream.end();
+            toUpdate = { name, email, password, description, gitLink };
         }
-
-        const toUpdate = { name, email, password, description, gitLink, userImage };
 
         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
         const updatedUser = await userAuthService.setUser({ userId, toUpdate });
