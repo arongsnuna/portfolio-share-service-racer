@@ -26,6 +26,7 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
         const newComment = { commentContent };
 
         if (!commentContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
@@ -43,16 +44,23 @@ commentRouter.put('/:commentId', async (req, res, next) => {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { commentId } = req.params;
         const { commentContent } = req.body;
         const newComment = { commentContent };
 
-        if (!commentContent) {
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        const comment = await commentService.findComment({ commentId })
+        if(!comment){
+            res.status(400).send({error: '이 댓글은 존재하지 않습니다.'})
+            throw new Error(`이 댓글은 존재하지 않습니다.`);
         }
-        const updatedComment = await commentService.updateComment({ user_id, commentId, newComment });
-        console.log(updatedComment);
+
+        if (!commentContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
+            throw new Error('모든 값을 입력했는지 확인해주세요.');    
+        }
+        const updatedComment = await commentService.updateComment({ userId, commentId, newComment });
+        console.log(updatedComment)
         res.status(200).json(updatedComment);
     } catch (error) {
         next(error);
@@ -62,10 +70,16 @@ commentRouter.put('/:commentId', async (req, res, next) => {
 // 댓글 삭제
 commentRouter.delete('/:commentId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { commentId } = req.params;
 
-        const deletedComment = await commentService.deleteComment({ user_id, commentId });
+        const comment = await commentService.findComment({ commentId })
+        if(!comment){
+            res.status(400).send({error: '이 댓글은 존재하지 않습니다.'})
+            throw new Error(`이 댓글은 존재하지 않습니다.`);
+        }
+
+        const deletedComment = await commentService.deleteComment({ userId, commentId });
 
         res.status(200).json(deletedComment);
     } catch (error) {

@@ -29,8 +29,8 @@ class Wanted {
     }
 
     // 모집 정보 삭제
-    static async delete({ user_id, wantedId }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async delete({ userId, wantedId }) {
+        const user = await UserModel.findOne({ _id: userId });
         const deletedWanted = await WantedModel.deleteOne({ _id: wantedId, userId: user._id });
 
         return deletedWanted;

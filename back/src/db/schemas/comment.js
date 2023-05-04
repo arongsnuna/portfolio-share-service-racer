@@ -20,11 +20,7 @@ const CommentSchema = new Schema(
         },
         wantedId: {
             type: Schema.Types.ObjectId,
-            ref: 'Wanted',
-        },
-        dateDiff: {
-            type: String,
-            required: false,
+            ref: 'Wanted',    
         },
         isSave: {
             type: Boolean,

@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { CommentSchema } from './comment';
 
 const WantedSchema = new Schema(
     {
@@ -22,7 +21,7 @@ const WantedSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
-        },
+        }
     },
     {
         timestamps: true,

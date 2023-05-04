@@ -1,11 +1,11 @@
 import { UserModel } from '../schemas/user';
 import { CommentModel } from '../schemas/comment';
-
+import { util } from '../../utils/util'
+import { WantedModel } from '../schemas/wanted';
 class Comment {
     // 게시물에 달린 모든 댓글 조회
     static async findAll({ wantedId }) {
         const comment = await CommentModel.find({ wantedId: wantedId });
-
         return comment;
     }
 
@@ -16,34 +16,37 @@ class Comment {
     }
 
     // 댓글 추가
-    static async create({ userId, wantedId, commentContent }) {
+    static async create({ userId, wantedId, commentContent }) { 
         const user = await UserModel.findOne({ _id: userId });
 
-        const createdComment = await CommentModel.create({
-            wantedId,
+        const createdComment = await CommentModel.create({ wantedId,
             commentContent,
             userId: user._id,
             userName: user.name,
-            userImageUri: user.userImage.imageUri,
-        });
+            userImageUri: user.userImage.imageUri ? user.userImage.imageUri : null,
+        })
 
-        return createdComment;
+        return createdComment
     }
 
     // 댓글 수정
-    static async update({ user_id, commentId, commentContent }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async update({ userId, commentId, commentContent }) {
+        const user = await UserModel.findOne({ _id: userId });
         const updatedComment = await CommentModel.updateOne({ userId: user._id, _id: commentId }, { commentContent });
-
         return updatedComment;
     }
 
     // 댓글 삭제
-    static async delete({ user_id, commentId }) {
-        const user = await UserModel.findOne({ id: user_id });
+    static async delete({ userId, commentId }) {
+        const user = await UserModel.findOne({ _id: userId });
         const deletedComment = await CommentModel.deleteOne({ _id: commentId, userId: user._id });
-
         return deletedComment;
+    }
+
+    // 전체댓글 삭제(본문 자체가 삭제 될 때 실행시키는 용도)
+    static async deleteAll({ wantedId }) {
+        const deletedComments = await CommentModel.deleteMany({ wantedId });
+        return deletedComments;
     }
 }
 

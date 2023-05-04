@@ -14,19 +14,36 @@ wantedRouter.get('/', async (req, res, next) => {
     }
 });
 
+// 특정 모집 정보 조회
+wantedRouter.get('/:wantedId', async (req, res, next) => {
+    try {
+        const { wantedId } = req.params;
+        const wanted = await wantedService.findWanted({ wantedId });
+
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
+
+        res.status(200).json(wanted);
+    } catch (error) {
+        next(error);
+    }
+});
+
 // 모집 정보 추가
 wantedRouter.post('/', async (req, res, next) => {
     try {
         if (is.emptyObject(req.body)) {
             throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
         }
-
+        
         const userId = req.currentUserId;
         const { wantedTitle, wantedContent } = req.body;
-
         const newWanted = { wantedTitle, wantedContent };
 
         if (!wantedTitle || !wantedContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
@@ -48,12 +65,18 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
         const { wantedId } = req.params;
         const { wantedTitle, wantedContent } = req.body;
 
+        const wanted = await wantedService.findWanted({ wantedId });
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
+
         if (!wantedTitle || !wantedContent) {
+            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
         const newWanted = { wantedTitle, wantedContent };
-
         const updatedWanted = await wantedService.updateWanted({ userId, wantedId, newWanted });
         res.status(200).json(updatedWanted);
     } catch (error) {
@@ -64,70 +87,18 @@ wantedRouter.put('/:wantedId', async (req, res, next) => {
 // 모집 정보 삭제
 wantedRouter.delete('/:wantedId', async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const { wantedId } = req.params;
 
-        const deletedWanted = await wantedService.deleteWanted({ user_id, wantedId });
+        const wanted = await wantedService.findWanted({ wantedId });
+        if (!wanted) {
+            res.status(400).send({error: '이 게시글은 존재하지 않습니다.'})
+            throw new Error('이 게시글은 존재하지 않습니다.');
+        }
+
+        const deletedWanted = await wantedService.deleteWanted({ userId, wantedId });
 
         res.status(200).json(deletedWanted);
-    } catch (error) {
-        next(error);
-    }
-});
-
-// 댓글 추가
-wantedRouter.post('/:wantedId/comment', async (req, res, next) => {
-    try {
-        if (is.emptyObject(req.body)) {
-            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
-        }
-        const user_id = req.currentUserId;
-        const { wantedId } = req.params;
-        const { commentContent } = req.body;
-        const newComment = { commentContent };
-
-        if (!commentContent) {
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
-        }
-
-        const createdComment = await wantedService.createComment({ user_id, wantedId, newComment });
-        res.status(201).json(createdComment);
-    } catch (error) {
-        next(error);
-    }
-});
-
-// 댓글 수정
-wantedRouter.put('/:wantedId/comment/:commentId', async (req, res, next) => {
-    try {
-        if (is.emptyObject(req.body)) {
-            throw new Error('headers의 Content-Type을 application/json으로 설정해주세요');
-        }
-
-        const user_id = req.currentUserId;
-        const { wantedId, commentId } = req.params;
-        const { commentContent } = req.body;
-
-        if (!commentContent) {
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
-        }
-
-        const updatedComment = await wantedService.updateComment({ user_id, wantedId, commentId, commentContent });
-        res.status(200).json(updatedComment);
-    } catch (error) {
-        next(error);
-    }
-});
-
-// 댓글 삭제
-wantedRouter.delete('/:wantedId/comment/:commentId', async (req, res, next) => {
-    try {
-        const user_id = req.currentUserId;
-        const { wantedId, commentId } = req.params;
-
-        const deletedComment = await wantedService.deleteComment({ user_id, wantedId, commentId });
-
-        res.status(200).json(deletedComment);
     } catch (error) {
         next(error);
     }
