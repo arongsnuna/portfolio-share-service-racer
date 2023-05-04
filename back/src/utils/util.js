@@ -17,7 +17,6 @@ class util {
     static isFutureDate(inputDate) {
         const formattedInputDate = DateTime.fromISO(inputDate);
         const now = DateTime.now();
-        console.log(formattedInputDate > now)
         return formattedInputDate > now;
     }
 }
