@@ -114,7 +114,7 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         const description = req.body.description ?? null;
         const gitLink = req.body.gitLink ?? null;
         const uploadImage = req.file ?? null;
-        console.log(name);
+
         if (name === (null || '')) {
             res.status(400).send({ error: '이름을 입력해주세요' });
             throw new Error('이름을 입력해주세요');

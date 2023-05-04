@@ -71,8 +71,6 @@ function WantedUpdate() {
             if (err.response.status === 400) {
                 alert(err.response.data.error);
             }
-
-            console.log('');
         }
     }, [wanted._id, isSave]);
 
