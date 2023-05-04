@@ -56,6 +56,14 @@ projectRouter.post('/', async (req, res, next) => {
             res.status(400).send({ error: '프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요' });
             throw new Error('프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요.');
         }
+        if(util.isFutureDate(projectStartDate)){
+            res.status.send({error: '미래의 프로젝트 시작일자는 입력할 수 없습니다.'});
+            throw new Error('미래의 프로젝트 시작일자는 입력할 수 없습니다.');
+        }
+        if(util.isFutureDate(projectEndDate)){
+            res.status.send({error: '미래의 프로젝트 종료일자는 입력할 수 없습니다.'});
+            throw new Error('미래의 프로젝트 종료일자는 입력할 수 없습니다.');
+        }
 
         const newProject = { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink };
         const projects = await projectService.findAll({ userId });
