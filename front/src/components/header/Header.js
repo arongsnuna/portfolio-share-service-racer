@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import { UserStateContext, DispatchContext } from '../../App';
 
 function Header() {
@@ -24,25 +24,17 @@ function Header() {
     };
 
     return (
-        <Nav activeKey={location.pathname}>
-            <Nav.Item className='me-auto mb-5'>
-                <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link onClick={() => navigate('/wanted')}>팀원구하기</Nav.Link>
-            </Nav.Item>
-            {isLogin && (
-                <Nav.Item>
-                    <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-                </Nav.Item>
-            )}
-        </Nav>
+        <Navbar bg='light' variant='light' className='mb-3'>
+            <Container>
+                <Navbar.Brand href='#home'>ForeFolio</Navbar.Brand>
+                <Nav className='me-auto'>
+                    <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
+                    <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
+                    <Nav.Link onClick={() => navigate('/wanted')}>팀원구하기</Nav.Link>
+                    {isLogin && <Nav.Link onClick={logout}>로그아웃</Nav.Link>}
+                </Nav>
+            </Container>
+        </Navbar>
     );
 }
 
