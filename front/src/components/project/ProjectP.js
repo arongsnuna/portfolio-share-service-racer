@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 
 function ProjectP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
-    const { isEditable } = isFlag;
+    const { isEditable, isToggle, isEdit } = isFlag;
 
     return (
         <div>
@@ -22,7 +22,8 @@ function ProjectP({ pSendFunction, isFlag, item }) {
                 <Button
                     className='position-absolute top-60 start-50 translate-middle'
                     variant='outline-info'
-                    onClick={() => handleEdit(item._id)}>
+                    onClick={() => handleEdit(item._id)}
+                    disabled={isToggle || isEdit ? true : false}>
                     편집
                 </Button>
             )}

@@ -57,7 +57,6 @@ function WantedUpdate() {
 
     const fetchCommentList = useCallback(async () => {
         try {
-            console.log('여기 탄다');
             const res = await Api.get(`comment/${wanted._id}`);
             setCommentList(res.data);
             setIsSave(false);

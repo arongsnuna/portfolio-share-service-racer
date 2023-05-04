@@ -11,8 +11,24 @@ certRouter.get('/', async (req, res, next) => {
 
     try {
         const certs = await certService.findAll({ userId });
-        if (!certs){
-            res.status(400).send({error: '유저의 자격증 정보가 존재하지 않습니다.'})
+        if (!certs) {
+            res.status(400).send({ error: '유저의 자격증 정보가 존재하지 않습니다.' });
+            throw new Error(`${userId} 유저의 자격증 정보가 존재하지 않습니다.`);
+        }
+        res.status(200).json(certs);
+    } catch (error) {
+        next(error);
+    }
+});
+
+//특정 유저 자격증 조회
+certRouter.get('/:userId', async (req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+        const certs = await certService.findAll({ userId });
+        if (!certs) {
+            res.status(400).send({ error: '유저의 자격증 정보가 존재하지 않습니다.' });
             throw new Error(`${userId} 유저의 자격증 정보가 존재하지 않습니다.`);
         }
         res.status(200).json(certs);
@@ -31,22 +47,21 @@ certRouter.post('/', async (req, res, next) => {
         const userId = req.currentUserId;
         const { certName, certAcDate } = req.body;
 
-
         if (!certName || !certAcDate) {
-            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'});
+            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
         if (!util.regexp(certAcDate)) {
-            res.status(400).send({error: '취득일자 값을 확인해주세요'});
+            res.status(400).send({ error: '취득일자 값을 확인해주세요' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
         const newCert = { certName, certAcDate };
         const certs = await certService.findAll({ userId });
         const certExists = certs.some((cert) => cert.certName === newCert.certName);
-        if (certExists ){
-            res.status(400).send({error: `${newCert.certName} 자격증은 이미 존재합니다.`})
+        if (certExists) {
+            res.status(400).send({ error: `${newCert.certName} 자격증은 이미 존재합니다.` });
             throw new Error(`${newCert.certName} 자격증은 이미 존재합니다.`);
         }
 
@@ -69,26 +84,26 @@ certRouter.put('/:certId', async (req, res, next) => {
         const { certName, certAcDate } = req.body;
 
         if (!certName || !certAcDate) {
-            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'});
+            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
         if (!util.regexp(certAcDate)) {
-            res.status(400).send({error: '취득일자 값을 확인해주세요'});
+            res.status(400).send({ error: '취득일자 값을 확인해주세요' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
         const cert = await certService.findOne({ certId });
-        if(!cert){
-            res.status(400).send({error: '이 자격증 정보는 존재하지 않습니다.'});
+        if (!cert) {
+            res.status(400).send({ error: '이 자격증 정보는 존재하지 않습니다.' });
             throw new Error('이 자격증 정보는 존재하지 않습니다.');
         }
 
         const newCert = { certName, certAcDate };
         const exceptCerts = await certService.findExcept({ userId, certId });
-        const certExists = exceptCerts.some((cert)=> cert.certtName === newCert.certName);
-        if (certExists){
-            res.status(400).send({error: `${newCert.certName} 프로젝트는 이미 존재합니다.`})
+        const certExists = exceptCerts.some((cert) => cert.certName === newCert.certName);
+        if (certExists) {
+            res.status(400).send({ error: `${newCert.certName} 프로젝트는 이미 존재합니다.` });
             throw new Error(`${newCert.certName} 프로젝트는 이미 존재합니다.`);
         }
 
@@ -105,9 +120,9 @@ certRouter.delete('/:certId', async (req, res, next) => {
         const userId = req.currentUserId;
         const { certId } = req.params;
 
-        const cert = await certService.findOne({certId})
-        if(!cert){
-            res.status(400).send({error: '이 자격증 정보는 존재하지 않습니다.'})
+        const cert = await certService.findOne({ certId });
+        if (!cert) {
+            res.status(400).send({ error: '이 자격증 정보는 존재하지 않습니다.' });
             throw new Error('이 자격증 정보는 존재하지 않습니다.');
         }
         const deletedCert = await certService.deleteCert({ userId, certId });

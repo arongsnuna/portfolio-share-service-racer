@@ -81,8 +81,8 @@ function WantedCreate() {
                 <Button variant='primary' className='me-3' onClick={() => handleSubmit()}>
                     게시글 작성
                 </Button>
-                <Button variant='danger' onClick={() => navigate('/wanted')}>
-                    게시글 취소
+                <Button variant='secondary' onClick={() => navigate('/wanted')}>
+                    취소
                 </Button>
             </Col>
         </Container>

@@ -22,11 +22,11 @@ commentRouter.post('/:wantedId', async (req, res, next) => {
         }
         const userId = req.currentUserId;
         const { wantedId } = req.params;
-        const { commentContent } = req.body;
-        const newComment = { commentContent };
+        const { commentSaveContent } = req.body;
+        const newComment = { commentSaveContent };
 
-        if (!commentContent) {
-            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
+        if (!commentSaveContent) {
+            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
@@ -49,18 +49,18 @@ commentRouter.put('/:commentId', async (req, res, next) => {
         const { commentContent } = req.body;
         const newComment = { commentContent };
 
-        const comment = await commentService.findComment({ commentId })
-        if(!comment){
-            res.status(400).send({error: '이 댓글은 존재하지 않습니다.'})
+        const comment = await commentService.findComment({ commentId });
+        if (!comment) {
+            res.status(400).send({ error: '이 댓글은 존재하지 않습니다.' });
             throw new Error(`이 댓글은 존재하지 않습니다.`);
         }
 
         if (!commentContent) {
-            res.status(400).send({error: '모든 값을 입력했는지 확인해주세요.'})
-            throw new Error('모든 값을 입력했는지 확인해주세요.');    
+            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
+            throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
         const updatedComment = await commentService.updateComment({ userId, commentId, newComment });
-        console.log(updatedComment)
+        console.log(updatedComment);
         res.status(200).json(updatedComment);
     } catch (error) {
         next(error);
@@ -73,9 +73,9 @@ commentRouter.delete('/:commentId', async (req, res, next) => {
         const userId = req.currentUserId;
         const { commentId } = req.params;
 
-        const comment = await commentService.findComment({ commentId })
-        if(!comment){
-            res.status(400).send({error: '이 댓글은 존재하지 않습니다.'})
+        const comment = await commentService.findComment({ commentId });
+        if (!comment) {
+            res.status(400).send({ error: '이 댓글은 존재하지 않습니다.' });
             throw new Error(`이 댓글은 존재하지 않습니다.`);
         }
 

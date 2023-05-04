@@ -9,6 +9,7 @@ import Award from '../../components/award/Award';
 import Education from '../../components/education/Education';
 import Certificate from '../../components/certificate/Certificate';
 import Project from '../../components/project/Project';
+import Stack from '../../components/stack/Stack';
 
 function Portfolio() {
     const navigate = useNavigate();
@@ -77,13 +78,13 @@ function Portfolio() {
                         <div className='mb-3'>
                             <Award
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === userState.user?.id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                             />
                         </div>
                         <div className='mb-3'>
                             <Education
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === userState.user?.id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                             />
                         </div>
                         <div className='mb-3'>
@@ -95,7 +96,13 @@ function Portfolio() {
                         <div className='mb-3'>
                             <Project
                                 portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === userState.user?.id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
+                        </div>
+                        <div className='mb-3'>
+                            <Stack
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                             />
                         </div>
                     </div>

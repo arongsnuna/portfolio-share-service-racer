@@ -53,13 +53,13 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     const fetchEducation = async (ownerId) => {
         try {
             // "/edu" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
-            const res = await Api.get('edu');
+            const res = await Api.get(`edu/${ownerId.userId}`);
             // 사용자 정보는 response의 data임.
             const ownerData = res.data;
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            if(err.response.status === 400){
+            if (err.response.status === 400) {
                 alert(err.response.data.error);
             }
             console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
@@ -73,38 +73,30 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
         if (item === undefined || item.isSave === false) {
             try {
-                if (!isDateValid) {
-                    throw new Error('입학날짜보다 졸업일자가 이전입니다.');
-                }
+                // "/edu" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
+                await Api.post(`edu/`, {
+                    eduSchool,
+                    eduMajor,
+                    eduEnterDate,
+                    eduGraduateDate,
+                    eduDegree,
+                });
 
-                try {
-                    // "/edu" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
-                    await Api.post(`edu/`, {
-                        eduSchool,
-                        eduMajor,
-                        eduEnterDate,
-                        eduGraduateDate,
-                        eduDegree,
-                    });
+                setIsToggle(false);
+                setIsEdit(false);
 
-                    setIsToggle(false);
-                    setIsEdit(false);
+                fetchEducation({ userId });
 
-                    fetchEducation({ userId });
-
-                    setEduSchool('');
-                    setEduMajor('');
-                    setEduEnterDate('');
-                    setEduGraduateDate('');
-                    setEduDegree('');
-                } catch (err) {
-                    if(err.response.status === 400){
-                        alert(err.response.data.error);
-                    }
-                    console.log('학위 추가에 실패하였습니다.', err);
-                }
+                setEduSchool('');
+                setEduMajor('');
+                setEduEnterDate('');
+                setEduGraduateDate('');
+                setEduDegree('');
             } catch (err) {
-                console.log(err);
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
+                console.log('학위 추가에 실패하였습니다.', err);
             }
         } else {
             try {
@@ -122,7 +114,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchEducation({ userId });
             } catch (err) {
-                if(err.response.status === 400){
+                if (err.response.status === 400) {
                     alert(err.response.data.error);
                 }
                 console.log('학위 수정에 실패하였습니다.', err);
@@ -172,7 +164,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
-            if(err.response.status === 400){
+            if (err.response.status === 400) {
                 alert(err.response.data.error);
             }
             console.log('학위 삭제에 실패하였습니다.', err);
@@ -196,7 +188,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     const formSendcurrentData = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree, currentEditId };
     const formSendisFlag = { isDateValid };
     const pSendFunction = { handleEdit };
-    const pSendisFlag = { isEditable };
+    const pSendisFlag = { isEditable, isToggle, isEdit };
 
     return (
         <div>

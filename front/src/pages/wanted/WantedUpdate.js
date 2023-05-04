@@ -30,8 +30,6 @@ function WantedUpdate() {
                 wantedTitle,
                 wantedContent,
             });
-
-            navigate('/wanted');
         } catch (err) {
             if (err.response.status === 400) {
                 alert(err.response.data.error);
@@ -101,7 +99,13 @@ function WantedUpdate() {
             </Row>
             <Row>
                 <Col className='d-flex justify-content-center'>
-                    <Button variant='primary' className='me-3' onClick={() => handleEdit()}>
+                    <Button
+                        variant='primary'
+                        className='me-3'
+                        onClick={() => {
+                            handleEdit();
+                            navigate('/wanted/read', { state: { wanted: wanted } });
+                        }}>
                         게시글 편집
                     </Button>
                     <Button variant='danger' className='me-3' onClick={() => handleDelete()}>

@@ -34,7 +34,7 @@ function Network() {
         <Container fluid>
             <Row xs='auto' className='jusify-content-center'>
                 {users.map((user) => (
-                    <React.Fragment key={user.id}>
+                    <React.Fragment key={user._id}>
                         {user.userImage ? (
                             <UserCard user={user} isNetwork userImageUrl={user.userImage.imageUri} />
                         ) : (

@@ -1,6 +1,6 @@
 import { UserModel } from '../schemas/user';
 import { CommentModel } from '../schemas/comment';
-import { util } from '../../utils/util'
+import { util } from '../../utils/util';
 import { WantedModel } from '../schemas/wanted';
 class Comment {
     // 게시물에 달린 모든 댓글 조회
@@ -16,17 +16,18 @@ class Comment {
     }
 
     // 댓글 추가
-    static async create({ userId, wantedId, commentContent }) { 
+    static async create({ userId, wantedId, commentSaveContent }) {
         const user = await UserModel.findOne({ _id: userId });
-
-        const createdComment = await CommentModel.create({ wantedId,
+        const commentContent = commentSaveContent;
+        const createdComment = await CommentModel.create({
+            wantedId,
             commentContent,
             userId: user._id,
             userName: user.name,
             userImageUri: user.userImage.imageUri ? user.userImage.imageUri : null,
-        })
+        });
 
-        return createdComment
+        return createdComment;
     }
 
     // 댓글 수정

@@ -1,246 +1,246 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
-import * as Api from "../../api";
+import * as Api from '../../api';
 
-import AwardForm from "./AwardForm";
-import AwardP from "./AwardP";
+import AwardForm from './AwardForm';
+import AwardP from './AwardP';
 
 function AwardDetail({ portfolioOwnerId, isEditable }) {
-  const [dbItem, setDbItem] = useState([]);
-  const [isToggle, setIsToggle] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [currentEditId, setcurrentEditId] = useState("");
+    const [dbItem, setDbItem] = useState([]);
+    const [isToggle, setIsToggle] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [currentEditId, setcurrentEditId] = useState('');
 
-  const [awardName, setAwardName] = useState("");
-  const [awardDate, setAwardDate] = useState("");
-  const [awardInstitution, setAwardInstitution] = useState("");
-  const [awardDescription, setAwardDescription] = useState("");
+    const [awardName, setAwardName] = useState('');
+    const [awardDate, setAwardDate] = useState('');
+    const [awardInstitution, setAwardInstitution] = useState('');
+    const [awardDescription, setAwardDescription] = useState('');
 
-  const onChangeName = (e) => {
-    setAwardName(e.target.value);
-  };
+    const onChangeName = (e) => {
+        setAwardName(e.target.value);
+    };
 
-  const onChangeDate = (e) => {
-    setAwardDate(e.target.value);
-  };
+    const onChangeDate = (e) => {
+        setAwardDate(e.target.value);
+    };
 
-  const onChangeInstitution = (e) => {
-    setAwardInstitution(e.target.value);
-  };
+    const onChangeInstitution = (e) => {
+        setAwardInstitution(e.target.value);
+    };
 
-  const onChangeDescription = (e) => {
-    setAwardDescription(e.target.value);
-  };
+    const onChangeDescription = (e) => {
+        setAwardDescription(e.target.value);
+    };
 
-  const AddInput = () => {
-    setIsToggle(true);
+    const AddInput = () => {
+        setIsToggle(true);
 
-    setAwardName("");
-    setAwardDate("");
-    setAwardInstitution("");
-    setAwardDescription("");
-  };
+        setAwardName('');
+        setAwardDate('');
+        setAwardInstitution('');
+        setAwardDescription('');
+    };
 
-  const fetchAward = async (ownerId) => {
-    try {
-      const res = await Api.get("award");
-      const ownerData = res.data;
-      setDbItem(ownerData);
-    } catch (err) {
-      if (err.respone.status === 400) {
-        alert(err.response.data.error);
-      }
-      console.log("DB 불러오기를 실패하였습니다.", err);
-    }
-  };
-
-  const userId = portfolioOwnerId;
-
-  const handleSubmit = async (id) => {
-    const item = dbItem.filter((item) => item._id === id)[0];
-
-    if (item === undefined || item.isSave === false) {
-      try {
-        await Api.post(`award/`, {
-          awardName,
-          awardDate,
-          awardInstitution,
-          awardDescription,
-        });
-
-        setIsToggle(false);
-        setIsEdit(false);
-
-        fetchAward({ userId });
-
-        setAwardName("");
-        setAwardDate("");
-        setAwardInstitution("");
-        setAwardDescription("");
-      } catch (err) {
-        if (err.response.status === 400) {
-          alert(err.response.data.error);
+    const fetchAward = async (ownerId) => {
+        try {
+            const res = await Api.get(`award/${ownerId.userId}`);
+            const ownerData = res.data;
+            setDbItem(ownerData);
+        } catch (err) {
+            if (err.respone.status === 400) {
+                alert(err.response.data.error);
+            }
+            console.log('DB 불러오기를 실패하였습니다.', err);
         }
-        console.log("수상이력 추가에 실패하였습니다.", err);
-      }
-    } else {
-      try {
-        await Api.put(`award/${item._id}`, {
-          awardName,
-          awardDate,
-          awardInstitution,
-          awardDescription,
-        });
+    };
 
-        setIsToggle(false);
-        setIsEdit(false);
+    const userId = portfolioOwnerId;
 
-        fetchAward({ userId });
-      } catch (err) {
-        console.log("수상이력 수정에 실패하였습니다.", err);
-      }
-    }
-  };
+    const handleSubmit = async (id) => {
+        const item = dbItem.filter((item) => item._id === id)[0];
 
-  const handleEdit = (id) => {
-    setDbItem((prevItems) => {
-      return prevItems.map((item) => {
-        if (item._id === id) {
-          return {
-            ...item,
-            isEdit: true,
-          };
+        if (item === undefined || item.isSave === false) {
+            try {
+                await Api.post(`award/`, {
+                    awardName,
+                    awardDate,
+                    awardInstitution,
+                    awardDescription,
+                });
+
+                setIsToggle(false);
+                setIsEdit(false);
+
+                fetchAward({ userId });
+
+                setAwardName('');
+                setAwardDate('');
+                setAwardInstitution('');
+                setAwardDescription('');
+            } catch (err) {
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
+                console.log('수상이력 추가에 실패하였습니다.', err);
+            }
         } else {
-          return item;
+            try {
+                await Api.put(`award/${item._id}`, {
+                    awardName,
+                    awardDate,
+                    awardInstitution,
+                    awardDescription,
+                });
+
+                setIsToggle(false);
+                setIsEdit(false);
+
+                fetchAward({ userId });
+            } catch (err) {
+                console.log('수상이력 수정에 실패하였습니다.', err);
+            }
         }
-      });
-    });
+    };
 
-    const item = dbItem.filter((item) => item._id === id)[0];
-    setAwardName(item.awardName);
-    setAwardDate(item.awardDate);
-    setAwardInstitution(item.awardInstitution);
-    setAwardDescription(item.awardDescription);
+    const handleEdit = (id) => {
+        setDbItem((prevItems) => {
+            return prevItems.map((item) => {
+                if (item._id === id) {
+                    return {
+                        ...item,
+                        isEdit: true,
+                    };
+                } else {
+                    return item;
+                }
+            });
+        });
 
-    setcurrentEditId(item._id);
-    setIsEdit(true);
-  };
+        const item = dbItem.filter((item) => item._id === id)[0];
+        setAwardName(item.awardName);
+        setAwardDate(item.awardDate);
+        setAwardInstitution(item.awardInstitution);
+        setAwardDescription(item.awardDescription);
 
-  const handleCancel = () => {
-    fetchAward({ userId });
+        setcurrentEditId(item._id);
+        setIsEdit(true);
+    };
 
-    setIsToggle(false);
-    setIsEdit(false);
-  };
+    const handleCancel = () => {
+        fetchAward({ userId });
 
-  const handleDelete = async (id) => {
-    try {
-      await Api.delete(`award/${id}`);
+        setIsToggle(false);
+        setIsEdit(false);
+    };
 
-      fetchAward({ userId });
+    const handleDelete = async (id) => {
+        try {
+            await Api.delete(`award/${id}`);
 
-      setIsToggle(false);
-      setIsEdit(false);
-    } catch (err) {
-      if (err.response.status === 400) {
-        alert(err.response.data.error);
-      }
-      console.log("수상이력 삭제에 실패하였습니다.", err);
-    }
-  };
+            fetchAward({ userId });
 
-  useEffect(() => {
-    fetchAward({ userId });
-  }, [userId]);
+            setIsToggle(false);
+            setIsEdit(false);
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+            console.log('수상이력 삭제에 실패하였습니다.', err);
+        }
+    };
 
-  const formSendFunction = {
-    handleSubmit,
-    handleCancel,
-    handleDelete,
-    onChangeName,
-    onChangeDate,
-    onChangeInstitution,
-    onChangeDescription,
-  };
-  const formSendcurrentData = { awardName, awardDate, awardInstitution, awardDescription, currentEditId };
-  const pSendFunction = { handleEdit };
-  const pSendisFlag = { isEditable };
+    useEffect(() => {
+        fetchAward({ userId });
+    }, [userId]);
 
-  return (
-    <div>
-      {dbItem.map((item) => (
-        <div key={item._id}>
-          {item.isSave === true && item.isEdit === false ? (
-            <AwardP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
-          ) : (
-            <AwardForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
-          )}
-        </div>
-      ))}
-      {isToggle === true ? (
+    const formSendFunction = {
+        handleSubmit,
+        handleCancel,
+        handleDelete,
+        onChangeName,
+        onChangeDate,
+        onChangeInstitution,
+        onChangeDescription,
+    };
+    const formSendcurrentData = { awardName, awardDate, awardInstitution, awardDescription, currentEditId };
+    const pSendFunction = { handleEdit };
+    const pSendisFlag = { isEditable, isToggle, isEdit };
+
+    return (
         <div>
-          <div className="mb-2">
-            <Form.Control
-              style={{ width: "100%" }}
-              type="text"
-              placeholder="수상명"
-              value={awardName}
-              onChange={onChangeName}
-            />
-          </div>
-          <div className="mb-2">
-            <Form.Control
-              style={{ width: "100%" }}
-              type="date"
-              placeholder="수상일자"
-              value={awardDate}
-              onChange={onChangeDate}
-            />
-          </div>
-          <div className="mb-2">
-            <Form.Control
-              style={{ width: "100%" }}
-              type="text"
-              placeholder="수상기관"
-              value={awardInstitution}
-              onChange={onChangeInstitution}
-            />
-          </div>
-          <div className="mb-2">
-            <Form.Control
-              style={{ width: "100%" }}
-              type="text"
-              placeholder="수여내용"
-              value={awardDescription}
-              onChange={onChangeDescription}
-            />
-          </div>
-          <div className="mb-3 text-center">
-            <React.Fragment>
-              <Button className="me-3" variant="primary" onClick={() => handleSubmit()}>
-                확인
-              </Button>
-              <Button variant="secondary" onClick={() => handleCancel()}>
-                취소
-              </Button>
-            </React.Fragment>
-          </div>
+            {dbItem.map((item) => (
+                <div key={item._id}>
+                    {item.isSave === true && item.isEdit === false ? (
+                        <AwardP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
+                    ) : (
+                        <AwardForm formSendFunction={formSendFunction} currentData={formSendcurrentData} item={item} />
+                    )}
+                </div>
+            ))}
+            {isToggle === true ? (
+                <div>
+                    <div className='mb-2'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='수상명'
+                            value={awardName}
+                            onChange={onChangeName}
+                        />
+                    </div>
+                    <div className='mb-2'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='date'
+                            placeholder='수상일자'
+                            value={awardDate}
+                            onChange={onChangeDate}
+                        />
+                    </div>
+                    <div className='mb-2'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='수상기관'
+                            value={awardInstitution}
+                            onChange={onChangeInstitution}
+                        />
+                    </div>
+                    <div className='mb-2'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='수여내용'
+                            value={awardDescription}
+                            onChange={onChangeDescription}
+                        />
+                    </div>
+                    <div className='mb-3 text-center'>
+                        <React.Fragment>
+                            <Button className='me-3' variant='primary' onClick={() => handleSubmit()}>
+                                확인
+                            </Button>
+                            <Button variant='secondary' onClick={() => handleCancel()}>
+                                취소
+                            </Button>
+                        </React.Fragment>
+                    </div>
+                </div>
+            ) : (
+                ''
+            )}
+            {isEditable && (
+                <div className='mb-3 text-center'>
+                    {dbItem.length < 10 && (
+                        <Button variant='primary' onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
+                            +
+                        </Button>
+                    )}
+                </div>
+            )}
         </div>
-      ) : (
-        ""
-      )}
-      {isEditable && (
-        <div className="mb-3 text-center">
-          {dbItem.length < 10 && (
-            <Button variant="primary" onClick={AddInput} disabled={isToggle || isEdit ? true : false}>
-              +
-            </Button>
-          )}
-        </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default AwardDetail;

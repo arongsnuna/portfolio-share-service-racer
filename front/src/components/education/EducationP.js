@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 // EducationItem -> 컴포넌트 명을 보고 어떤 컴포넌트인지 파악하기 쉽게
 function EducationP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
-    const { isEditable } = isFlag;
+    const { isEditable, isToggle, isEdit } = isFlag;
 
     return (
         <div>
@@ -24,7 +24,8 @@ function EducationP({ pSendFunction, isFlag, item }) {
                 <Button
                     className='position-absolute top-60 start-50 translate-middle'
                     variant='outline-info'
-                    onClick={() => handleEdit(item._id)}>
+                    onClick={() => handleEdit(item._id)}
+                    disabled={isToggle || isEdit ? true : false}>
                     편집
                 </Button>
             )}
