@@ -54,10 +54,15 @@ eduRouter.post('/', async (req, res, next) => {
             res.status(400).send({ error: '입학일자 값을 확인해주세요.' });
             throw new Error('입학일자 값을 확인해주세요.');
         }
+        if(util.isFutureDate(eduEnterDate)){
+            res.status(400).send({ error: '미래의 입학일자를 입력할 수 없습니다.' });
+            throw new Error('미래의 입학일자를 입력할 수 없습니다.');
+        }
         if (!util.regexp(eduGraduateDate)) {
             res.status(400).send({ error: '졸업일자 값을 확인해주세요.' });
             throw new Error('졸업일자 값을 확인해주세요.');
         }
+        // 미래의 졸업일자는 입력가능
         const isDateValid = eduEnterDate < eduGraduateDate;
 
         if (!isDateValid) {
