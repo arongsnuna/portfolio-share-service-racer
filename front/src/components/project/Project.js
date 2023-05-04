@@ -1,15 +1,15 @@
 import React from 'react';
 import { Card, Row } from 'react-bootstrap';
-import EducationDetail from './EducationDetail';
+import ProjectDetail from './ProjectDetail';
 
-function EducationCreate({ portfolioOwnerId }) {
+function CertificateCreate({ portfolioOwnerId, isEditable }) {
     return (
         <Card className='ms-3' style={{ width: '100%' }}>
-            <Card.Title className='ms-3 mt-3'>학력</Card.Title>
+            <Card.Title className='ms-3 mt-3'>프로젝트</Card.Title>
             <Card.Body>
                 <Row>
                     <div>
-                        <EducationDetail portfolioOwnerId={portfolioOwnerId} />
+                        <ProjectDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                     </div>
                 </Row>
             </Card.Body>
@@ -17,4 +17,4 @@ function EducationCreate({ portfolioOwnerId }) {
     );
 }
 
-export default EducationCreate;
+export default CertificateCreate;

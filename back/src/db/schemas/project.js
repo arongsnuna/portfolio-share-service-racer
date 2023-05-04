@@ -1,26 +1,22 @@
 import { Schema, model } from 'mongoose';
 
-const AwardSchema = new Schema(
+const ProjectSchema = new Schema(
     {
-        awardName: {
+        projectName: {
             type: String,
             required: true,
         },
-        awardDate: {
+        projectStartDate: {
             type: String,
             required: true,
         },
-        awardInstitution: {
+        projectEndDate: {
             type: String,
             required: true,
         },
-        awardDescription: {
+        projectDescription: {
             type: String,
             required: true,
-        },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
         },
         isSave: {
             type: Boolean,
@@ -30,12 +26,16 @@ const AwardSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
     },
     {
         timestamps: true,
     }
 );
 
-const AwardModel = model('Award', AwardSchema);
+const ProjectModel = model('Project', ProjectSchema);
 
-export { AwardModel, AwardSchema };
+export { ProjectModel, ProjectSchema };

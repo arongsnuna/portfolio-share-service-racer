@@ -2,22 +2,15 @@ import { Schema, model } from 'mongoose';
 
 const CertSchema = new Schema(
     {
-        id: {
-            type: String,
-            required: true,
-        },
         certName: {
             type: String,
             required: true,
         },
-        certAcdate: {
+        certAcDate: {
             type: String,
             required: true,
         },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-        },
+
         isSave: {
             type: Boolean,
             default: true,
@@ -25,6 +18,10 @@ const CertSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     },
     {

@@ -41,7 +41,7 @@ userAuthRouter.post('/user/login', async function (req, res, next) {
 
         // 위 데이터를 이용하여 유저 db에서 유저 찾기
         const user = await userAuthService.getUser({ email, password });
-        console.log(user);
+
         if (user.errorMessage) {
             throw new Error(user.errorMessage);
         }
@@ -66,6 +66,7 @@ userAuthRouter.get('/user/current', login_required, async function (req, res, ne
     try {
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const user_id = req.currentUserId;
+
         const currentUserInfo = await userAuthService.getUserInfo({
             user_id,
         });

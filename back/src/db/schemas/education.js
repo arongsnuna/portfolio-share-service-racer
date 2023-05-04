@@ -10,21 +10,17 @@ const EducationSchema = new Schema(
             type: String,
             required: true,
         },
-        eduStart: {
+        eduEnterDate: {
             type: String,
             required: true,
         },
-        eduEnd: {
+        eduGraduateDate: {
             type: String,
             required: true,
         },
         eduDegree: {
             type: String,
             required: true,
-        },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
         },
         isSave: {
             type: Boolean,
@@ -33,6 +29,10 @@ const EducationSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         },
     },
     {
