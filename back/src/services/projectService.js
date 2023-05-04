@@ -6,21 +6,19 @@ class projectService {
         const projects = await Project.findAll({ userId });
         return projects;
     }
-    
+
     // 특정 프로젝트 정보 조회
-    static async findOne({ projectId }){
+    static async findOne({ projectId }) {
         const project = await Project.findById({ projectId });
         return project;
     }
 
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
-    static async findExcept({ userId, projectId }){
+    static async findExcept({ userId, projectId }) {
         const projects = await Project.findAll({ userId });
-        const exceptProjects = projects.filter((project)=>project.projectId === projectId);
+        const exceptProjects = projects.filter((project) => project._id === projectId);
         return exceptProjects;
     }
-
-
 
     // 유저의 개별 프로젝트 정보 추가
     static async createProject({ userId, newProject }) {

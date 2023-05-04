@@ -24,7 +24,6 @@ awardRouter.get('/', async (req, res, next) => {
 //특정 유저 수상내역 조회
 awardRouter.get('/:userId', async (req, res, next) => {
     const { userId } = req.params;
-    console.log(userId);
 
     try {
         const awards = await awardService.findAll({ userId });

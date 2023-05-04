@@ -69,7 +69,7 @@ function Wanted() {
                             action
                             key={item._id}
                             as='li'
-                            className='d-flex justify-content-between align-items-start '
+                            className='d-flex justify-content-between align-items-start'
                             onClick={() => navigate('/wanted/read', { state: { wanted: item } })}>
                             <div className='ms-2 me-auto'>
                                 <div className='fw-bold'>{item.wantedTitle}</div>

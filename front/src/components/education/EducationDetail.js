@@ -264,7 +264,6 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                             type='radio'
                             value='휴학'
                             checked={eduDegree === '휴학'}
-                            ㅌㅈ
                             onChange={onChangeDegree}
                         />
                         <Form.Check

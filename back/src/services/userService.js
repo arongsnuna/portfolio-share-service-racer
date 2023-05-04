@@ -1,6 +1,5 @@
-import { User } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Comment } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
 class userAuthService {
@@ -79,9 +78,10 @@ class userAuthService {
             const errorMessage = '가입 내역이 없습니다. 다시 한 번 확인해 주세요.';
             return { errorMessage };
         }
-        // toUpdate -> name, email, password, description, gitLink, userImage
-        for (const [key, value] of Object.entries(toUpdate)){
-            user = await User.update({ userId, key, value});
+        // toUpdate -> name, email, description, gitLink, userImage
+        for (const [fieldToUpdate, newValue] of Object.entries(toUpdate)) {
+            user = await User.update({ userId, fieldToUpdate, newValue });
+            await Comment.updateUser({ userId, fieldToUpdate, newValue });
         }
 
         return user;

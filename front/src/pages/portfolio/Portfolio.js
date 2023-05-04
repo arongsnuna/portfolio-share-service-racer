@@ -67,13 +67,13 @@ function Portfolio() {
     return (
         <Container>
             <Row xs='auto'>
-                <Col className='mb-2'>
+                <Col xs className='mb-2'>
                     <User
                         portfolioOwnerId={portfolioOwner.userInfo._id}
                         isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                     />
                 </Col>
-                <Col xs={8}>
+                <Col xs md={8}>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
                             <Award

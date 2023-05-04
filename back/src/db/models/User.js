@@ -29,18 +29,8 @@ class User {
     static async update({ userId, fieldToUpdate, newValue }) {
         const filter = { _id: userId };
 
-        let update = {};
-        if (fieldToUpdate !== 'imageInfo') {
-            update = { [fieldToUpdate]: newValue };
-        } else {
-            update = {
-                [fieldToUpdate]: {
-                    contentType: newValue.userImage.mimetype,
-                    imageUri: newValue.imageUri,
-                    filename: newValue.userImage.filename,
-                },
-            };
-        }
+        let update = { [fieldToUpdate]: newValue };
+
         const option = { returnOriginal: false };
 
         const updatedUser = await UserModel.findOneAndUpdate(filter, update, option);

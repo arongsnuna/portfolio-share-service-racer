@@ -71,7 +71,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                         <Form.Control
                             type='text'
                             placeholder='Git 주소'
-                            value={gitLink}
+                            value={gitLink === 'undefined' && ''}
                             onChange={(e) => setGitLink(e.target.value)}
                         />
                     </Form.Group>

@@ -49,6 +49,28 @@ class Comment {
         const deletedComments = await CommentModel.deleteMany({ wantedId });
         return deletedComments;
     }
+
+    static async updateUser({ userId, fieldToUpdate, newValue }) {
+        const user = await UserModel.findOne({ _id: userId });
+
+        let update = {};
+
+        if (fieldToUpdate === 'name') {
+            update = { userName: newValue };
+            const option = { returnOriginal: false };
+
+            await CommentModel.updateMany({ userId: user._id }, update, option);
+        }
+
+        if (fieldToUpdate === 'userImage') {
+            update = {
+                userImageUri: newValue.imageUri,
+            };
+            const option = { returnOriginal: false };
+
+            await CommentModel.updateMany({ userId: user._id }, update, option);
+        }
+    }
 }
 
 export { Comment };

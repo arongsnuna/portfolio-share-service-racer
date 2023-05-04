@@ -28,7 +28,7 @@ function WantedUpdate() {
     const { state } = useLocation();
     const { wanted } = state;
 
-    const isWantedEditable = userState.user._id ?? userState.user.id === wanted.userId;
+    const isWantedEditable = (userState.user._id ?? userState.user.id) === wanted.userId;
 
     const onChangeSaveComment = (e) => {
         setCommentSaveContent(e.target.value);
@@ -173,7 +173,7 @@ function WantedUpdate() {
         fetchWriterInfo();
         fetchCommentList();
     }, [userState, navigate, fetchWriterInfo, fetchCommentList]);
-    console.log(commentList);
+
     return (
         <Container>
             <Row xs='auto'>

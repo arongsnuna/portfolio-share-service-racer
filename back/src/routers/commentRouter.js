@@ -1,6 +1,7 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
 import { commentService } from '../services/commentService';
+
 const commentRouter = Router();
 
 //해당 게시글의 모든 댓글 조회
@@ -60,7 +61,7 @@ commentRouter.put('/:commentId', async (req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
         const updatedComment = await commentService.updateComment({ userId, commentId, newComment });
-        console.log(updatedComment);
+
         res.status(200).json(updatedComment);
     } catch (error) {
         next(error);

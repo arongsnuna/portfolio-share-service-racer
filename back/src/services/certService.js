@@ -7,15 +7,15 @@ class certService {
         return certs;
     }
     // 특정 자격증 정보 조회
-     static async findOne({ certId }){
+    static async findOne({ certId }) {
         const cert = await Cert.findById({ certId });
         return cert;
     }
 
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
-    static async findExcept({ userId, certId }){
+    static async findExcept({ userId, certId }) {
         const certs = await Cert.findAll({ userId });
-        const exceptCerts = certs.filter((cert)=>cert.certId === certId);
+        const exceptCerts = certs.filter((cert) => cert._id === certId);
         return exceptCerts;
     }
 
