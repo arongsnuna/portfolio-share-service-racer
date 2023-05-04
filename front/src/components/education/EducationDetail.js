@@ -250,11 +250,20 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     <div className='mb-2'>
                         <Form.Check
                             inline
-                            label='재학중'
+                            label='재학'
                             name='group1'
                             type='radio'
-                            value='재학중'
-                            checked={eduDegree === '재학중'}
+                            value='재학'
+                            checked={eduDegree === '재학'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='휴학'
+                            name='group1'
+                            type='radio'
+                            value='휴학'
+                            checked={eduDegree === '휴학'}
                             onChange={onChangeDegree}
                         />
                         <Form.Check

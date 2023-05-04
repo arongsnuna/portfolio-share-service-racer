@@ -57,11 +57,49 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
                 )}
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='학위'
-                    value={eduDegree}
+                <Form.Check
+                    inline
+                    label='재학'
+                    name='group1'
+                    type='radio'
+                    value='재학'
+                    checked={eduDegree === '재학'}
+                    onChange={onChangeDegree}
+                />
+                <Form.Check
+                    inline
+                    label='휴학'
+                    name='group1'
+                    type='radio'
+                    value='휴학'
+                    checked={eduDegree === '휴학'}
+                    onChange={onChangeDegree}
+                />
+                <Form.Check
+                    inline
+                    label='학사졸업'
+                    name='group1'
+                    type='radio'
+                    value='학사졸업'
+                    checked={eduDegree === '학사졸업'}
+                    onChange={onChangeDegree}
+                />
+                <Form.Check
+                    inline
+                    label='석사졸업'
+                    name='group1'
+                    type='radio'
+                    value='석사졸업'
+                    checked={eduDegree === '석사졸업'}
+                    onChange={onChangeDegree}
+                />
+                <Form.Check
+                    inline
+                    label='박사졸업'
+                    name='group1'
+                    type='radio'
+                    value='박사졸업'
+                    checked={eduDegree === '박사졸업'}
                     onChange={onChangeDegree}
                 />
             </div>
