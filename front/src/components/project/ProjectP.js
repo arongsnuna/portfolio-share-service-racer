@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 function ProjectP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
@@ -6,17 +6,32 @@ function ProjectP({ pSendFunction, isFlag, item }) {
 
     return (
         <div>
-            <p>
-                {item.projectName}
-                <br />
-                {item.projectStartDate}
-                <br />
-                {item.projectEndDate}
-                <br />
-                {item.projectDescription}
-                <br />
-                <a href={`https://${item.projectGitLink}`}>{item.projectGitLink}</a>
-            </p>
+            <Table bordered className='container-fluid'>
+                <tbody>
+                    <tr>
+                        <td className='col-1'>프로젝트 명</td>
+                        <td className='col-3'>{item.projectName}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>프로젝트 시작일자</td>
+                        <td className='col-3'>{item.projectStartDate}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>프로젝트 종료일자</td>
+                        <td className='col-3'>{item.projectEndDate}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>프로젝트 설명</td>
+                        <td className='col-3'>{item.projectDescription}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>프로젝트 GitLink</td>
+                        <td className='col-3'>
+                            <a href={`https://${item.projectGitLink}`}>{item.projectGitLink}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </Table>
             <br />
             {isEditable && (
                 <Button

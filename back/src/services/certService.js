@@ -1,4 +1,5 @@
-import { User, Cert } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Cert } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Types } from 'mongoose';
 
 class certService {
     // 유저의 전체 자격증 정보 조회
@@ -15,7 +16,7 @@ class certService {
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
     static async findExcept({ userId, certId }) {
         const certs = await Cert.findAll({ userId });
-        const exceptCerts = certs.filter((cert) => cert._id === certId);
+        const exceptCerts = certs.filter((cert) => Types.ObjectId(cert._id).toString() !== certId);
         return exceptCerts;
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 import * as Api from '../../api';
 
@@ -181,40 +181,48 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='text'
-                            placeholder='수상명'
-                            value={awardName}
-                            onChange={onChangeName}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='수상 명' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='수상명'
+                                value={awardName}
+                                onChange={onChangeName}
+                            />{' '}
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='date'
-                            placeholder='수상일자'
-                            value={awardDate}
-                            onChange={onChangeDate}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='수상 일자' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='date'
+                                placeholder='수상일자'
+                                value={awardDate}
+                                onChange={onChangeDate}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='text'
-                            placeholder='수상기관'
-                            value={awardInstitution}
-                            onChange={onChangeInstitution}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='수상기관' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='수상기관'
+                                value={awardInstitution}
+                                onChange={onChangeInstitution}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='text'
-                            placeholder='수여내용'
-                            value={awardDescription}
-                            onChange={onChangeDescription}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='수여내용' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='수여내용'
+                                value={awardDescription}
+                                onChange={onChangeDescription}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>

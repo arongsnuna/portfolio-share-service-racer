@@ -24,6 +24,7 @@ eduRouter.get('/', async (req, res, next) => {
 // 특정 유저 학력 정보 조회
 eduRouter.get('/:userId', async (req, res, next) => {
     const { userId } = req.params;
+
     try {
         const educations = await educationService.findAll({ userId });
         if (!educations) {
@@ -43,32 +44,49 @@ eduRouter.post('/', async (req, res, next) => {
             throw new Error('headers의 Context-Type을 application/json으로 설정해주세요');
         }
         const userId = req.currentUserId;
-        const { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree } = req.body;
-        const newEducation = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree };
+        let { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree } = req.body;
 
-        if (!eduSchool || !eduMajor || !eduEnterDate || !eduGraduateDate || !eduDegree) {
-            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        if (eduDegree === '재학' || eduDegree === '휴학') {
+            if (!eduSchool || !eduMajor || !eduEnterDate || !eduDegree) {
+                res.status(400).send({ error: '졸업일자를 제외한 모든 값을 입력했는지 확인해주세요.' });
+                throw new Error('졸업일자를 제외한 모든 값을 입력했는지 확인해주세요.');
+            }
+            eduGraduateDate = '';
+        } else {
+            if (!eduSchool || !eduMajor || !eduEnterDate || !eduGraduateDate || !eduDegree) {
+                res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
+                throw new Error('모든 값을 입력했는지 확인해주세요.');
+            }
         }
+
         if (!util.regexp(eduEnterDate)) {
             res.status(400).send({ error: '입학일자 값을 확인해주세요.' });
             throw new Error('입학일자 값을 확인해주세요.');
         }
-        if(util.isFutureDate(eduEnterDate)){
+        if (util.isFutureDate(eduEnterDate)) {
             res.status(400).send({ error: '미래의 입학일자를 입력할 수 없습니다.' });
             throw new Error('미래의 입학일자를 입력할 수 없습니다.');
         }
-        if (!util.regexp(eduGraduateDate)) {
-            res.status(400).send({ error: '졸업일자 값을 확인해주세요.' });
-            throw new Error('졸업일자 값을 확인해주세요.');
+        if (eduDegree !== '재학' && eduDegree !== '휴학') {
+            if (!util.regexp(eduGraduateDate)) {
+                res.status(400).send({ error: '졸업일자 값을 확인해주세요.' });
+                throw new Error('졸업일자 값을 확인해주세요.');
+            }
+            if (util.isFutureDate(eduGraduateDate)) {
+                res.status(400).send({ error: '미래의 졸업일자를 입력할 수 없습니다.' });
+                throw new Error('미래의 졸업일자를 입력할 수 없습니다.');
+            }
         }
+
         // 미래의 졸업일자는 입력가능
-        const isDateValid = eduEnterDate < eduGraduateDate;
+        const isDateValid = !eduGraduateDate || eduEnterDate < eduGraduateDate;
 
         if (!isDateValid) {
             res.status(400).send({ error: '입학날짜보다 졸업일자가 이전입니다.' });
             throw new Error('입학날짜보다 졸업일자가 이전입니다.');
         }
+
+        const newEducation = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree };
         const createdEducation = await educationService.createEducation({ userId, newEducation });
         res.status(201).json(createdEducation);
     } catch (error) {
@@ -91,19 +109,44 @@ eduRouter.put('/:educationId', async (req, res, next) => {
             throw new Error(`이 학력 정보는 존재하지 않습니다.`);
         }
 
-        const { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree } = req.body;
+        let { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree } = req.body;
 
-        if (!eduSchool || !eduMajor || !eduEnterDate || !eduGraduateDate || !eduDegree) {
-            res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
-            throw new Error('모든 값을 입력했는지 확인해주세요.');
+        if (eduDegree === '재학' || eduDegree === '휴학') {
+            if (!eduSchool || !eduMajor || !eduEnterDate || !eduDegree) {
+                res.status(400).send({ error: '졸업일자를 제외한 모든 값을 입력했는지 확인해주세요.' });
+                throw new Error('졸업일자를 제외한 모든 값을 입력했는지 확인해주세요.');
+            }
+            eduGraduateDate = '';
+        } else {
+            if (!eduSchool || !eduMajor || !eduEnterDate || !eduGraduateDate || !eduDegree) {
+                res.status(400).send({ error: '모든 값을 입력했는지 확인해주세요.' });
+                throw new Error('모든 값을 입력했는지 확인해주세요.');
+            }
         }
         if (!util.regexp(eduEnterDate)) {
             res.status(400).send({ error: '입학일자 값을 확인해주세요.' });
             throw new Error('입학일자 값을 확인해주세요.');
         }
-        if (!util.regexp(eduGraduateDate)) {
-            res.status(400).send({ error: '졸업일자 값을 확인해주세요.' });
-            throw new Error('졸업일자 값을 확인해주세요.');
+        if (util.isFutureDate(eduEnterDate)) {
+            res.status(400).send({ error: '미래의 입학일자를 입력할 수 없습니다.' });
+            throw new Error('미래의 입학일자를 입력할 수 없습니다.');
+        }
+        if (eduDegree !== '재학' && eduDegree !== '휴학') {
+            if (!util.regexp(eduGraduateDate)) {
+                res.status(400).send({ error: '졸업일자 값을 확인해주세요.' });
+                throw new Error('졸업일자 값을 확인해주세요.');
+            }
+            if (util.isFutureDate(eduGraduateDate)) {
+                res.status(400).send({ error: '미래의 졸업일자를 입력할 수 없습니다.' });
+                throw new Error('미래의 졸업일자를 입력할 수 없습니다.');
+            }
+        }
+        // 미래의 졸업일자는 입력가능
+        const isDateValid = !eduGraduateDate || eduEnterDate < eduGraduateDate;
+
+        if (!isDateValid) {
+            res.status(400).send({ error: '입학날짜보다 졸업일자가 이전입니다.' });
+            throw new Error('입학날짜보다 졸업일자가 이전입니다.');
         }
 
         const newEducation = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree };

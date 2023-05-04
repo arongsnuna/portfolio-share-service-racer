@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
     const {
@@ -18,52 +18,62 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
     return (
         <div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='프로젝트 명'
-                    value={projectName}
-                    onChange={onChangeName}
-                />
+                <FloatingLabel controlId='floatingInput' label='프로젝트 명' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='text'
+                        placeholder='프로젝트 명'
+                        value={projectName}
+                        onChange={onChangeName}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='date'
-                    placeholder='프로젝트 시작일자'
-                    value={projectStartDate}
-                    onChange={onChangeStartDate}
-                />
+                <FloatingLabel controlId='floatingInput' label='프로젝트 시작일자' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='date'
+                        placeholder='프로젝트 시작일자'
+                        value={projectStartDate}
+                        onChange={onChangeStartDate}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='date'
-                    placeholder='프로젝트 종료일자'
-                    value={projectEndDate}
-                    onChange={onChangeEndDate}
-                />
+                <FloatingLabel controlId='floatingInput' label='프로젝트 종료일자' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='date'
+                        placeholder='프로젝트 종료일자'
+                        value={projectEndDate}
+                        onChange={onChangeEndDate}
+                    />
+                </FloatingLabel>
                 {projectStartDate && projectEndDate && !isDateValid && (
                     <Form.Text className='date-success'>프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
                 )}
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='프로젝트 설명'
-                    value={projectDescription}
-                    onChange={onChangeDescription}
-                />
+                <FloatingLabel controlId='floatingInput' label='프로젝트 설명' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='text'
+                        placeholder='프로젝트 설명'
+                        value={projectDescription}
+                        onChange={onChangeDescription}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='프로젝트 GitLink'
-                    value={projectGitLink}
-                    onChange={onChangeGitLink}
-                />
+                <FloatingLabel controlId='floatingInput' label='프로젝트 GitLink' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='text'
+                        placeholder='프로젝트 GitLink'
+                        value={projectGitLink}
+                        onChange={onChangeGitLink}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-3 text-center'>
                 {currentEditId !== item._id ? (

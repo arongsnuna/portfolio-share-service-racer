@@ -16,7 +16,7 @@ const EducationSchema = new Schema(
         },
         eduGraduateDate: {
             type: String,
-            required: true,
+            required: false,
         },
         eduDegree: {
             type: String,

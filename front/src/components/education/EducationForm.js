@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 function EducationForm({ formSendFunction, currentData, isFlag, item }) {
     const {
@@ -10,6 +10,7 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
         onChangeMajor,
         onChangeEnterDate,
         onChangeGraduateDate,
+        offChangeGraduateDate,
         onChangeDegree,
     } = formSendFunction;
     const { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree, currentEditId } = currentData;
@@ -18,41 +19,50 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
     return (
         <div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='학교이름'
-                    value={eduSchool}
-                    onChange={onChangeSchool}
-                />
+                <FloatingLabel controlId='floatingInput' label='학교이름' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='text'
+                        placeholder='학교이름'
+                        value={eduSchool}
+                        onChange={onChangeSchool}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='text'
-                    placeholder='전공'
-                    value={eduMajor}
-                    onChange={onChangeMajor}
-                />
+                <FloatingLabel controlId='floatingInput' label='전공' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='text'
+                        placeholder='전공'
+                        value={eduMajor}
+                        onChange={onChangeMajor}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='date'
-                    placeholder='입학일자'
-                    value={eduEnterDate}
-                    onChange={onChangeEnterDate}
-                />
+                <FloatingLabel controlId='floatingInput' label='입학일자' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='date'
+                        placeholder='입학일자'
+                        value={eduEnterDate}
+                        onChange={onChangeEnterDate}
+                    />
+                </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <Form.Control
-                    style={{ width: '100%' }}
-                    type='date'
-                    placeholder='졸업일자'
-                    value={eduGraduateDate}
-                    onChange={onChangeGraduateDate}
-                />
-                {eduEnterDate && eduGraduateDate && !isDateValid && (
+                <FloatingLabel controlId='floatingInput' label='졸업일자' className='mb-3'>
+                    <Form.Control
+                        style={{ width: '100%' }}
+                        type='date'
+                        placeholder='졸업일자'
+                        value={eduDegree === '재학' || eduDegree === '휴학' ? '' : eduGraduateDate}
+                        onChange={eduDegree === '재학' || eduDegree === '휴학' ? offChangeGraduateDate : onChangeGraduateDate}
+                        disabled={eduDegree === '재학' || eduDegree === '휴학' ? true : false}
+                    />
+                </FloatingLabel>
+                {eduEnterDate && eduGraduateDate && !isDateValid && eduDegree !== '재학' && eduDegree !== '휴학' && (
                     <Form.Text className='date-success'>입학날짜보다 졸업일자가 이전입니다.</Form.Text>
                 )}
             </div>

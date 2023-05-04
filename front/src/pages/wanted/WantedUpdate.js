@@ -31,6 +31,7 @@ function WantedUpdate() {
                 wantedTitle,
                 wantedContent,
             });
+            navigate('/wanted/read', { state: { wanted: modifiedWanted } });
         } catch (err) {
             if (err.response.status === 400) {
                 alert(err.response.data.error);
@@ -105,7 +106,6 @@ function WantedUpdate() {
                         className='me-3'
                         onClick={() => {
                             handleEdit();
-                            navigate('/wanted/read', { state: { wanted: modifiedWanted } });
                         }}>
                         게시글 편집
                     </Button>

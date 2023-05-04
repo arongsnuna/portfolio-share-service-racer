@@ -5,7 +5,7 @@ import fs from 'fs';
 class Project {
     // 유저의 모든 프로젝트 정보 조회
     static async findAll({ userId }) {
-        const projects = await ProjectModel.find({ userId: userId  });
+        const projects = await ProjectModel.find({ userId: userId });
         return projects;
     }
 

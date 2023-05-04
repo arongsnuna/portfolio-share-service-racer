@@ -105,11 +105,6 @@ awardRouter.put('/:awardId', async (req, res, next) => {
             throw new Error('미래의 수상일자는 입력할 수 없습니다.');
         }
 
-        if (util.isFutureDate(awardDate)) {
-            res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
-            throw new Error('미래의 수상일자는 입력할 수 없습니다.');
-        }
-
         const updatedAward = await awardService.updateAward({ userId, awardId, newAward });
         res.status(200).json(updatedAward);
     } catch (error) {

@@ -64,6 +64,7 @@ userAuthRouter.post('/login', async function (req, res, next) {
         const user = await userAuthService.getUser({ email, password });
 
         if (user.errorMessage) {
+            res.status(400).send({ error: user.errorMessage });
             throw new Error(user.errorMessage);
         }
 
@@ -110,10 +111,14 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         const userId = req.currentUserId;
         // body data 로부터 업데이트할 사용자 정보를 추출함.
         const name = req.body.name ?? null;
-        const email = req.body.email ?? null;
         const description = req.body.description ?? null;
         const gitLink = req.body.gitLink ?? null;
         const uploadImage = req.file ?? null;
+        console.log(name);
+        if (name === (null || '')) {
+            res.status(400).send({ error: '이름을 입력해주세요' });
+            throw new Error('이름을 입력해주세요');
+        }
 
         let userImage = {};
         let toUpdate = {};
@@ -134,15 +139,16 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
 
             userImage = { uploadImage, imageUri };
 
-            toUpdate = { name, email, description, gitLink, userImage };
+            toUpdate = { name, description, gitLink, userImage };
         } else {
-            toUpdate = { name, email, description, gitLink };
+            toUpdate = { name, description, gitLink };
         }
 
         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
         const updatedUser = await userAuthService.setUser({ userId, toUpdate });
 
         if (updatedUser.errorMessage) {
+            res.status(400).send({ error: user.errorMessage });
             throw new Error(updatedUser.errorMessage);
         }
 

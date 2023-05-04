@@ -1,4 +1,5 @@
-import { User, Project } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Project } from '../db'; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Types } from 'mongoose';
 
 class projectService {
     // 유저의 전체 프로젝트 정보 조회
@@ -16,7 +17,7 @@ class projectService {
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
     static async findExcept({ userId, projectId }) {
         const projects = await Project.findAll({ userId });
-        const exceptProjects = projects.filter((project) => project._id === projectId);
+        const exceptProjects = projects.filter((project) => Types.ObjectId(project._id).toString() !== projectId);
         return exceptProjects;
     }
 

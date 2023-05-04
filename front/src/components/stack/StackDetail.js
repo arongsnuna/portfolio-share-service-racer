@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 import * as Api from '../../api';
 
@@ -156,22 +156,26 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='text'
-                            placeholder='기술 이름'
-                            value={stackName}
-                            onChange={onChangeName}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='기술 이름' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='기술 이름'
+                                value={stackName}
+                                onChange={onChangeName}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='text'
-                            placeholder='기술 설명'
-                            value={stackDescription}
-                            onChange={onChangeDescription}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='기술 설명' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='기술 설명'
+                                value={stackDescription}
+                                onChange={onChangeDescription}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>

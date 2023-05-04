@@ -4,7 +4,7 @@ import { UserModel } from '../schemas/user';
 class Cert {
     // 유저의 모든 자격증 정보 조회
     static async findAll({ userId }) {
-        const certs = await CertModel.find({ userId: userId  });
+        const certs = await CertModel.find({ userId: userId });
         return certs;
     }
 

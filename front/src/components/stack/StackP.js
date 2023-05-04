@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 function StackP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
@@ -6,12 +6,18 @@ function StackP({ pSendFunction, isFlag, item }) {
 
     return (
         <div>
-            <p>
-                {item.stackName}
-                <br />
-                {item.stackDescription}
-                <br />
-            </p>
+            <Table bordered className='container-fluid'>
+                <tbody>
+                    <tr>
+                        <td className='col-1'>기술 이름</td>
+                        <td className='col-3'>{item.stackName}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>기술 설명</td>
+                        <td className='col-3'>{item.stackDescription}</td>
+                    </tr>
+                </tbody>
+            </Table>
             <br />
             {isEditable && (
                 <Button

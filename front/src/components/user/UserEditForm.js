@@ -10,17 +10,28 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     //useState로 description 상태를 생성함.
     const [description, setDescription] = useState(user.description);
     //useState로 gitLink 상태를 생성함.
-    const [gitLink, setGitLink] = useState(user.gitLink);
+    const [gitLink, setGitLink] = useState(user.gitLink === 'undefined' ? '' : user.gitLink);
     //useState로 userImage 상태를 생성함.
     const [userImage, setUserImage] = useState(user.userImage);
+
+    const validateForm = () => {
+        if (userImage.size > 1024 * 1024) {
+            alert('이미지 크기는 1MB 이하여야 합니다.');
+            return false;
+        }
+        return true;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (!validateForm()) {
+                return;
+            }
+
             const formData = new FormData();
             formData.append('userImage', userImage);
             formData.append('name', name);
-            formData.append('email', email);
             formData.append('description', description);
             formData.append('gitLink', gitLink);
 
@@ -50,12 +61,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                     </Form.Group>
 
                     <Form.Group controlId='userEditEmail' className='mb-3'>
-                        <Form.Control
-                            type='email'
-                            placeholder='이메일'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                        <Form.Control type='email' placeholder='이메일' value={email} disabled />
                     </Form.Group>
 
                     <Form.Group controlId='userEditDescription' className='mb-3'>
@@ -71,7 +77,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                         <Form.Control
                             type='text'
                             placeholder='Git 주소'
-                            value={gitLink === 'undefined' && ''}
+                            value={gitLink}
                             onChange={(e) => setGitLink(e.target.value)}
                         />
                     </Form.Group>

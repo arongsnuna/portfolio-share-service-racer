@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 function CertificateP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
@@ -6,12 +6,18 @@ function CertificateP({ pSendFunction, isFlag, item }) {
 
     return (
         <div>
-            <p>
-                {item.certName}
-                <br />
-                {item.certAcDate}
-                <br />
-            </p>
+            <Table bordered className='container-fluid'>
+                <tbody>
+                    <tr>
+                        <td className='col-1'>자격증 명</td>
+                        <td className='col-3'>{item.certName}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>취득일자</td>
+                        <td className='col-3'>{item.certAcDate}</td>
+                    </tr>
+                </tbody>
+            </Table>
             <br />
             {isEditable && (
                 <Button

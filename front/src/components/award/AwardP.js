@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 function AwardP({ pSendFunction, isFlag, item }) {
     const { handleEdit } = pSendFunction;
@@ -6,16 +6,26 @@ function AwardP({ pSendFunction, isFlag, item }) {
 
     return (
         <div>
-            <p>
-                {item.awardName}
-                <br />
-                {item.awardDate}
-                <br />
-                {item.awardInstitution}
-                <br />
-                {item.awardDescription}
-                <br />
-            </p>
+            <Table bordered className='container-fluid'>
+                <tbody>
+                    <tr>
+                        <td className='col-1'>수상명</td>
+                        <td className='col-3'>{item.awardName}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>수상일자</td>
+                        <td className='col-3'>{item.awardDate}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>수상기관</td>
+                        <td className='col-3'>{item.awardInstitution}</td>
+                    </tr>
+                    <tr>
+                        <td className='col-1'>수여내용</td>
+                        <td className='col-3'>{item.awardDescription}</td>
+                    </tr>
+                </tbody>
+            </Table>
             <br />
             {isEditable && (
                 <Button
