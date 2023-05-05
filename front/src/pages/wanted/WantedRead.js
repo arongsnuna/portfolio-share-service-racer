@@ -227,7 +227,7 @@ function WantedUpdate() {
           {isWantedEditable && (
             <Button
               className="me-3 text-start"
-              style={{ width: "auto", backgroundColor: "#2A3741", border: "0px" }}
+              style={{ backgroundColor: "#2A3741", border: "0px", fontSize: '0.8em' }}
               variant="primary"
               onClick={() => navigate("/wanted/update", { state: { wanted: wanted } })}
             >
