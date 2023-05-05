@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { UserStateContext, DispatchContext } from '../../App';
+import { Typography } from '@material-ui/core';
 
 function Header() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Header() {
     return (
         <Navbar bg='light' variant='light' className='mb-3' activeKey={location.pathname}>
             <Container>
-                <Navbar.Brand href='/'>ForeFolio</Navbar.Brand>
+                <Navbar.Brand href='/'><Typography variant ="h5" style={{fontFamily:"BMKIRANGHAERANG"}}>Forefolio.com</Typography></Navbar.Brand>
                 <Nav className='me-auto'>
                     <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
                     <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
