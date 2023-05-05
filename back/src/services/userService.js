@@ -23,7 +23,12 @@ class userAuthService {
 
         return createdNewUser;
     }
-
+    // 이메일 조회
+    static async findByEmail({ email }) {
+        const user = await User.findByEmail({ email });
+        return user;
+    }
+    
     //로그인
     static async getUser({ email, password }) {
         // 이메일 db에 존재 여부 확인

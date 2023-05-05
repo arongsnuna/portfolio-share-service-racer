@@ -35,6 +35,13 @@ userAuthRouter.post('/register', async function (req, res, next) {
         const email = req.body.email;
         const password = req.body.password;
 
+        const user = await userAuthService.findByEmail({email})
+        if(user){
+            const errorMessage = '이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.';
+            res.status(400).send({ error: errorMessage });
+            throw new Error(errorMessage);
+        }
+
         // 위 데이터를 유저 db에 추가하기
         const newUser = await userAuthService.addUser({
             name,
