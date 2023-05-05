@@ -17,7 +17,7 @@ function UserCardPortfolio({ user, setIsEditing, isEditable, isNetwork, userImag
             <Col>
                 <Card.Img
                     style={{ width: '10rem', height: '10rem', borderRadius: '70%', overflow: 'hidden' }}
-                    className='mb-3'
+                    className='mb-3 mt-3 ms-3'
                     src={userImageUrl}
                     alt='랜덤 고양이 사진 (http://placekitten.com API 사용)'
                 />
