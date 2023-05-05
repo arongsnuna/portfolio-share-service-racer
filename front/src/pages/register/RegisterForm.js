@@ -60,7 +60,7 @@ function RegisterForm() {
 
     return (
         <Container fluid style={{ height: '100%', width: '70%' }}>
-            <Row className='justify-content-md-center mt-5'>Sign up for more!</Row>
+            <Row className='justify-content-md-center mt-5' style={{fontWeight: '900', fontSize: '1.4em', color: 'white'}}>Sign up for more!</Row>
             <Row lg={8} className='justify-content-md-center mt-5' style={{ marginTop: '100px' }}>
                 <Card>
                     <br />
