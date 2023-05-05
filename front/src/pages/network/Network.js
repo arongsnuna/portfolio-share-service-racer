@@ -46,7 +46,7 @@ function Network() {
 
   return (
     <Container fluid>
-      <Row xs="auto" className="jusify-content-center">
+      <Row xs="auto" className="justify-content-center">
         {users.map((user) => (
           <React.Fragment key={user._id}>
             {user.userImage ? (
