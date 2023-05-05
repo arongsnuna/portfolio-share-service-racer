@@ -1,0 +1,4 @@
+#body {
+  background: #2a3741 url("./footer.svg") no-repeat center fixed;
+  background-size: cover;
+}
