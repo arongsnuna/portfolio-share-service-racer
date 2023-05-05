@@ -26,7 +26,7 @@ function Header() {
     return (
         <Navbar bg='light' variant='light' className='mb-3'>
             <Container>
-                <Navbar.Brand href='#home'>ForeFolio</Navbar.Brand>
+                <Navbar.Brand href='/'>ForeFolio</Navbar.Brand>
                 <Nav className='me-auto'>
                     <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
                     <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
