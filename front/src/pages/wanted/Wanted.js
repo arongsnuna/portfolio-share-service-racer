@@ -4,6 +4,7 @@ import { Container, Row, Col, Badge, ListGroup, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import { Typography } from "@material-ui/core";
 
 const CommentCount = ({ wantedId }) => {
   const [count, setCount] = useState(0);
@@ -55,14 +56,15 @@ function Wanted() {
   return (
     <Container>
       <Row>
-        <Col className="text-left">
-          <h3>팀원 구하기</h3>
-          <p>
-            팀원 모집을 확인하고 프로젝트에 참여해보세요.
-            <br />
-            원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
-          </p>
-        </Col>
+      <Col xs={12} className='text-left text-center'>
+                    <h3 className='mt-5' style={{color:"white"}}>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
+<br />Or you can recruit your own team members.</h3>
+                    <p className='mb-5' style={{color:"white"}}>
+                        팀원 모집을 확인하고 프로젝트에 참여해보세요.
+                        <br />
+                        원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
+                    </p>
+                </Col>
         <Col className="position-relative">
           <Button
             className="m-3 position-absolute bottom-0 end-0"

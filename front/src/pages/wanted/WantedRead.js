@@ -189,9 +189,9 @@ function WantedUpdate() {
         <Container>
             <Row xs='auto'>
                 <Col xs={12} className='text-left text-center'>
-                    <h3 className='mt-5'>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
+                    <h3 className='mt-5' style={{color:"white"}}>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
 <br />Or you can recruit your own team members.</h3>
-                    <p className='mb-5'>
+                    <p className='mb-5' style={{color:"white"}}>
                         팀원 모집을 확인하고 프로젝트에 참여해보세요.
                         <br />
                         원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
