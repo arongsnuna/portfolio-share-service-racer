@@ -25,7 +25,7 @@ const CertSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const CertModel = model('Cert', CertSchema);

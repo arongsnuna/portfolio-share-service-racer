@@ -15,11 +15,11 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
     const [stackName, setStackName] = useState('');
     const [stackDescription, setStackDescription] = useState('');
 
-    const onChangeName = (e) => {
+    const onChangeName = e => {
         setStackName(e.target.value);
     };
 
-    const onChangeDescription = (e) => {
+    const onChangeDescription = e => {
         setStackDescription(e.target.value);
     };
 
@@ -30,7 +30,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         setStackDescription('');
     };
 
-    const fetchStack = async (ownerId) => {
+    const fetchStack = async ownerId => {
         try {
             const res = await Api.get(`stack/${ownerId.userId}`);
             const ownerData = res.data;
@@ -45,8 +45,8 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
 
     const userId = portfolioOwnerId;
 
-    const handleSubmit = async (id) => {
-        const item = dbItem.filter((item) => item._id === id)[0];
+    const handleSubmit = async id => {
+        const item = dbItem.filter(item => item._id === id)[0];
 
         if (item === undefined || item.isSave === false) {
             try {
@@ -88,9 +88,9 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         }
     };
 
-    const handleEdit = (id) => {
-        setDbItem((prevItems) => {
-            return prevItems.map((item) => {
+    const handleEdit = id => {
+        setDbItem(prevItems => {
+            return prevItems.map(item => {
                 if (item._id === id) {
                     return {
                         ...item,
@@ -102,7 +102,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
             });
         });
 
-        const item = dbItem.filter((item) => item._id === id)[0];
+        const item = dbItem.filter(item => item._id === id)[0];
         setStackName(item.stackName);
         setStackDescription(item.stackDescription);
 
@@ -117,7 +117,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
         setIsEdit(false);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async id => {
         try {
             await Api.delete(`stack/${id}`);
 
@@ -144,7 +144,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
 
     return (
         <div>
-            {dbItem.map((item) => (
+            {dbItem.map(item => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
                         <StackP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
@@ -155,39 +155,39 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
             ))}
             {isToggle === true ? (
                 <div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='기술 이름*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="기술 이름*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='기술 이름'
+                                type="text"
+                                placeholder="기술 이름"
                                 value={stackName}
                                 onChange={onChangeName}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='기술 설명*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="기술 설명*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='기술 설명'
+                                type="text"
+                                placeholder="기술 설명"
                                 value={stackDescription}
                                 onChange={onChangeDescription}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-3 text-center'>
+                    <div className="mb-3 text-center">
                         <React.Fragment>
                             <Button
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
-                                className='me-2'
+                                className="me-2"
                                 onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button
                                 style={{ backgroundColor: '#7469bc', border: 'none' }}
-                                variant='secondary'
+                                variant="secondary"
                                 onClick={() => handleCancel()}>
                                 취소
                             </Button>
@@ -198,7 +198,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
                 ''
             )}
             {isEditable && (
-                <div className='mb-3 text-center'>
+                <div className="mb-3 text-center">
                     {dbItem.length < 10 && (
                         <Button
                             style={{ backgroundColor: '#2a3741', border: 'none' }}

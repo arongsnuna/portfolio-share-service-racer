@@ -20,23 +20,23 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
 
     const isDateValid = projectStartDate < projectEndDate;
 
-    const onChangeName = (e) => {
+    const onChangeName = e => {
         setProjectName(e.target.value);
     };
 
-    const onChangeStartDate = (e) => {
+    const onChangeStartDate = e => {
         setProjectStartDate(e.target.value);
     };
 
-    const onChangeEndDate = (e) => {
+    const onChangeEndDate = e => {
         setProjectEndDate(e.target.value);
     };
 
-    const onChangeDescription = (e) => {
+    const onChangeDescription = e => {
         setProjectDescription(e.target.value);
     };
 
-    const onChangeGitLink = (e) => {
+    const onChangeGitLink = e => {
         setProjectGitLink(e.target.value);
     };
 
@@ -50,7 +50,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setProjectGitLink('');
     };
 
-    const fetchProject = async (ownerId) => {
+    const fetchProject = async ownerId => {
         try {
             // "/project" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
             const res = await Api.get(`project/${ownerId.userId}`);
@@ -68,8 +68,8 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
 
     const userId = portfolioOwnerId;
 
-    const handleSubmit = async (id) => {
-        const item = dbItem.filter((item) => item._id === id)[0];
+    const handleSubmit = async id => {
+        const item = dbItem.filter(item => item._id === id)[0];
 
         if (item === undefined || item.isSave === false) {
             try {
@@ -122,9 +122,9 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         }
     };
 
-    const handleEdit = (id) => {
-        setDbItem((prevItems) => {
-            return prevItems.map((item) => {
+    const handleEdit = id => {
+        setDbItem(prevItems => {
+            return prevItems.map(item => {
                 if (item._id === id) {
                     return {
                         ...item,
@@ -136,7 +136,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             });
         });
 
-        const item = dbItem.filter((item) => item._id === id)[0];
+        const item = dbItem.filter(item => item._id === id)[0];
         setProjectName(item.projectName);
         setProjectStartDate(item.projectStartDate);
         setProjectEndDate(item.projectEndDate);
@@ -154,7 +154,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
         setIsEdit(false);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async id => {
         try {
             // "project/projectId" 엔드포인트로 delete 요청함.
             await Api.delete(`project/${id}`);
@@ -199,7 +199,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
 
     return (
         <div>
-            {dbItem.map((item) => (
+            {dbItem.map(item => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
                         <ProjectP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
@@ -215,75 +215,75 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
             ))}
             {isToggle === true ? (
                 <div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='프로젝트 명*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="프로젝트 명*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='프로젝트 명'
+                                type="text"
+                                placeholder="프로젝트 명"
                                 value={projectName}
                                 onChange={onChangeName}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='프로젝트 시작일자*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="프로젝트 시작일자*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='date'
-                                placeholder='프로젝트 시작일자'
+                                type="date"
+                                placeholder="프로젝트 시작일자"
                                 value={projectStartDate}
                                 onChange={onChangeStartDate}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='프로젝트 종료일자*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="프로젝트 종료일자*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='date'
-                                placeholder='프로젝트 종료일자'
+                                type="date"
+                                placeholder="프로젝트 종료일자"
                                 value={projectEndDate}
                                 onChange={onChangeEndDate}
                             />
                         </FloatingLabel>
                         {projectStartDate && projectEndDate && !isDateValid && (
-                            <Form.Text className='date-success'>프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
+                            <Form.Text className="date-success">프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
                         )}
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='프로젝트 설명*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="프로젝트 설명*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='프로젝트 설명'
+                                type="text"
+                                placeholder="프로젝트 설명"
                                 value={projectDescription}
                                 onChange={onChangeDescription}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='프로젝트 GitLink' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="프로젝트 GitLink" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='프로젝트 GitLink'
+                                type="text"
+                                placeholder="프로젝트 GitLink"
                                 value={projectGitLink}
                                 onChange={onChangeGitLink}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-3 text-center'>
+                    <div className="mb-3 text-center">
                         <React.Fragment>
                             <Button
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
-                                className='me-2'
+                                className="me-2"
                                 onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button
                                 style={{ backgroundColor: '#7469bc', border: 'none' }}
-                                variant='secondary'
+                                variant="secondary"
                                 onClick={() => handleCancel()}>
                                 취소
                             </Button>
@@ -294,7 +294,7 @@ function ProjectDetail({ portfolioOwnerId, isEditable }) {
                 ''
             )}
             {isEditable && (
-                <div className='mb-3 text-center'>
+                <div className="mb-3 text-center">
                     {dbItem.length < 10 && (
                         <Button
                             style={{ backgroundColor: '#2a3741', border: 'none' }}

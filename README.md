@@ -5,28 +5,31 @@
 
 > 위 IP 주소는 프로젝트 진행 기간에만 유효합니다.
 
-**5개 MVP**로 구성됩니다.
+**7개 MVP**로 구성됩니다.
 
 > 현재는 USer MVP 코드만 있습니다.
 
-- User (회원가입, 로그인 등 사용자 관련)
-- Award (포트폴리오 중 상장 이력 관련)
-- Certificate (포트폴리오 중 자격증 관련)
-- Project (포트폴리오 중 프로젝트 관련)
-- Education (포트폴리오 중 교육, 학교 관련)
+-   User (회원가입, 로그인 등 사용자 관련)
+-   Award (포트폴리오 중 상장 이력 관련)
+-   Certificate (포트폴리오 중 자격증 관련)
+-   Project (포트폴리오 중 프로젝트 관련)
+-   Education (포트폴리오 중 교육, 학교 관련)
+-   Stack (포트폴리오 중 기술스택 관련)
+-   Wanted (팀원 구하기 중 게시판 관련)
+-   Comment (팀원 구하기 중 댓글 관련)
 
 ## 주요 사용 기술
 
 1. 프론트엔드
 
-- React (create-react-app으로 구현되었습니다.)
-- React Bootstrap
-- axios
+-   React (create-react-app으로 구현되었습니다.)
+-   React Bootstrap
+-   axios
 
 2. 백엔드
 
-- Express (nodemon, babel-node로 실행됩니다.)
-- Mongodb, Mongoose
+-   Express (nodemon, babel-node로 실행됩니다.)
+-   Mongodb, Mongoose
 
 ## 설치 방법
 

@@ -9,18 +9,18 @@ function EducationP({ pSendFunction, isFlag, item }) {
         <Row style={{ height: '80px' }}>
             <Col xs={10}>
                 {item.eduSchool}
-                <td className='col-4'>
+                <td className="col-4">
                     {item.eduEnterDate} - {item.eduGraduateDate ? item.eduGraduateDate : '없음'}
                 </td>
-                <td className='col-4'>
+                <td className="col-4">
                     {item.eduMajor} ({item.eduDegree})
                 </td>
             </Col>
-            <Col xs={2} className='text-center'>
+            <Col xs={2} className="text-center">
                 {isEditable && (
                     <Button
                         style={{ color: '#2a3741' }}
-                        variant='link'
+                        variant="link"
                         onClick={() => handleEdit(item._id)}
                         disabled={isToggle || isEdit ? true : false}>
                         편집

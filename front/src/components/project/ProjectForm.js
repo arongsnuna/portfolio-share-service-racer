@@ -17,76 +17,76 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
 
     return (
         <div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 명*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="프로젝트 명*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='text'
-                        placeholder='프로젝트 명'
+                        type="text"
+                        placeholder="프로젝트 명"
                         value={projectName}
                         onChange={onChangeName}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 시작일자*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="프로젝트 시작일자*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='date'
-                        placeholder='프로젝트 시작일자'
+                        type="date"
+                        placeholder="프로젝트 시작일자"
                         value={projectStartDate}
                         onChange={onChangeStartDate}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 종료일자*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="프로젝트 종료일자*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='date'
-                        placeholder='프로젝트 종료일자'
+                        type="date"
+                        placeholder="프로젝트 종료일자"
                         value={projectEndDate}
                         onChange={onChangeEndDate}
                     />
                 </FloatingLabel>
                 {projectStartDate && projectEndDate && !isDateValid && (
-                    <Form.Text className='date-success'>프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
+                    <Form.Text className="date-success">프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.</Form.Text>
                 )}
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 설명*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="프로젝트 설명*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='text'
-                        placeholder='프로젝트 설명'
+                        type="text"
+                        placeholder="프로젝트 설명"
                         value={projectDescription}
                         onChange={onChangeDescription}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 GitLink' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="프로젝트 GitLink" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='text'
-                        placeholder='프로젝트 GitLink'
+                        type="text"
+                        placeholder="프로젝트 GitLink"
                         value={projectGitLink}
                         onChange={onChangeGitLink}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-3 text-center'>
+            <div className="mb-3 text-center">
                 {currentEditId !== item._id ? (
                     <React.Fragment>
                         <Button
                             style={{ backgroundColor: '#3077e1', border: 'none' }}
-                            className='me-2'
+                            className="me-2"
                             onClick={() => handleSubmit(item._id)}>
                             확인
                         </Button>
                         <Button
                             style={{ backgroundColor: '#7469bc', border: 'none' }}
-                            variant='secondary'
+                            variant="secondary"
                             onClick={() => handleCancel()}>
                             취소
                         </Button>
@@ -95,15 +95,15 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
                     <React.Fragment>
                         <Button
                             style={{ backgroundColor: '#3077e1', border: 'none' }}
-                            className='me-2'
+                            className="me-2"
                             onClick={() => handleSubmit(item._id)}>
                             확인
                         </Button>
 
                         <Button
                             style={{ backgroundColor: '#7469bc', border: 'none' }}
-                            className='me-2'
-                            variant='secondary'
+                            className="me-2"
+                            variant="secondary"
                             onClick={() => handleCancel()}>
                             취소
                         </Button>

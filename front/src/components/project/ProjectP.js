@@ -8,17 +8,17 @@ function ProjectP({ pSendFunction, isFlag, item }) {
         <Row style={{ height: '120px' }}>
             <Col xs={10}>
                 {item.projectName}
-                <td className='col-4'>
+                <td className="col-4">
                     {item.projectStartDate} - {item.projectEndDate}
                 </td>
                 {item.projectDescription} <br />
                 <a href={`https://${item.projectGitLink}`}>{item.projectGitLink}</a>
             </Col>
-            <Col xs={2} className='text-center'>
+            <Col xs={2} className="text-center">
                 {isEditable && (
                     <Button
                         style={{ color: '#2a3741' }}
-                        variant='link'
+                        variant="link"
                         onClick={() => handleEdit(item._id)}
                         disabled={isToggle || isEdit ? true : false}>
                         편집

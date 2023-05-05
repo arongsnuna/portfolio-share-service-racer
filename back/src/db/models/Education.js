@@ -32,7 +32,7 @@ class Education {
     static async update({ userId, educationId, eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree }) {
         const updatedEducation = await EducationModel.updateOne(
             { userId: userId, _id: educationId },
-            { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree }
+            { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree },
         );
         return updatedEducation;
     }

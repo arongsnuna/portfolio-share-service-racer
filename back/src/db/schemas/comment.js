@@ -20,7 +20,7 @@ const CommentSchema = new Schema(
         },
         wantedId: {
             type: Schema.Types.ObjectId,
-            ref: 'Wanted',    
+            ref: 'Wanted',
         },
         isSave: {
             type: Boolean,
@@ -33,7 +33,7 @@ const CommentSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const CommentModel = model('Comment', CommentSchema);

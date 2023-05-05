@@ -64,7 +64,7 @@ certRouter.post('/', async (req, res, next) => {
 
         const newCert = { certName, certAcDate };
         const certs = await certService.findAll({ userId });
-        const certExists = certs.some((cert) => cert.certName === newCert.certName);
+        const certExists = certs.some(cert => cert.certName === newCert.certName);
         if (certExists) {
             res.status(400).send({ error: `${newCert.certName} 자격증은 이미 존재합니다.` });
             throw new Error(`${newCert.certName} 자격증은 이미 존재합니다.`);
@@ -111,7 +111,7 @@ certRouter.put('/:certId', async (req, res, next) => {
 
         const newCert = { certName, certAcDate };
         const exceptCerts = await certService.findExcept({ userId, certId });
-        const certExists = exceptCerts.some((cert) => cert.certName === newCert.certName);
+        const certExists = exceptCerts.some(cert => cert.certName === newCert.certName);
         if (certExists) {
             res.status(400).send({ error: `${newCert.certName} 자격증은 이미 존재합니다.` });
             throw new Error(`${newCert.certName} 자격증은 이미 존재합니다.`);

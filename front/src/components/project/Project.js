@@ -6,7 +6,7 @@ function ProjectCreate({ portfolioOwnerId, isEditable }) {
     return (
         <Row>
             <Col xs={2}>
-                <Card.Title className='ms-3 mt-3'>프로젝트</Card.Title>
+                <Card.Title className="ms-3 mt-3">프로젝트</Card.Title>
             </Col>
             <Col xs={9}>
                 <Row>

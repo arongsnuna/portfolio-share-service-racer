@@ -25,14 +25,14 @@ function Header() {
     };
 
     return (
-        <Navbar bg='dark' variant='dark' className='mb-3'>
+        <Navbar bg="dark" variant="dark" className="mb-3">
             <Container>
-                <Navbar.Brand href='/'>
-                    <Typography variant='h5' style={{ fontFamily: 'BMKIRANGHAERANG' }}>
+                <Navbar.Brand href="/">
+                    <Typography variant="h5" style={{ fontFamily: 'BMKIRANGHAERANG' }}>
                         Forefolio.com
                     </Typography>
                 </Navbar.Brand>
-                <Nav className='me-auto'>
+                <Nav className="me-auto">
                     <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
                     <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
                     <Nav.Link onClick={() => navigate('/wanted')}>팀원 구하기</Nav.Link>

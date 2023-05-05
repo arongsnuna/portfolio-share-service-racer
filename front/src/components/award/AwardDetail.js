@@ -17,19 +17,19 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
     const [awardInstitution, setAwardInstitution] = useState('');
     const [awardDescription, setAwardDescription] = useState('');
 
-    const onChangeName = (e) => {
+    const onChangeName = e => {
         setAwardName(e.target.value);
     };
 
-    const onChangeDate = (e) => {
+    const onChangeDate = e => {
         setAwardDate(e.target.value);
     };
 
-    const onChangeInstitution = (e) => {
+    const onChangeInstitution = e => {
         setAwardInstitution(e.target.value);
     };
 
-    const onChangeDescription = (e) => {
+    const onChangeDescription = e => {
         setAwardDescription(e.target.value);
     };
 
@@ -42,7 +42,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
         setAwardDescription('');
     };
 
-    const fetchAward = async (ownerId) => {
+    const fetchAward = async ownerId => {
         try {
             const res = await Api.get(`award/${ownerId.userId}`);
             const ownerData = res.data;
@@ -57,8 +57,8 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
 
     const userId = portfolioOwnerId;
 
-    const handleSubmit = async (id) => {
-        const item = dbItem.filter((item) => item._id === id)[0];
+    const handleSubmit = async id => {
+        const item = dbItem.filter(item => item._id === id)[0];
 
         if (item === undefined || item.isSave === false) {
             try {
@@ -103,9 +103,9 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
         }
     };
 
-    const handleEdit = (id) => {
-        setDbItem((prevItems) => {
-            return prevItems.map((item) => {
+    const handleEdit = id => {
+        setDbItem(prevItems => {
+            return prevItems.map(item => {
                 if (item._id === id) {
                     return {
                         ...item,
@@ -117,7 +117,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
             });
         });
 
-        const item = dbItem.filter((item) => item._id === id)[0];
+        const item = dbItem.filter(item => item._id === id)[0];
         setAwardName(item.awardName);
         setAwardDate(item.awardDate);
         setAwardInstitution(item.awardInstitution);
@@ -134,7 +134,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
         setIsEdit(false);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async id => {
         try {
             await Api.delete(`award/${id}`);
 
@@ -169,7 +169,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
 
     return (
         <div>
-            {dbItem.map((item) => (
+            {dbItem.map(item => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
                         <AwardP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
@@ -180,61 +180,61 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
             ))}
             {isToggle === true ? (
                 <div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상 명*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="수상 명*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='수상명'
+                                type="text"
+                                placeholder="수상명"
                                 value={awardName}
                                 onChange={onChangeName}
                             />{' '}
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상 일자*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="수상 일자*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='date'
-                                placeholder='수상일자'
+                                type="date"
+                                placeholder="수상일자"
                                 value={awardDate}
                                 onChange={onChangeDate}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상기관*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="수상기관*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='수상기관'
+                                type="text"
+                                placeholder="수상기관"
                                 value={awardInstitution}
                                 onChange={onChangeInstitution}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수여내용*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="수여내용*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='수여내용'
+                                type="text"
+                                placeholder="수여내용"
                                 value={awardDescription}
                                 onChange={onChangeDescription}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-3 text-center'>
+                    <div className="mb-3 text-center">
                         <React.Fragment>
                             <Button
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
-                                className='me-2'
+                                className="me-2"
                                 onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button
                                 style={{ backgroundColor: '#7469bc', border: 'none' }}
-                                variant='secondary'
+                                variant="secondary"
                                 onClick={() => handleCancel()}>
                                 취소
                             </Button>
@@ -245,7 +245,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
                 ''
             )}
             {isEditable && (
-                <div className='mb-3 text-center'>
+                <div className="mb-3 text-center">
                     {dbItem.length < 10 && (
                         <Button
                             style={{ backgroundColor: '#2a3741', border: 'none' }}

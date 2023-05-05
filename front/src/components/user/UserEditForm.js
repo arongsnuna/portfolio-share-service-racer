@@ -22,7 +22,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         return true;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         try {
@@ -53,46 +53,46 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     };
 
     return (
-        <Card className='mb-2 ms-3 mr-5' style={{ width: '18rem' }}>
+        <Card className="mb-2 ms-3 mr-5" style={{ width: '18rem' }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId='useEditName' className='mb-3'>
-                        <Form.Control type='text' placeholder='이름' value={name} onChange={(e) => setName(e.target.value)} />
+                    <Form.Group controlId="useEditName" className="mb-3">
+                        <Form.Control type="text" placeholder="이름" value={name} onChange={e => setName(e.target.value)} />
                     </Form.Group>
 
-                    <Form.Group controlId='userEditEmail' className='mb-3'>
-                        <Form.Control type='email' placeholder='이메일' value={email} disabled />
+                    <Form.Group controlId="userEditEmail" className="mb-3">
+                        <Form.Control type="email" placeholder="이메일" value={email} disabled />
                     </Form.Group>
 
-                    <Form.Group controlId='userEditDescription' className='mb-3'>
+                    <Form.Group controlId="userEditDescription" className="mb-3">
                         <Form.Control
-                            type='text'
-                            placeholder='정보, 인사말'
+                            type="text"
+                            placeholder="정보, 인사말"
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={e => setDescription(e.target.value)}
                             maxLength={15}
                         />
                     </Form.Group>
 
-                    <Form.Group controlId='userEditGitLink' className='mb-3'>
+                    <Form.Group controlId="userEditGitLink" className="mb-3">
                         <Form.Control
-                            type='text'
-                            placeholder='Git 주소'
+                            type="text"
+                            placeholder="Git 주소"
                             value={gitLink}
-                            onChange={(e) => setGitLink(e.target.value)}
+                            onChange={e => setGitLink(e.target.value)}
                         />
                     </Form.Group>
 
-                    <Form.Group controlId='userEditGitLink'>
-                        <Form.Control type='file' onChange={(e) => setUserImage(e.target.files[0])} />
+                    <Form.Group controlId="userEditGitLink">
+                        <Form.Control type="file" onChange={e => setUserImage(e.target.files[0])} />
                     </Form.Group>
 
-                    <Form.Group as={Row} className='mt-3 text-center'>
+                    <Form.Group as={Row} className="mt-3 text-center">
                         <Col sm={{ span: 20 }}>
-                            <Button variant='primary' type='submit' className='me-3'>
+                            <Button variant="primary" type="submit" className="me-3">
                                 확인
                             </Button>
-                            <Button variant='secondary' onClick={() => setIsEditing(false)}>
+                            <Button variant="secondary" onClick={() => setIsEditing(false)}>
                                 취소
                             </Button>
                         </Col>

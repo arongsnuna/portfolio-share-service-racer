@@ -17,7 +17,7 @@ class projectService {
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
     static async findExcept({ userId, projectId }) {
         const projects = await Project.findAll({ userId });
-        const exceptProjects = projects.filter((project) => Types.ObjectId(project._id).toString() !== projectId);
+        const exceptProjects = projects.filter(project => Types.ObjectId(project._id).toString() !== projectId);
         return exceptProjects;
     }
 

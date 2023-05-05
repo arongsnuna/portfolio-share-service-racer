@@ -36,7 +36,7 @@ class Award {
         const user = await UserModel.findOne({ _id: userId });
         const updatedAward = await AwardModel.updateOne(
             { userId: user._id, _id: awardId },
-            { awardName, awardDate, awardInstitution, awardDescription }
+            { awardName, awardDate, awardInstitution, awardDescription },
         );
 
         return updatedAward;

@@ -17,11 +17,11 @@ function AwardP({ pSendFunction, isFlag, item }) {
                     <td>{item.awardDate}</td>
                 </Row>
             </Col>
-            <Col xs={2} className='text-center'>
+            <Col xs={2} className="text-center">
                 {isEditable && (
                     <Button
                         style={{ color: '#2a3741' }}
-                        variant='link'
+                        variant="link"
                         onClick={() => handleEdit(item._id)}
                         disabled={isToggle || isEdit ? true : false}>
                         편집

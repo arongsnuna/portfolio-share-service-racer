@@ -6,7 +6,7 @@ function Education({ portfolioOwnerId, isEditable }) {
     return (
         <Row>
             <Col xs={2}>
-                <Card.Title className='ms-3 mt-3'>학력</Card.Title>
+                <Card.Title className="ms-3 mt-3">학력</Card.Title>
             </Col>
             <Col xs={9}>
                 <Row>

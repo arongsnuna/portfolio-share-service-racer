@@ -15,11 +15,11 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
     const [certName, setCertName] = useState(''); // 자격증 명
     const [certAcDate, setCertAcDate] = useState(''); // 취득일자
 
-    const onChangeName = (e) => {
+    const onChangeName = e => {
         setCertName(e.target.value);
     };
 
-    const onChangeDate = (e) => {
+    const onChangeDate = e => {
         setCertAcDate(e.target.value);
     };
 
@@ -30,7 +30,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         setCertAcDate('');
     };
 
-    const fetchCert = async (ownerId) => {
+    const fetchCert = async ownerId => {
         try {
             // "/cert" 엔드포인트로 요청해 사용자 정보를 불러옴.
             const res = await Api.get(`cert/${ownerId.userId}`);
@@ -48,8 +48,8 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
     const userId = portfolioOwnerId;
 
-    const handleSubmit = async (id) => {
-        const item = dbItem.filter((item) => item._id === id)[0];
+    const handleSubmit = async id => {
+        const item = dbItem.filter(item => item._id === id)[0];
 
         if (item === undefined || item.isSave === false) {
             try {
@@ -93,9 +93,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         }
     };
 
-    const handleEdit = (id) => {
-        setDbItem((prevItems) => {
-            return prevItems.map((item) => {
+    const handleEdit = id => {
+        setDbItem(prevItems => {
+            return prevItems.map(item => {
                 if (item._id === id) {
                     return {
                         ...item,
@@ -107,7 +107,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             });
         });
 
-        const item = dbItem.filter((item) => item._id === id)[0];
+        const item = dbItem.filter(item => item._id === id)[0];
         setCertName(item.certName);
         setCertAcDate(item.certAcDate);
 
@@ -122,7 +122,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
         setIsEdit(false);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async id => {
         try {
             // "cert/certId" 엔드포인트로 delete 요청함.
             await Api.delete(`cert/${id}`);
@@ -150,7 +150,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
     return (
         <div>
-            {dbItem.map((item) => (
+            {dbItem.map(item => (
                 <div key={item._id}>
                     {item.isSave === true && item.isEdit === false ? (
                         <CertificateP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
@@ -161,39 +161,39 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             ))}
             {isToggle === true ? (
                 <div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='자격증 명*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="자격증 명*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='text'
-                                placeholder='자격증 명'
+                                type="text"
+                                placeholder="자격증 명"
                                 value={certName}
                                 onChange={onChangeName}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='취득일자*' className='mb-3'>
+                    <div className="mb-2">
+                        <FloatingLabel controlId="floatingInput" label="취득일자*" className="mb-3">
                             <Form.Control
                                 style={{ width: '100%' }}
-                                type='date'
-                                placeholder='취득일자'
+                                type="date"
+                                placeholder="취득일자"
                                 value={certAcDate}
                                 onChange={onChangeDate}
                             />
                         </FloatingLabel>
                     </div>
-                    <div className='mb-3 text-center'>
+                    <div className="mb-3 text-center">
                         <React.Fragment>
                             <Button
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
-                                className='me-2'
+                                className="me-2"
                                 onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button
                                 style={{ backgroundColor: '#7469bc', border: 'none' }}
-                                variant='secondary'
+                                variant="secondary"
                                 onClick={() => handleCancel()}>
                                 취소
                             </Button>
@@ -204,7 +204,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                 ''
             )}
             {isEditable && (
-                <div className='mb-3 text-center'>
+                <div className="mb-3 text-center">
                     {dbItem.length < 10 && (
                         <Button
                             style={{ backgroundColor: '#2a3741', border: 'none' }}

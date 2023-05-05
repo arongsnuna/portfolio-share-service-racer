@@ -6,11 +6,11 @@ class wantedService {
         const wanted = await Wanted.findAll();
         return wanted;
     }
-    
+
     //특정 모집 정보를 얻음
     static async findWanted({ wantedId }) {
-            const wanted = await Wanted.findById({ wantedId });
-            return wanted;
+        const wanted = await Wanted.findById({ wantedId });
+        return wanted;
     }
 
     //모집 정보 추가
@@ -28,7 +28,7 @@ class wantedService {
     }
 
     //모집 정보 삭제
-    static async deleteWanted({ userId, wantedId }) { 
+    static async deleteWanted({ userId, wantedId }) {
         const deletedWanted = await Wanted.delete({ userId, wantedId });
         //모집 원문이 삭제되면 해당 글의 댓글도 모두 삭제됨
         const deletedComment = await Comment.deleteAll({ wantedId });

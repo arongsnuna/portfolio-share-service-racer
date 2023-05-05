@@ -37,7 +37,7 @@ const EducationSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const EducationModel = model('Education', EducationSchema);

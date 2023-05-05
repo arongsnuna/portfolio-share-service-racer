@@ -1,5 +1,5 @@
 import moment from 'moment';
-const { DateTime } = require("luxon");
+const { DateTime } = require('luxon');
 
 class util {
     static regexp(data) {

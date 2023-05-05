@@ -37,7 +37,7 @@ const ProjectSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const ProjectModel = model('Project', ProjectSchema);

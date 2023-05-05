@@ -20,29 +20,39 @@ yarn start
 
 1. src폴더는 아래와 같이 구성됩니다.
 
-- components 폴더:
+-   components 폴더:
 
-  - Header.js: 네비게이션 바
-  - Porfolio.js: 메인 화면을 구성하는, 5개 MVP를 모두 포함하는 컴포넌트
-    - **현재는 User MVP만 포함**되어 있습니다.
-  - award 폴더: 포트폴리오 중 수상이력 관련 컴포넌트들 -> **현재 없습니다.**
-  - certificate 폴더: 포트폴리오 중 자격증 관련 컴포넌트들 -> **현재 없습니다.**
-  - education 폴더: 포트폴리오 중 학력 관련 컴포넌트들 -> **현재 없습니다.**
-  - project 폴더: 포트폴리오 중 프로젝트 관련 컴포넌트들 -> **현재 없습니다.**
-  - user 폴더: 포트폴리오 중 사용자 관련 컴포넌트들
+    -   award 폴더: 포트폴리오 중 수상이력 관련 컴포넌트들이 담겨져 있습니다.
+    -   certificate 폴더: 포트폴리오 중 자격증 관련 컴포넌트들이 담겨져 있습니다.
+    -   education 폴더: 포트폴리오 중 학력 관련 컴포넌트들이 담겨져 있습니다.
+    -   header 폴더: 네비게이션 바를 구성하는 JS파일이 담겨져 있습니다.
+    -   project 폴더: 포트폴리오 중 프로젝트 관련 컴포넌트들이 담겨져 있습니다.
+    -   stack 폴더: 포트폴리오 중 기술스택 관련 컴포넌트들이 담겨져 있습니다.
+    -   user 폴더: 포트폴리오 중 사용자 관련 컴포넌트들이 담겨져 있습니다.
 
-- api.js:
-  - axios를 사용하는 코드가 있습니다.
-  - delete 함수는 코드는 작성되어 있지만, 쓰이지고 있지는 않습니다. -> **사용하는 기능을 추가해 보세요!**
-- App.js:
-  - SPA 라우팅 코드가 있습니다.
-- reducer.js:
-  - 로그인, 로그아웃은 useReducer 훅으로 구현되는데, 이 때 사용되는 reducer 함수입니다.
+-   pages 폴더:
 
-2. 전체적인 로직은 아래와 같습니다. 예를 들어 Award MVP 기준입니다 (**물론 현재는 코드는 없습니다. 여러분들이 개발해야 하기 때문입니다. 우선 로직만 참고해 주세요. 나머지 MVP도 비슷합니다**)
+    -   login 폴더: 로그인 관련 컴포넌트들이 담겨져 있습니다.
+    -   network 폴더: 유저 목록을 보여주는 Network 관련 컴포넌트들이 담겨져 있습니다.
+    -   portfolio 폴더: 유저의 정보를 보여주는 Portfolio 관련 컴포넌트들이 담겨져 있습니다.
+    -   register 폴더: 회원가입 관련 컴포넌트들이 담겨져 있습니다.
+    -   wanted 폴더: 팀원구하기 관련 컴포넌트들이 담겨져 있습니다.
 
-- 포트폴리오 컴포넌트는 Awards 컴포넌트를 사용함.
-- Awards는 수상이력 **목록**으로, 여러 개의 Award 컴포넌트+ (추가하기 버튼 클릭 시) AwardAddForm 컴포넌트로 구성됩니다.
-- 각 Award 컴포넌트는 **isEditing 상태에 따라**, false면 AwardCard, true면 AwardEditForm이 됩니다.
-- **isEditable**(포트폴리오 소유자와 현재 로그인한 사용자가 일치할 때)이 true인 경우 편집 버튼이 생깁니다.
-- Awards는 **isAdding**이 true면 AwardAddForm, false면 그냥 Award들의 모음이 됩니다.
+-   static 폴더: font 관련 CSS 파일들이 담겨져 있습니다.
+
+-   api.js:
+    -   axios를 사용하는 코드가 있습니다.
+    -   CRUD 기능과 추가와 동시에 파일을 전송하는 postFile, 수정과 동시에 파일을 전송하는 putFile등이 있습니다.
+-   App.js:
+    -   SPA 라우팅 코드가 있습니다.
+-   reducer.js:
+    -   로그인, 로그아웃은 useReducer 훅으로 구현되는데, 이 때 사용되는 reducer 함수입니다.
+-   index.js:
+    -   index.html의 root id에 렌더링 하기위한 코드가 있습니다.
+
+2. 전체적인 로직은 아래와 같습니다. 예를 들어 Award MVP 기준입니다
+
+-   포트폴리오 컴포넌트는 Award 컴포넌트를 사용합니다.
+-   Award 컴포넌트는 Award의 목록을 출력하는 AwardDetail 컴포넌트를 사용합니다.
+-   각 Award 컴포넌트는 isEditing 상태에 따라, false면 AwardP, true면 AwardForm이 됩니다.
+-   **isEditable**(포트폴리오 소유자와 현재 로그인한 사용자가 일치할 때)이 true인 경우 편집 버튼이 생깁니다.

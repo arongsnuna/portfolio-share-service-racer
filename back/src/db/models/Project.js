@@ -47,7 +47,7 @@ class Project {
                 projectEndDate,
                 projectDescription,
                 projectGitLink,
-            }
+            },
         );
 
         return updatedProject;

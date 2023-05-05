@@ -16,7 +16,7 @@ class certService {
     // 특정 프로젝트 제외하고 모든 프로젝트 조회
     static async findExcept({ userId, certId }) {
         const certs = await Cert.findAll({ userId });
-        const exceptCerts = certs.filter((cert) => Types.ObjectId(cert._id).toString() !== certId);
+        const exceptCerts = certs.filter(cert => Types.ObjectId(cert._id).toString() !== certId);
         return exceptCerts;
     }
 

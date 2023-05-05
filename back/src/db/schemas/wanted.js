@@ -21,11 +21,11 @@ const WantedSchema = new Schema(
         isEdit: {
             type: Boolean,
             default: false,
-        }
+        },
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const WantedModel = model('Wanted', WantedSchema);

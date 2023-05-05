@@ -16,7 +16,7 @@ class stackService {
     // 특정 스택 제외하고 모든 스택 조회
     static async findExcept({ userId, stackId }) {
         const stacks = await Stack.findAll({ userId });
-        const exceptStacks = stacks.filter((stack) => Types.ObjectId(stack._id).toString() !== stackId);
+        const exceptStacks = stacks.filter(stack => Types.ObjectId(stack._id).toString() !== stackId);
         return exceptStacks;
     }
     // 스택 정보 추가

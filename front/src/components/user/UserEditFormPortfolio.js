@@ -22,7 +22,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         return true;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         try {
@@ -54,53 +54,48 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     return (
         <div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='이름*' className='mb-3'>
-                    <Form.Control type='text' placeholder='이름' value={name} onChange={(e) => setName(e.target.value)} />
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="이름*" className="mb-3">
+                    <Form.Control type="text" placeholder="이름" value={name} onChange={e => setName(e.target.value)} />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='이메일*' className='mb-3'>
-                    <Form.Control type='email' placeholder='이메일' value={email} disabled />
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="이메일*" className="mb-3">
+                    <Form.Control type="email" placeholder="이메일" value={email} disabled />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='정보, 인사말' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="정보, 인사말" className="mb-3">
                     <Form.Control
-                        type='text'
-                        placeholder='정보, 인사말'
+                        type="text"
+                        placeholder="정보, 인사말"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={e => setDescription(e.target.value)}
                         maxLength={15}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='Git 주소' className='mb-3'>
-                    <Form.Control
-                        type='text'
-                        placeholder='Git 주소'
-                        value={gitLink}
-                        onChange={(e) => setGitLink(e.target.value)}
-                    />
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="Git 주소" className="mb-3">
+                    <Form.Control type="text" placeholder="Git 주소" value={gitLink} onChange={e => setGitLink(e.target.value)} />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <Form.Control type='file' onChange={(e) => setUserImage(e.target.files[0])} />
+            <div className="mb-2">
+                <Form.Control type="file" onChange={e => setUserImage(e.target.files[0])} />
             </div>
-            <div className='mb-2 text-center'>
+            <div className="mb-2 text-center">
                 <Col sm={{ span: 20 }}>
                     <Button
                         style={{ backgroundColor: '#3077e1', border: 'none' }}
-                        variant='primary'
-                        type='submit'
-                        className='me-3'
-                        onClick={(e) => handleSubmit(e)}>
+                        variant="primary"
+                        type="submit"
+                        className="me-3"
+                        onClick={e => handleSubmit(e)}>
                         확인
                     </Button>
                     <Button
                         style={{ backgroundColor: '#7469bc', border: 'none' }}
-                        variant='secondary'
+                        variant="secondary"
                         onClick={() => setIsEditing(false)}>
                         취소
                     </Button>

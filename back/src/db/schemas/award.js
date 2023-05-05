@@ -33,7 +33,7 @@ const AwardSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const AwardModel = model('Award', AwardSchema);

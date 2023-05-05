@@ -7,40 +7,40 @@ function StackForm({ formSendFunction, currentData, item }) {
 
     return (
         <div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='기술 이름*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="기술 이름*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='text'
-                        placeholder='기술 이름'
+                        type="text"
+                        placeholder="기술 이름"
                         value={stackName}
                         onChange={onChangeName}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='기술 설명*' className='mb-3'>
+            <div className="mb-2">
+                <FloatingLabel controlId="floatingInput" label="기술 설명*" className="mb-3">
                     <Form.Control
                         style={{ width: '100%' }}
-                        type='text'
-                        placeholder='기술 설명'
+                        type="text"
+                        placeholder="기술 설명"
                         value={stackDescription}
                         onChange={onChangeDescription}
                     />
                 </FloatingLabel>
             </div>
-            <div className='mb-3 text-center'>
+            <div className="mb-3 text-center">
                 {currentEditId !== item._id ? (
                     <React.Fragment>
                         <Button
                             style={{ backgroundColor: '#3077e1', border: 'none' }}
-                            className='me-2'
+                            className="me-2"
                             onClick={() => handleSubmit(item._id)}>
                             확인
                         </Button>
                         <Button
                             style={{ backgroundColor: '#7469bc', border: 'none' }}
-                            variant='secondary'
+                            variant="secondary"
                             onClick={() => handleCancel()}>
                             취소
                         </Button>
@@ -49,15 +49,15 @@ function StackForm({ formSendFunction, currentData, item }) {
                     <React.Fragment>
                         <Button
                             style={{ backgroundColor: '#3077e1', border: 'none' }}
-                            className='me-2'
+                            className="me-2"
                             onClick={() => handleSubmit(item._id)}>
                             확인
                         </Button>
 
                         <Button
                             style={{ backgroundColor: '#7469bc', border: 'none' }}
-                            className='me-2'
-                            variant='secondary'
+                            className="me-2"
+                            variant="secondary"
                             onClick={() => handleCancel()}>
                             취소
                         </Button>

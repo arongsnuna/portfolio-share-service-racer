@@ -6,7 +6,7 @@ function Stack({ portfolioOwnerId, isEditable }) {
     return (
         <Row>
             <Col xs={2}>
-                <Card.Title className='ms-3 mt-3'>보유 기술</Card.Title>
+                <Card.Title className="ms-3 mt-3">보유 기술</Card.Title>
             </Col>
             <Col xs={9}>
                 <Row>

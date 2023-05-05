@@ -1,8 +1,8 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const StackSchema = new Schema(
     {
-        stackName:{
+        stackName: {
             type: String,
             required: true,
         },
@@ -25,10 +25,9 @@ const StackSchema = new Schema(
     },
     {
         timestamps: true,
-    }
-
+    },
 );
 
 const StackModel = model('Stack', StackSchema);
 
-export { StackModel, StackSchema};
+export { StackModel, StackSchema };
