@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import "../../static/font.css";
 import { Card, Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Typography } from '@material-ui/core';
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -66,8 +68,12 @@ function LoginForm() {
     <Container fluid style={{ height: "100%" }}>
       <Row className="align-items-center" style={{ marginTop: "100px" }}>
         <Col sm={6} className="d-flex align-items-center flex-column">
-          <Row className="d-flex align-items-center">Forefolio.com</Row>
+          <Row className="d-flex align-items-center">
+            <Typography variant="h1" style={{fontFamily:"BMKIRANGHAERANG", color:"white", textShadow: "-5px 0px #576069, 0px 5px #576069, 5px 0px #576069, 0px -5px #576069"}}>
+                Forefolio.com
+            </Typography></Row>
           <Row className="d-flex align-items-center text-center">
+          <Typography style={{color:"white"}}>
             Let’s start the first step on your Odyssey as developer. <br />
             It might be a long and hard journey. <br />
             But with Forefolio, you can do it!
@@ -78,6 +84,7 @@ function LoginForm() {
             길고 힘든 여정이 될 수도 있겠지만,
             <br />
             Forefolio와 함께라면 할 수 있습니다!
+            </Typography>
           </Row>
         </Col>
         <Col sm={6}>
@@ -86,7 +93,7 @@ function LoginForm() {
               <Col lg={8}>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="loginEmail">
-                    <Form.Label>이메일 주소</Form.Label>
+                    <Form.Label><Typography style={{fontFamily:"BMKIRANGHAERANG", color:"#576069"}}>이메일 주소</Typography></Form.Label>
                     <Form.Control
                       type="email"
                       autoComplete="on"
@@ -97,7 +104,7 @@ function LoginForm() {
                   </Form.Group>
 
                   <Form.Group controlId="loginPassword" className="mt-3">
-                    <Form.Label>비밀번호</Form.Label>
+                    <Form.Label><Typography style={{fontFamily:"BMKIRANGHAERANG", color:"#576069"}}>비밀번호</Typography></Form.Label>
                     <Form.Control
                       type="password"
                       autoComplete="on"
