@@ -48,7 +48,7 @@ function Wanted() {
     return () => {
       document.body.classList.remove("portfolio");
     };
-  }, [window.location]);
+  }, []);
 
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -71,12 +71,12 @@ function Wanted() {
     <Container>
       <Row>
         <Col xs={12} className="text-left text-center">
-          <h3 className="mt-5" style={{ color: "white", fontWeight: '800' }}>
+          <h3 className="mt-5" style={{ color: "white", fontWeight: "800" }}>
             Check the <span style={{ backgroundColor: "#8FC382" }}>“wanted”</span> board and join the project.
             <br />
             Or you can recruit your own team members.
           </h3>
-          <p className="mb-5" style={{ color: "white"}}>
+          <p className="mb-5" style={{ color: "white" }}>
             팀원 모집을 확인하고 프로젝트에 참여해보세요.
             <br />
             원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
@@ -94,7 +94,7 @@ function Wanted() {
         </Col>
       </Row>
       <Row>
-        <ListGroup className='my-4'>
+        <ListGroup className="my-4">
           {wantedList.map((item) => (
             <ListGroup.Item
               action
@@ -102,15 +102,19 @@ function Wanted() {
               as="li"
               className="d-flex justify-content-between align-items-start mb-3 p-3"
               onClick={() => navigate("/wanted/read", { state: { wanted: item } })}
-              style={{ borderRadius: '11px', border: '1px solid #B8B8B8' }}
+              style={{ borderRadius: "11px", border: "1px solid #B8B8B8", cursor: "pointer" }}
             >
               <div className="ms-2 me-auto">
-                <div className="fw-bold mb-2" style={{fontSize:'1em'}}>{item.wantedTitle}</div>
-                <div style={{fontSize:'0.8em', color: 'grey'}}>{getPreview(item.wantedContent)}</div>
+                <div className="fw-bold mb-2" style={{ fontSize: "1em" }}>
+                  {item.wantedTitle}
+                </div>
+                <div style={{ fontSize: "0.8em", color: "grey" }}>{getPreview(item.wantedContent)}</div>
               </div>
-              <Badge pill bg='#' style={{fontSize: '0.75em', color: 'grey'}}>View More ↘︎</Badge>
+              <Badge pill bg="#" style={{ fontSize: "0.75em", color: "grey" }}>
+                View More ↘︎
+              </Badge>
               <Badge pill bg="secondary">
-              <CommentCount wantedId={item._id} />
+                <CommentCount wantedId={item._id} />
               </Badge>
             </ListGroup.Item>
           ))}
