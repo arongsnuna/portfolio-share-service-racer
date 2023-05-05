@@ -13,7 +13,7 @@ const userAuthRouter = Router();
 // 파일 저장을 위한 storage 생성
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../uploads/users')); // 파일 업로드 위치 설정
+        cb(null, path.join(__dirname, '../uploaded')); // 파일 업로드 위치 설정
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -126,7 +126,7 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         if (uploadImage !== null) {
             // 업로드 된 파일을 서버의 파일 시스템에 저장
             const fileName = uploadImage.filename;
-            const filePath = path.join(__dirname, '../uploads/users', fileName);
+            const filePath = path.join(__dirname, '../uploaded', fileName);
 
             // 이미지파일의 경로를 불러와 데이터 URI로 변환(로컬 파일 시스템의 경로를 사용하기 때문)
             // 이미지 파일 읽기
