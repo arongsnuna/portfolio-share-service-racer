@@ -65,6 +65,13 @@ projectRouter.post('/', async (req, res, next) => {
             throw new Error('미래의 프로젝트 종료일자는 입력할 수 없습니다.');
         }
 
+        const isDateValid = projectStartDate < projectEndDate;
+
+        if (!isDateValid) {
+            res.status(400).send({ error: '프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.' });
+            throw new Error('프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.');
+        }
+
         const newProject = { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink };
         const projects = await projectService.findAll({ userId });
         const projectExists = projects.some((project) => project.projectName === newProject.projectName);
@@ -105,6 +112,13 @@ projectRouter.put('/:projectId', async (req, res, next) => {
         if (!project) {
             res.status(400).send({ error: '이 프로젝트 정보는 존재하지 않습니다.' });
             throw new Error('이 프로젝트 정보는 존재하지 않습니다.');
+        }
+
+        const isDateValid = projectStartDate < projectEndDate;
+
+        if (!isDateValid) {
+            res.status(400).send({ error: '프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.' });
+            throw new Error('프로젝트 시작일자보다 프로젝트 종료일자가 이전입니다.');
         }
 
         const newProject = { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink };

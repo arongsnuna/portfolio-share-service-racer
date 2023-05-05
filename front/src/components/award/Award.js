@@ -8,7 +8,7 @@ function Award({ portfolioOwnerId, isEditable }) {
             <Col xs={2}>
                 <Card.Title className='ms-3 mt-3'>수상 이력</Card.Title>
             </Col>
-            <Col xs={10}>
+            <Col xs={9}>
                 <Row>
                     <AwardDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                 </Row>

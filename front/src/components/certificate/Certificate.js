@@ -8,7 +8,7 @@ function CertificateCreate({ portfolioOwnerId, isEditable }) {
             <Col xs={2}>
                 <Card.Title className='ms-3 mt-3'>자격증</Card.Title>
             </Col>
-            <Col xs={10}>
+            <Col xs={9}>
                 <Row>
                     <CertificateDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                 </Row>

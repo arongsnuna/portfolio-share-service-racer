@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../static/font.css';
 import { Card, Container, Col, Row, Form, Button } from 'react-bootstrap';
@@ -6,10 +6,12 @@ import { Typography } from '@material-ui/core';
 
 import * as Api from '../../api';
 import { DispatchContext } from '../../App';
+import { UserStateContext } from '../../App';
 
 function LoginForm() {
     const navigate = useNavigate();
     const dispatch = useContext(DispatchContext);
+    const userState = useContext(UserStateContext);
 
     //useState로 email 상태를 생성함.
     const [email, setEmail] = useState('');
@@ -63,6 +65,16 @@ function LoginForm() {
             console.log('로그인에 실패하였습니다.\n', err);
         }
     };
+
+    useEffect(() => {
+        // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
+        if (!userState.user) {
+            navigate('/login');
+            return;
+        } else {
+            navigate(`/user/${userState.user._id}`);
+        }
+    }, [userState, navigate]);
 
     return (
         <Container fluid style={{ height: '100%' }}>

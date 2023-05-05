@@ -8,13 +8,16 @@ function UserCardPortfolio({ user, setIsEditing, isEditable, isNetwork, userImag
         userImageUrl = 'http://placekitten.com/200/200';
     }
 
+    const handleClick = () => {
+        window.location.href = `http://${user.gitLink}`;
+    };
+
     return (
         <Row xs='auto'>
             <Col>
                 <Card.Img
-                    style={{ width: '10rem', height: '8rem', borderRadius: '70%', overflow: 'hidden' }}
+                    style={{ width: '10rem', height: '10rem', borderRadius: '70%', overflow: 'hidden' }}
                     className='mb-3'
-                    // src='http://placekitten.com/200/200'
                     src={userImageUrl}
                     alt='랜덤 고양이 사진 (http://placekitten.com API 사용)'
                 />
@@ -34,7 +37,9 @@ function UserCardPortfolio({ user, setIsEditing, isEditable, isNetwork, userImag
             </Col>
             <Col sm className='mt-3 text-end text-info'>
                 {(!user?.gitLink || user?.gitLink !== 'undefined') && (
-                    <Button style={{ backgroundColor: '#2a3741', border: 'none', width: '80px' }}>GitLink</Button>
+                    <Button style={{ backgroundColor: '#2a3741', border: 'none', width: '80px' }} onClick={handleClick}>
+                        GitLink
+                    </Button>
                 )}
                 {isEditable && (
                     <Col>

@@ -55,7 +55,7 @@ stackRouter.post('/', async (req, res, next) => {
         const newStack = { stackName, stackDescription };
 
         const stacks = await stackService.findAll({ userId });
-        const stackExists = stacks.some((stack) => stack.stackName === newStack.stackName);
+        const stackExists = stacks.some((stack) => stack.stackName.toLowerCase() === newStack.stackName.toLowerCase());
         if (stackExists) {
             res.status(400).send({ error: `${newStack.stackName} 스택은 이미 존재합니다.` });
             throw new Error(`${newStack.stackName} 스택은 이미 존재합니다.`);

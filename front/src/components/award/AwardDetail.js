@@ -229,7 +229,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
                             <Button
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
                                 className='me-2'
-                                nClick={() => handleSubmit()}>
+                                onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button

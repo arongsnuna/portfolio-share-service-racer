@@ -316,7 +316,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                                 style={{ backgroundColor: '#3077e1', border: 'none' }}
                                 variant='primary'
                                 className='me-2'
-                                nClick={() => handleSubmit()}>
+                                onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button

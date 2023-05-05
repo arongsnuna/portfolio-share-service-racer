@@ -166,6 +166,7 @@ userAuthRouter.get('/:id', login_required, async function (req, res, next) {
         const currentUserInfo = await userAuthService.getUserInfo({ userId });
 
         if (currentUserInfo.errorMessage) {
+            res.status(400).send({ error: currentUserInfo.errorMessage });
             throw new Error(currentUserInfo.errorMessage);
         }
 
