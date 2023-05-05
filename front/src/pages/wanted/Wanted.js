@@ -82,32 +82,35 @@ function Wanted() {
             원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
           </p>
         </Col>
-        <Col className="position-relative">
+        <Col className="position-relative mt-4">
           <Button
-            className="m-3 position-absolute bottom-0 end-0"
+            className="m-3 position-absolute bottom-0 end-0 "
             variant="primary"
             onClick={() => navigate("/wanted/create")}
+            style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}
           >
-            게시글 작성
+            게시글 작성하기
           </Button>
         </Col>
       </Row>
       <Row>
-        <ListGroup>
+        <ListGroup className='my-4'>
           {wantedList.map((item) => (
             <ListGroup.Item
               action
               key={item._id}
               as="li"
-              className="d-flex justify-content-between align-items-start"
+              className="d-flex justify-content-between align-items-start mb-3 p-3"
               onClick={() => navigate("/wanted/read", { state: { wanted: item } })}
+              style={{ borderRadius: '11px', border: '1px solid #B8B8B8' }}
             >
               <div className="ms-2 me-auto">
-                <div className="fw-bold">{item.wantedTitle}</div>
-                {getPreview(item.wantedContent)}
+                <div className="fw-bold mb-2" style={{fontSize:'1em'}}>{item.wantedTitle}</div>
+                <div style={{fontSize:'0.8em', color: 'grey'}}>{getPreview(item.wantedContent)}</div>
               </div>
-              <Badge bg="primary" pill>
-                <CommentCount wantedId={item._id} />
+              <Badge pill bg='#' style={{fontSize: '0.75em', color: 'grey'}}>View More ↘︎</Badge>
+              <Badge pill bg="secondary">
+              <CommentCount wantedId={item._id} />
               </Badge>
             </ListGroup.Item>
           ))}
