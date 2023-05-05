@@ -36,6 +36,20 @@ function Wanted() {
     return content; // maxContentLength보다 짧은 경우 그대로 반환
   }
 
+  //페이지 경로에 따라 배경색이 달라짐
+  useEffect(() => {
+    const { pathname } = window.location;
+    if (pathname === "/" || pathname === "/network" || pathname === "/wanted") {
+      document.body.classList.add("portfolio");
+    } else {
+      document.body.classList.remove("portfolio");
+    }
+    // cleanup 함수
+    return () => {
+      document.body.classList.remove("portfolio");
+    };
+  }, [window.location]);
+
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
     if (!userState.user) {
@@ -56,15 +70,18 @@ function Wanted() {
   return (
     <Container>
       <Row>
-      <Col xs={12} className='text-left text-center'>
-                    <h3 className='mt-5' style={{color:"white"}}>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
-<br />Or you can recruit your own team members.</h3>
-                    <p className='mb-5' style={{color:"white"}}>
-                        팀원 모집을 확인하고 프로젝트에 참여해보세요.
-                        <br />
-                        원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
-                    </p>
-                </Col>
+        <Col xs={12} className="text-left text-center">
+          <h3 className="mt-5" style={{ color: "white" }}>
+            Check the <span style={{ backgroundColor: "#8FC382" }}>“wanted”</span> board and join the project.
+            <br />
+            Or you can recruit your own team members.
+          </h3>
+          <p className="mb-5" style={{ color: "white" }}>
+            팀원 모집을 확인하고 프로젝트에 참여해보세요.
+            <br />
+            원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
+          </p>
+        </Col>
         <Col className="position-relative">
           <Button
             className="m-3 position-absolute bottom-0 end-0"

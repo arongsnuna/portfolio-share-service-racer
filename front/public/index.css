@@ -12,3 +12,8 @@ body {
 #root {
   height: 100%;
 }
+
+#body.portfolio {
+  background: #d9d9d9 url("./footer.svg") no-repeat center fixed;
+  background-size: cover;
+}
