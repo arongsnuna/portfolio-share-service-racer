@@ -217,10 +217,10 @@ function WantedUpdate() {
 
         <Col xs={6} className="mb-3 justify-content-end">
           <Button
-            className="me-3"
+            className="me-3 ml-auto"
             variant="primary"
             onClick={() => navigate("/wanted")}
-            style={{ backgroundColor: "#2A3741", border: "0px" }}
+            style={{ backgroundColor: "#2A3741", border: "0px", fontSize: '0.8em' }}
           >
             목록으로
           </Button>
