@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Col, Row, ListGroup } from 'react-bootstrap';
+import { Container, Col, ListGroup } from 'react-bootstrap';
 import { UserStateContext } from '../../App';
 import * as Api from '../../api';
 
@@ -66,7 +66,7 @@ function Portfolio() {
 
     return (
         <Container>
-            <ListGroup variant='flush'>
+            <ListGroup variant='flush' style={{ borderRadius: '0.5rem' }}>
                 <ListGroup.Item>
                     <Col xs className='mb-2'>
                         <User
