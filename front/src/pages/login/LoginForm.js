@@ -108,7 +108,7 @@ function LoginForm() {
                     </Row>
                 </Col>
                 <Col sm={6}>
-                    <Card>
+                    <Card style={{ width: '70%' }}>
                         <Row className='justify-content-md-center mt-5'>
                             <Col lg={8}>
                                 <Form onSubmit={handleSubmit}>
