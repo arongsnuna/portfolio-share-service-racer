@@ -186,7 +186,7 @@ function WantedUpdate() {
     return () => {
       document.body.classList.remove("portfolio");
     };
-  }, [window.location]);
+  }, []);
 
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -203,7 +203,7 @@ function WantedUpdate() {
     <Container>
       <Row xs="auto">
         <Col xs={12} className="text-left text-center">
-          <h3 className="mt-5" style={{ color: "white", fontWeight: '800' }}>
+          <h3 className="mt-5" style={{ color: "white", fontWeight: "800" }}>
             Check the <span style={{ backgroundColor: "#8FC382" }}>“wanted”</span> board and join the project.
             <br />
             Or you can recruit your own team members.
@@ -220,14 +220,14 @@ function WantedUpdate() {
             className="me-3 ml-auto"
             variant="primary"
             onClick={() => navigate("/wanted")}
-            style={{ backgroundColor: "#2A3741", border: "0px", fontSize: '0.8em' }}
+            style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}
           >
             목록으로
           </Button>
           {isWantedEditable && (
             <Button
               className="me-3 text-start"
-              style={{ backgroundColor: "#2A3741", border: "0px", fontSize: '0.8em' }}
+              style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}
               variant="primary"
               onClick={() => navigate("/wanted/update", { state: { wanted: wanted } })}
             >
@@ -329,13 +329,28 @@ function WantedUpdate() {
                       />
                     </Col>
                     <Col xs={3}>
-                      <Button className="me-3 ml-auto" variant="primary" onClick={() => handleCommentEditSubmit(comment._id)} style={{ border: "0px", fontSize: "0.8em" }}>
+                      <Button
+                        className="me-3 ml-auto"
+                        variant="primary"
+                        onClick={() => handleCommentEditSubmit(comment._id)}
+                        style={{ border: "0px", fontSize: "0.8em" }}
+                      >
                         확인
                       </Button>
-                      <Button className="me-3 ml-auto" variant="danger" onClick={() => handleCommentEditRemove(comment._id)} style={{ fontSize: "0.8em" }}>
+                      <Button
+                        className="me-3 ml-auto"
+                        variant="danger"
+                        onClick={() => handleCommentEditRemove(comment._id)}
+                        style={{ fontSize: "0.8em" }}
+                      >
                         삭제
                       </Button>
-                      <Button className="me-3 ml-auto" variant="secondary" onClick={() => handleCancel(comment._id)} style={{ fontSize: "0.8em" }}>
+                      <Button
+                        className="me-3 ml-auto"
+                        variant="secondary"
+                        onClick={() => handleCancel(comment._id)}
+                        style={{ fontSize: "0.8em" }}
+                      >
                         취소
                       </Button>
                     </Col>

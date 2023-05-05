@@ -51,7 +51,7 @@ function WantedCreate() {
     return () => {
       document.body.classList.remove("portfolio");
     };
-  }, [window.location]);
+  }, []);
 
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -65,7 +65,7 @@ function WantedCreate() {
     <Container>
       <Row className="justify-content-center">
         <Col xs={12} className="text-left text-center">
-        <h3 className="mt-5" style={{ color: "white", fontWeight: '800' }}>
+          <h3 className="mt-5" style={{ color: "white", fontWeight: "800" }}>
             Check the <span style={{ backgroundColor: "#8FC382" }}>“wanted”</span> board and join the project.
             <br />
             Or you can recruit your own team members.
@@ -106,8 +106,13 @@ function WantedCreate() {
         </Card>
       </Row>
       <Col className="mb-3 text-center">
-        <Button variant="primary" className="me-3" onClick={() => handleSubmit()} style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}>
-          게시글 작성 
+        <Button
+          variant="primary"
+          className="me-3"
+          onClick={() => handleSubmit()}
+          style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}
+        >
+          게시글 작성
         </Button>
         <Button variant="secondary" onClick={() => navigate("/wanted")} style={{ fontSize: "0.8em" }}>
           취소
