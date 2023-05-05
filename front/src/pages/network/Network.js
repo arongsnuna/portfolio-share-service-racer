@@ -16,7 +16,7 @@ function Network() {
     //페이지 경로에 따라 배경색이 달라짐
     useEffect(() => {
         const { pathname } = window.location;
-        if (pathname === '/' || pathname === '/network' || pathname === '/wanted') {
+        if (pathname.startsWith('/user') || pathname === '/network' || pathname === '/wanted') {
             document.body.classList.add('portfolio');
         } else {
             document.body.classList.remove('portfolio');
@@ -25,7 +25,7 @@ function Network() {
         return () => {
             document.body.classList.remove('portfolio');
         };
-    }, [window.location]);
+    }, []);
 
     useEffect(() => {
         // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
