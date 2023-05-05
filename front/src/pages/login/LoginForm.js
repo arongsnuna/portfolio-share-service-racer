@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Card, Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -63,8 +63,8 @@ function LoginForm() {
   };
 
   return (
-    <Container>
-      <Row className="align-items-center">
+    <Container fluid style={{ height: "100%" }}>
+      <Row className="align-items-center" style={{ marginTop: "100px" }}>
         <Col sm={6} className="d-flex align-items-center flex-column">
           <Row className="d-flex align-items-center">Forefolio.com</Row>
           <Row className="d-flex align-items-center text-center">
@@ -81,49 +81,55 @@ function LoginForm() {
           </Row>
         </Col>
         <Col sm={6}>
-          <Row className="justify-content-md-center mt-5">
-            <Col lg={8}>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="loginEmail">
-                  <Form.Label>이메일 주소</Form.Label>
-                  <Form.Control
-                    type="email"
-                    autoComplete="on"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  {!isEmailValid && <Form.Text className="text-success">이메일 형식이 올바르지 않습니다.</Form.Text>}
-                </Form.Group>
+          <Card>
+            <Row className="justify-content-md-center mt-5">
+              <Col lg={8}>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="loginEmail">
+                    <Form.Label>이메일 주소</Form.Label>
+                    <Form.Control
+                      type="email"
+                      autoComplete="on"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    {!isEmailValid && <Form.Text className="text-success">이메일 형식이 올바르지 않습니다.</Form.Text>}
+                  </Form.Group>
 
-                <Form.Group controlId="loginPassword" className="mt-3">
-                  <Form.Label>비밀번호</Form.Label>
-                  <Form.Control
-                    type="password"
-                    autoComplete="on"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {!isPasswordValid && <Form.Text className="text-success">비밀번호는 4글자 이상입니다.</Form.Text>}
-                </Form.Group>
+                  <Form.Group controlId="loginPassword" className="mt-3">
+                    <Form.Label>비밀번호</Form.Label>
+                    <Form.Control
+                      type="password"
+                      autoComplete="on"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    {!isPasswordValid && <Form.Text className="text-success">비밀번호는 4글자 이상입니다.</Form.Text>}
+                  </Form.Group>
 
-                <Form.Group as={Row} className="mt-3 text-center">
-                  <Col sm={{ span: 20 }}>
-                    <Button variant="primary" type="submit" disabled={!isFormValid}>
-                      로그인
-                    </Button>
-                  </Col>
-                </Form.Group>
+                  <Form.Group as={Row} className="mt-3 text-center">
+                    <Col sm={{ span: 20 }}>
+                      <Button
+                        style={{ backgroundColor: "#2a3741", border: "none" }}
+                        type="submit"
+                        disabled={!isFormValid}
+                      >
+                        로그인
+                      </Button>
+                    </Col>
+                  </Form.Group>
 
-                <Form.Group as={Row} className="mt-3 text-center">
-                  <Col sm={{ span: 20 }}>
-                    <Button variant="light" onClick={() => navigate("/register")}>
-                      회원가입하기
-                    </Button>
-                  </Col>
-                </Form.Group>
-              </Form>
-            </Col>
-          </Row>
+                  <Form.Group as={Row} className="mt-3 text-center">
+                    <Col sm={{ span: 20 }}>
+                      <Button variant="light" onClick={() => navigate("/register")}>
+                        회원가입하기
+                      </Button>
+                    </Col>
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Row>
+          </Card>
         </Col>
       </Row>
     </Container>
