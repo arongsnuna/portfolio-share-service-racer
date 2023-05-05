@@ -329,13 +329,13 @@ function WantedUpdate() {
                       />
                     </Col>
                     <Col xs={3}>
-                      <Button className="me-3" variant="primary" onClick={() => handleCommentEditSubmit(comment._id)}>
+                      <Button className="me-3 ml-auto" variant="primary" onClick={() => handleCommentEditSubmit(comment._id)} style={{ border: "0px", fontSize: "0.8em" }}>
                         확인
                       </Button>
-                      <Button className="me-3" variant="danger" onClick={() => handleCommentEditRemove(comment._id)}>
+                      <Button className="me-3 ml-auto" variant="danger" onClick={() => handleCommentEditRemove(comment._id)} style={{ fontSize: "0.8em" }}>
                         삭제
                       </Button>
-                      <Button variant="secondary" onClick={() => handleCancel(comment._id)}>
+                      <Button className="me-3 ml-auto" variant="secondary" onClick={() => handleCancel(comment._id)} style={{ fontSize: "0.8em" }}>
                         취소
                       </Button>
                     </Col>
