@@ -24,7 +24,7 @@ function Header() {
     };
 
     return (
-        <Navbar bg='light' variant='light' className='mb-3'>
+        <Navbar bg='light' variant='light' className='mb-3' activeKey={location.pathname}>
             <Container>
                 <Navbar.Brand href='/'>ForeFolio</Navbar.Brand>
                 <Nav className='me-auto'>
