@@ -67,7 +67,7 @@ function RegisterForm() {
                     <Col lg={12}>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId='registerEmail'>
-                                <FloatingLabel controlId='floatingInput' label='이메일 주소' className='mb-3'>
+                                <FloatingLabel controlId='floatingInput' label='이메일 주소*' className='mb-3'>
                                     <Form.Control
                                         type='email'
                                         autoComplete='off'
@@ -82,7 +82,7 @@ function RegisterForm() {
                             </Form.Group>
 
                             <Form.Group controlId='registerPassword' className='mt-3'>
-                                <FloatingLabel controlId='floatingInput' label='비밀번호' className='mb-3'>
+                                <FloatingLabel controlId='floatingInput' label='비밀번호*' className='mb-3'>
                                     <Form.Control
                                         type='password'
                                         autoComplete='off'
@@ -97,7 +97,7 @@ function RegisterForm() {
                             </Form.Group>
 
                             <Form.Group controlId='registerConfirmPassword' className='mt-3'>
-                                <FloatingLabel controlId='floatingInput' label='비밀번호 재확인' className='mb-3'>
+                                <FloatingLabel controlId='floatingInput' label='비밀번호 재확인*' className='mb-3'>
                                     <Form.Control
                                         type='password'
                                         autoComplete='off'
@@ -112,7 +112,7 @@ function RegisterForm() {
                             </Form.Group>
 
                             <Form.Group controlId='registerName' className='mt-3'>
-                                <FloatingLabel controlId='floatingInput' label='이름' className='mb-3'>
+                                <FloatingLabel controlId='floatingInput' label='이름*' className='mb-3'>
                                     <Form.Control
                                         type='text'
                                         autoComplete='off'

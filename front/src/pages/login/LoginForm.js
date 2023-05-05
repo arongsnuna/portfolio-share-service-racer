@@ -44,6 +44,7 @@ function LoginForm() {
                 email,
                 password,
             });
+
             // 유저 정보는 response의 data임.
             const user = res.data;
             // JWT 토큰은 유저 정보의 token임.
@@ -150,7 +151,8 @@ function LoginForm() {
                                             <Button
                                                 style={{ backgroundColor: '#2a3741', border: 'none' }}
                                                 type='submit'
-                                                disabled={!isFormValid}>
+                                                disabled={!isFormValid}
+                                                onClick={(e) => handleSubmit(e)}>
                                                 로그인
                                             </Button>
                                         </Col>

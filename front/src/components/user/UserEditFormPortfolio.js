@@ -55,12 +55,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     return (
         <div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='이름' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='이름*' className='mb-3'>
                     <Form.Control type='text' placeholder='이름' value={name} onChange={(e) => setName(e.target.value)} />
                 </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='이메일' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='이메일*' className='mb-3'>
                     <Form.Control type='email' placeholder='이메일' value={email} disabled />
                 </FloatingLabel>
             </div>

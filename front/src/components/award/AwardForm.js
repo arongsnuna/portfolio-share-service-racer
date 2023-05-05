@@ -10,7 +10,7 @@ function AwardForm({ formSendFunction, currentData, item }) {
         <div>
             <div>
                 <div className='mb-2'>
-                    <FloatingLabel controlId='floatingInput' label='수상 명' className='mb-3'>
+                    <FloatingLabel controlId='floatingInput' label='수상 명*' className='mb-3'>
                         <Form.Control
                             style={{ width: '100%' }}
                             type='text'
@@ -21,7 +21,7 @@ function AwardForm({ formSendFunction, currentData, item }) {
                     </FloatingLabel>
                 </div>
                 <div className='mb-2'>
-                    <FloatingLabel controlId='floatingInput' label='수상 일자' className='mb-3'>
+                    <FloatingLabel controlId='floatingInput' label='수상 일자*' className='mb-3'>
                         <Form.Control
                             style={{ width: '100%' }}
                             type='date'
@@ -32,7 +32,7 @@ function AwardForm({ formSendFunction, currentData, item }) {
                     </FloatingLabel>
                 </div>
                 <div className='mb-2'>
-                    <FloatingLabel controlId='floatingInput' label='수상기관' className='mb-3'>
+                    <FloatingLabel controlId='floatingInput' label='수상기관*' className='mb-3'>
                         <Form.Control
                             style={{ width: '100%' }}
                             type='text'
@@ -43,7 +43,7 @@ function AwardForm({ formSendFunction, currentData, item }) {
                     </FloatingLabel>
                 </div>
                 <div className='mb-2'>
-                    <FloatingLabel controlId='floatingInput' label='수여내용' className='mb-3'>
+                    <FloatingLabel controlId='floatingInput' label='수여내용*' className='mb-3'>
                         <Form.Control
                             style={{ width: '100%' }}
                             type='text'

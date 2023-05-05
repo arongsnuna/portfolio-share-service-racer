@@ -181,7 +181,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상 명' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='수상 명*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='text'
@@ -192,7 +192,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
                         </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상 일자' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='수상 일자*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='date'
@@ -203,7 +203,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
                         </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수상기관' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='수상기관*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='text'
@@ -214,7 +214,7 @@ function AwardDetail({ portfolioOwnerId, isEditable }) {
                         </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='수여내용' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='수여내용*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='text'

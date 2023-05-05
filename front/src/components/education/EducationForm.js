@@ -19,7 +19,7 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
     return (
         <div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='학교이름' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='학교이름*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='text'
@@ -30,7 +30,7 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
                 </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='전공' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='전공*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='text'
@@ -41,7 +41,7 @@ function EducationForm({ formSendFunction, currentData, isFlag, item }) {
                 </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='입학일자' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='입학일자*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='date'

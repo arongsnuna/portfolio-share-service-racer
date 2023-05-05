@@ -60,7 +60,7 @@ function Portfolio() {
             return;
         }
 
-        if (params.userId) {
+        if (params.userId && params.userId !== 'undefined') {
             // 만약 현재 URL이 "/user/:userId" 라면, 이 userId를 유저 id로 설정함.
             const ownerId = params.userId;
             // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
@@ -68,7 +68,6 @@ function Portfolio() {
         } else {
             // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
             const ownerId = userState.user._id ?? userState.user.id;
-
             // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
             fetchPorfolioOwner(ownerId);
         }

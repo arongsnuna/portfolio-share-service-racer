@@ -18,7 +18,7 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
     return (
         <div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 명' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='프로젝트 명*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='text'
@@ -29,7 +29,7 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
                 </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 시작일자' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='프로젝트 시작일자*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='date'
@@ -40,7 +40,7 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
                 </FloatingLabel>
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 종료일자' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='프로젝트 종료일자*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='date'
@@ -54,7 +54,7 @@ function ProjectForm({ formSendFunction, currentData, isFlag, item }) {
                 )}
             </div>
             <div className='mb-2'>
-                <FloatingLabel controlId='floatingInput' label='프로젝트 설명' className='mb-3'>
+                <FloatingLabel controlId='floatingInput' label='프로젝트 설명*' className='mb-3'>
                     <Form.Control
                         style={{ width: '100%' }}
                         type='text'

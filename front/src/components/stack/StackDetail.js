@@ -156,7 +156,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='기술 이름' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='기술 이름*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='text'
@@ -167,7 +167,7 @@ function StackDetail({ portfolioOwnerId, isEditable }) {
                         </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <FloatingLabel controlId='floatingInput' label='기술 설명' className='mb-3'>
+                        <FloatingLabel controlId='floatingInput' label='기술 설명*' className='mb-3'>
                             <Form.Control
                                 style={{ width: '100%' }}
                                 type='text'
