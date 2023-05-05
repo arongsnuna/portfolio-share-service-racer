@@ -35,7 +35,7 @@ function Header() {
                 <Nav className='me-auto'>
                     <Nav.Link onClick={() => navigate('/')}>나의 페이지</Nav.Link>
                     <Nav.Link onClick={() => navigate('/network')}>네트워크</Nav.Link>
-                    <Nav.Link onClick={() => navigate('/wanted')}>팀원구하기</Nav.Link>
+                    <Nav.Link onClick={() => navigate('/wanted')}>팀원 구하기</Nav.Link>
                     {isLogin && <Nav.Link onClick={logout}>로그아웃</Nav.Link>}
                 </Nav>
             </Container>
