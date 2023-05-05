@@ -21,6 +21,7 @@ function WantedUpdate() {
     const [writerName, setWriterName] = useState('');
     const [writerEmail, setWriterEmail] = useState('');
     const [writerImage, setWriterImage] = useState('');
+    const [writerDescription, setWriterDescription] = useState('');
     const [commentList, setCommentList] = useState([]);
     const [isSave, setIsSave] = useState(false);
 
@@ -44,9 +45,10 @@ function WantedUpdate() {
             // "/user/user_id" 엔드포인트로 get요청함.(userId는 req.currentUserId 사용)
             const res = await Api.get(`user/${userId}`);
             const writerInfo = res.data.userInfo;
-
+            console.log(writerInfo);
             setWriterName(writerInfo.name);
             setWriterEmail(writerInfo.email);
+            setWriterDescription(writerInfo.description);  
 
             if (!writerInfo.userImage) {
                 setWriterImage('http://placekitten.com/200/200');
@@ -186,33 +188,38 @@ function WantedUpdate() {
     return (
         <Container>
             <Row xs='auto'>
-                <Col xs={6} className='text-left'>
-                    <h3>팀원 구하기</h3>
-                    <p>
+                <Col xs={12} className='text-left text-center'>
+                    <h3 className='mt-5'>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
+<br />Or you can recruit your own team members.</h3>
+                    <p className='mb-5'>
                         팀원 모집을 확인하고 프로젝트에 참여해보세요.
                         <br />
                         원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
                     </p>
                 </Col>
-                <Col xs={6} className='mb-3 text-end'>
+
+                <Col xs={6} className='mb-3 justify-content-end'>
+                    <Button className='me-3' variant='primary' onClick={() => navigate('/wanted')} style={{ backgroundColor: '#2A3741', border: '0px'}}>
+                        목록으로
+                    </Button>
                     {isWantedEditable && (
                         <Button
-                            className='me-3'
+                            className='me-3 text-start'
+                            style={{ width: 'auto', backgroundColor: '#2A3741', border: '0px' }}
                             variant='primary'
-                            onClick={() => navigate('/wanted/update', { state: { wanted: wanted } })}>
+                            onClick={() => navigate('/wanted/update', { state: { wanted: wanted } })}
+                            >
                             수정하기
                         </Button>
                     )}
-                    <Button className='me-3' variant='primary' onClick={() => navigate('/wanted')}>
-                        목록으로
-                    </Button>
+
                 </Col>
             </Row>
             <Row>
                 <Card className='mb-3'>
                     <Card.Body>
-                        <Card.Title>{wanted.wantedTitle}</Card.Title>
-                        <Card.Subtitle>
+                        <Card.Title style={{fontWeight: 'bold'}} className='mt-3'>{wanted.wantedTitle}</Card.Title>
+                        <Card.Subtitle className='small mb-5 mt-2' style={{color: 'grey'}}>
                             작성자 : {writerName} &nbsp;&nbsp;&nbsp;&nbsp; 작성일시 : {dateTime(wanted.createdAt)}
                         </Card.Subtitle>
                         <hr />
@@ -220,37 +227,43 @@ function WantedUpdate() {
                     <Card.Body>
                         <Card.Text>{wanted.wantedContent}</Card.Text>
                     </Card.Body>
+
+
                     <Card.Body>
-                        <Row xs='auto'>
+                        <Row xs='auto' style={{backgroundColor: '#EEEEEE', borderRadius: '12px'}}>
                             <Col>
                                 <Card.Img
                                     style={{ width: '5rem', height: '5rem', borderRadius: '70%', overflow: 'hidden' }}
-                                    className='mb-3'
+                                    className='mb-3 mt-3 ms-2'
                                     src={writerImage}
                                     alt='페이지 작성자'
                                 />
                             </Col>
                             <Col>
-                                <Row className='mt-3  text-end'>{writerName}</Row>
-                                <Row style={{ color: 'grey', fontSize: '0.8em' }} className='mt-2'>
+                                <Row className='mt-3 ms-1 text-end'>{writerName}</Row>
+                                <Row style={{ color: 'grey', fontSize: '0.8em' }} className='ms-1'>
                                     {writerEmail}
+                                </Row>
+                                <Row style={{ fontSize: '0.8em' }} className='ms-1 mt-2'>
+                                    {writerDescription}
                                 </Row>
                             </Col>
                         </Row>
                         <Row>
-                            <Card.Subtitle className='mb-3'>{commentList.length}개의 댓글</Card.Subtitle>
+                            <Card.Subtitle className='mb-3 mt-5' style={{ color: '#2A3741', fontWeight: 'bold'}}>{commentList.length}개의 댓글</Card.Subtitle>
                             <Form.Control
                                 placeholder='댓글을 작성하세요.'
                                 as='textarea'
                                 rows={3}
                                 value={commentSaveContent}
                                 onChange={onChangeSaveComment}
+                                style={{ borderRadius: '12px'}}
                             />
                         </Row>
                         <Row>
-                            <Col className='p-0'>
-                                <Button className='mt-3' variant='primary' onClick={() => handleSubmit(wanted.userId)}>
-                                    댓글 작성
+                            <Col className='text-end'>
+                                <Button className='mt-3 ml-auto' style={{ backgroundColor: '#2A3741', border: '0px', fontSize: '0.8em'}} variant='primary' onClick={() => handleSubmit(wanted.userId)}>
+                                    댓글 등록
                                 </Button>
                             </Col>
                         </Row>
@@ -261,7 +274,7 @@ function WantedUpdate() {
                                 <Row xs='auto'>
                                     <Col>
                                         <Card.Img
-                                            style={{ width: '5rem', height: '5rem', borderRadius: '70%', overflow: 'hidden' }}
+                                            style={{ width: '4rem', height: '4rem', borderRadius: '70%', overflow: 'hidden' }}
                                             className='mb-3'
                                             src={comment.userImageUri ? comment.userImageUri : 'http://placekitten.com/200/200'}
                                             alt='댓글 작성자'
@@ -312,7 +325,9 @@ function WantedUpdate() {
                                                 <Button
                                                     variant='primary'
                                                     className='me-3'
-                                                    onClick={() => handleCommentEdit(comment._id)}>
+                                                    onClick={() => handleCommentEdit(comment._id)}
+                                                    style={{ backgroundColor: '#2A3741', border: '0px', fontSize: '0.8em'}} 
+                                                >
                                                     댓글 수정
                                                 </Button>
                                             )}
