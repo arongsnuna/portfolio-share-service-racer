@@ -93,7 +93,7 @@ stackRouter.put('/:stackId', async (req, res, next) => {
         const newStack = { stackName, stackDescription };
         // 수정하려는 스택만 제외하고 다른 모든 스택을 가져올 수 있는 방법
         const exceptStacks = await stackService.findExcept({ userId, stackId });
-        const stackExists = stacks.some(stack => stack.stackName.toLowerCase() === newStack.stackName.toLowerCase());
+        const stackExists = exceptStacks.some(stack => stack.stackName.toLowerCase() === newStack.stackName.toLowerCase());
         if (stackExists) {
             res.status(400).send({ error: `${newStack.stackName} 스택은 이미 존재합니다.` });
             throw new Error(`${newStack.stackName} 스택은 이미 존재합니다.`);
