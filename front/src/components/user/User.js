@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import UserEditFormPortfolo from './UserEditFormPortfolo';
+import UserEditFormPortfolio from './UserEditFormPortfolio';
 import UserCardPortfolio from './UserCardPortfolio';
 import * as Api from '../../api';
 
@@ -32,7 +32,7 @@ function User({ portfolioOwnerId, isEditable }) {
     return (
         <>
             {isEditing ? (
-                <UserEditFormPortfolo user={user} setIsEditing={setIsEditing} setUser={setUser} />
+                <UserEditFormPortfolio user={user} setIsEditing={setIsEditing} setUser={setUser} />
             ) : (
                 <UserCardPortfolio user={user} setIsEditing={setIsEditing} isEditable={isEditable} userImageUrl={userImageUrl} />
             )}
