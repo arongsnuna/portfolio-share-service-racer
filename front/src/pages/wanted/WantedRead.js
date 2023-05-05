@@ -203,7 +203,7 @@ function WantedUpdate() {
     <Container>
       <Row xs="auto">
         <Col xs={12} className="text-left text-center">
-          <h3 className="mt-5" style={{ color: "white" }}>
+          <h3 className="mt-5" style={{ color: "white", fontWeight: '800' }}>
             Check the <span style={{ backgroundColor: "#8FC382" }}>“wanted”</span> board and join the project.
             <br />
             Or you can recruit your own team members.
