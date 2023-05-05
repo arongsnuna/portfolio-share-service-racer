@@ -9,23 +9,24 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, userImageUrl }) {
     }
 
     return (
-        <Card className='mb-2 ms-3 mr-5' style={{ width: '18rem' }}>
+        <Card className='mb-5 ms-5 mr-5' style={{ width: '18rem', borderRadius: '18px' }}>
             <Card.Body>
                 <Row className='justify-content-md-center'>
                     <Card.Img
                         style={{ width: '10rem', height: '8rem' }}
-                        className='mb-3'
+                        className='mb-3 mt-1'
                         // src='http://placekitten.com/200/200'
                         src={userImageUrl}
                         alt='랜덤 고양이 사진 (http://placekitten.com API 사용)'
                     />
                 </Row>
-                <Card.Title>{user?.name}</Card.Title>
-                <Card.Subtitle className='mb-2 text-muted'>{user?.email}</Card.Subtitle>
-                <Card.Text className='mb-2 text-muted'>{user?.description}</Card.Text>
+                <Card.Title style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{user?.name}</Card.Title>
+                <Card.Subtitle className='mb-1 text-muted' style={{ fontSize: '0.8rem' }}>{user?.email}</Card.Subtitle>
+                
                 {(!user?.gitLink || user?.gitLink !== 'undefined') && (
-                    <Card.Link href={`https://${user?.gitLink}`}>{user?.gitLink}</Card.Link>
+                    <Card.Link href={`https://${user?.gitLink}`} className='mb-3 text-muted' style={{ fontSize: '0.8rem' }}>{user?.gitLink}</Card.Link>
                 )}
+                <Card.Text className='mb-2 mt-2 text-muted'>{user?.description}</Card.Text>
 
                 {isEditable && (
                     <Col>
