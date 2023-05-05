@@ -45,7 +45,7 @@ function Network() {
   }, [userState, navigate]);
 
   return (
-    <Container fluid>
+    <Container fluid className="pt-4">
       <Row xs="auto" className="justify-content-center">
         {users.map((user) => (
           <React.Fragment key={user._id}>
