@@ -1,19 +1,19 @@
 import React from 'react';
-import { Card, Row } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import StackDetail from './StackDetail';
 
 function Stack({ portfolioOwnerId, isEditable }) {
     return (
-        <Card className='mb-2 ms-3 mr-5' style={{ width: '100%' }}>
-            <Card.Title className='ms-3 mt-3'>보유 기술</Card.Title>
-            <Card.Body>
+        <Row>
+            <Col xs={2}>
+                <Card.Title className='ms-3 mt-3'>보유 기술</Card.Title>
+            </Col>{' '}
+            <Col xs={10}>
                 <Row>
-                    <div>
-                        <StackDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
-                    </div>
+                    <StackDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                 </Row>
-            </Card.Body>
-        </Card>
+            </Col>
+        </Row>
     );
 }
 

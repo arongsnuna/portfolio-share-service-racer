@@ -1,19 +1,19 @@
 import React from 'react';
-import { Card, Row } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import ProjectDetail from './ProjectDetail';
 
 function ProjectCreate({ portfolioOwnerId, isEditable }) {
     return (
-        <Card className='mb-2 ms-3 mr-5' style={{ width: '100%' }}>
-            <Card.Title className='ms-3 mt-3'>프로젝트</Card.Title>
-            <Card.Body>
+        <Row>
+            <Col xs={2}>
+                <Card.Title className='ms-3 mt-3'>프로젝트</Card.Title>
+            </Col>
+            <Col xs={10}>
                 <Row>
-                    <div>
-                        <ProjectDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
-                    </div>
+                    <ProjectDetail portfolioOwnerId={portfolioOwnerId} isEditable={isEditable} />
                 </Row>
-            </Card.Body>
-        </Card>
+            </Col>
+        </Row>
     );
 }
 

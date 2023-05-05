@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, ListGroup } from 'react-bootstrap';
 import { UserStateContext } from '../../App';
 import * as Api from '../../api';
 
@@ -66,48 +66,48 @@ function Portfolio() {
 
     return (
         <Container>
-            <Row xs='auto'>
-                <Col xs className='mb-2'>
-                    <User
+            <ListGroup variant='flush'>
+                <ListGroup.Item>
+                    <Col xs className='mb-2'>
+                        <User
+                            portfolioOwnerId={portfolioOwner.userInfo._id}
+                            isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                        />
+                    </Col>
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                    <Education
                         portfolioOwnerId={portfolioOwner.userInfo._id}
                         isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
                     />
-                </Col>
-                <Col xs md={8}>
-                    <div style={{ textAlign: 'left' }}>
-                        <div className='mb-3'>
-                            <Award
-                                portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
-                            />
-                        </div>
-                        <div className='mb-3'>
-                            <Education
-                                portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
-                            />
-                        </div>
-                        <div className='mb-3'>
-                            <Certificate
-                                portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
-                            />
-                        </div>
-                        <div className='mb-3'>
-                            <Project
-                                portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
-                            />
-                        </div>
-                        <div className='mb-3'>
-                            <Stack
-                                portfolioOwnerId={portfolioOwner.userInfo._id}
-                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
-                            />
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Stack
+                        portfolioOwnerId={portfolioOwner.userInfo._id}
+                        isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                    />
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Award
+                        portfolioOwnerId={portfolioOwner.userInfo._id}
+                        isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                    />
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                    <Certificate
+                        portfolioOwnerId={portfolioOwner.userInfo._id}
+                        isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                    />
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Project
+                        portfolioOwnerId={portfolioOwner.userInfo._id}
+                        isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                    />
+                </ListGroup.Item>
+            </ListGroup>
         </Container>
     );
 }
