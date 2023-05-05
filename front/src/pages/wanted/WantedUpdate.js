@@ -110,7 +110,7 @@ function WantedUpdate() {
             <Form.Control
               placeholder="본문을 입력해주세요"
               as="textarea"
-              rows={4}
+              rows={12}
               value={wantedContent}
               onChange={onChangeContent}
             />
@@ -125,13 +125,14 @@ function WantedUpdate() {
             onClick={() => {
               handleEdit();
             }}
+            style={{ backgroundColor: "#2A3741", border: "0px", fontSize: "0.8em" }}
           >
             게시글 편집
           </Button>
-          <Button variant="danger" className="me-3" onClick={() => handleDelete()}>
+          <Button variant="danger" className="me-3" onClick={() => handleDelete()} style={{fontSize: "0.8em" }}>
             게시글 삭제
           </Button>
-          <Button variant="secondary" onClick={() => navigate("/wanted/read", { state: { wanted: wanted } })}>
+          <Button variant="secondary" onClick={() => navigate("/wanted/read", { state: { wanted: wanted } })}  style={{fontSize: "0.8em" }}>
             취소
           </Button>
         </Col>
