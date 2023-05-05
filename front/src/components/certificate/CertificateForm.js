@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 function CertificateForm({ formSendFunction, currentData, item }) {
     const { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate } = formSendFunction;
@@ -9,15 +9,31 @@ function CertificateForm({ formSendFunction, currentData, item }) {
         <div>
             <div>
                 <div className='mb-2'>
-                    <Form.Control style={{ width: '100%' }} type='text' placeholder='자격증 명' value={certName} onChange={onChangeName} />
+                    <FloatingLabel controlId='floatingInput' label='자격증 명' className='mb-3'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='text'
+                            placeholder='자격증 명'
+                            value={certName}
+                            onChange={onChangeName}
+                        />
+                    </FloatingLabel>
                 </div>
                 <div className='mb-2'>
-                    <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcDate} onChange={onChangeDate} />
+                    <FloatingLabel controlId='floatingInput' label='취득일자' className='mb-3'>
+                        <Form.Control
+                            style={{ width: '100%' }}
+                            type='date'
+                            placeholder='취득일자'
+                            value={certAcDate}
+                            onChange={onChangeDate}
+                        />
+                    </FloatingLabel>
                 </div>
                 <div className='mb-3 text-center'>
                     {currentEditId !== item._id ? (
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit(item._id)}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit(item._id)}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>
@@ -26,10 +42,10 @@ function CertificateForm({ formSendFunction, currentData, item }) {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit(item._id)}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit(item._id)}>
                                 확인
                             </Button>
-                            <Button variant='danger' onClick={() => handleDelete(item._id)}>
+                            <Button className='me-2' variant='danger' onClick={() => handleDelete(item._id)}>
                                 삭제
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

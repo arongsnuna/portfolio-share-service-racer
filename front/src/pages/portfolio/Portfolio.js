@@ -9,6 +9,7 @@ import Award from '../../components/award/Award';
 import Education from '../../components/education/Education';
 import Certificate from '../../components/certificate/Certificate';
 import Project from '../../components/project/Project';
+import Stack from '../../components/stack/Stack';
 
 function Portfolio() {
     const navigate = useNavigate();
@@ -21,14 +22,21 @@ function Portfolio() {
     const userState = useContext(UserStateContext);
 
     const fetchPorfolioOwner = async (ownerId) => {
-        // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
-        const res = await Api.get('users', ownerId);
-        // 사용자 정보는 response의 data임.
-        const ownerData = res.data;
-        // portfolioOwner을 해당 사용자 정보로 세팅함.
-        setPortfolioOwner(ownerData);
-        // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
-        setIsFetchCompleted(true);
+        try {
+            // 유저 id를 가지고 "/user/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
+            const res = await Api.get('user', ownerId);
+            // 사용자 정보는 response의 data임.
+            const ownerData = res.data;
+            // portfolioOwner을 해당 사용자 정보로 세팅함.
+            setPortfolioOwner(ownerData);
+            // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
+            setIsFetchCompleted(true);
+        } catch (err) {
+            if (err.response.status === 400) {
+                alert('유저 정보를 불러오는데 실패하였습니다.');
+            }
+            console.log('유저 정보를 불러오는데 실패하였습니다.', err);
+        }
     };
 
     useEffect(() => {
@@ -39,13 +47,14 @@ function Portfolio() {
         }
 
         if (params.userId) {
-            // 만약 현재 URL이 "/users/:userId" 라면, 이 userId를 유저 id로 설정함.
+            // 만약 현재 URL이 "/user/:userId" 라면, 이 userId를 유저 id로 설정함.
             const ownerId = params.userId;
             // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
             fetchPorfolioOwner(ownerId);
         } else {
             // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
-            const ownerId = userState.user.id;
+            const ownerId = userState.user._id ?? userState.user.id;
+
             // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
             fetchPorfolioOwner(ownerId);
         }
@@ -57,23 +66,44 @@ function Portfolio() {
 
     return (
         <Container>
-            <Row>
-                <Col className='mb-2'>
-                    <User portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+            <Row xs='auto'>
+                <Col xs className='mb-2'>
+                    <User
+                        portfolioOwnerId={portfolioOwner.userInfo._id}
+                        isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                    />
                 </Col>
-                <Col sm md='9' lg='9'>
+                <Col xs md={8}>
                     <div style={{ textAlign: 'left' }}>
                         <div className='mb-3'>
-                            <Award portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Award
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Education portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Education
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Certificate portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Certificate
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
                         </div>
                         <div className='mb-3'>
-                            <Project portfolioOwnerId={portfolioOwner.id} isEditable={portfolioOwner.id === userState.user?.id} />
+                            <Project
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
+                        </div>
+                        <div className='mb-3'>
+                            <Stack
+                                portfolioOwnerId={portfolioOwner.userInfo._id}
+                                isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}
+                            />
                         </div>
                     </div>
                 </Col>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 import * as Api from '../../api';
 
@@ -16,7 +16,7 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
     const [eduMajor, setEduMajor] = useState(''); // 전공
     const [eduEnterDate, setEduEnterDate] = useState(''); // 입학일자
     const [eduGraduateDate, setEduGraduateDate] = useState(''); // 졸업일자
-    const [eduDegree, setEduDegree] = useState(''); // 학위
+    const [eduDegree, setEduDegree] = useState('재학'); // 학위
 
     const isDateValid = eduEnterDate < eduGraduateDate;
 
@@ -36,6 +36,10 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         setEduGraduateDate(e.target.value);
     };
 
+    const offChangeGraduateDate = (e) => {
+        setEduGraduateDate('');
+    };
+
     const onChangeDegree = (e) => {
         setEduDegree(e.target.value);
     };
@@ -47,19 +51,22 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         setEduMajor('');
         setEduEnterDate('');
         setEduGraduateDate('');
-        setEduDegree('');
+        setEduDegree('재학');
     };
 
     const fetchEducation = async (ownerId) => {
         try {
             // "/edu" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
-            const res = await Api.get('edu');
+            const res = await Api.get(`edu/${ownerId.userId}`);
             // 사용자 정보는 response의 data임.
             const ownerData = res.data;
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            console.log('DB 불러오기를 실패하였습니다.', err);
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+            console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
         }
     };
 
@@ -70,35 +77,30 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
         if (item === undefined || item.isSave === false) {
             try {
-                if (!isDateValid) {
-                    throw new Error('입학날짜보다 졸업일자가 이전입니다.');
-                }
+                // "/edu" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
+                await Api.post(`edu/`, {
+                    eduSchool,
+                    eduMajor,
+                    eduEnterDate,
+                    eduGraduateDate,
+                    eduDegree,
+                });
 
-                try {
-                    // "/edu" 엔드포인트로 post요청함.(userId는 req.currentUserId 사용)
-                    await Api.post(`edu/`, {
-                        eduSchool,
-                        eduMajor,
-                        eduEnterDate,
-                        eduGraduateDate,
-                        eduDegree,
-                    });
+                setIsToggle(false);
+                setIsEdit(false);
 
-                    setIsToggle(false);
-                    setIsEdit(false);
+                fetchEducation({ userId });
 
-                    fetchEducation({ userId });
-
-                    setEduSchool('');
-                    setEduMajor('');
-                    setEduEnterDate('');
-                    setEduGraduateDate('');
-                    setEduDegree('');
-                } catch (err) {
-                    console.log('학위 추가에 실패하였습니다.', err);
-                }
+                setEduSchool('');
+                setEduMajor('');
+                setEduEnterDate('');
+                setEduGraduateDate('');
+                setEduDegree('');
             } catch (err) {
-                console.log(err);
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
+                console.log('학위 추가에 실패하였습니다.', err);
             }
         } else {
             try {
@@ -116,6 +118,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchEducation({ userId });
             } catch (err) {
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
                 console.log('학위 수정에 실패하였습니다.', err);
             }
         }
@@ -163,6 +168,9 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
             console.log('학위 삭제에 실패하였습니다.', err);
         }
     };
@@ -179,12 +187,13 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
         onChangeMajor,
         onChangeEnterDate,
         onChangeGraduateDate,
+        offChangeGraduateDate,
         onChangeDegree,
     };
     const formSendcurrentData = { eduSchool, eduMajor, eduEnterDate, eduGraduateDate, eduDegree, currentEditId };
     const formSendisFlag = { isDateValid };
     const pSendFunction = { handleEdit };
-    const pSendisFlag = { isEditable };
+    const pSendisFlag = { isEditable, isToggle, isEdit };
 
     return (
         <div>
@@ -193,45 +202,117 @@ function EducationDetail({ portfolioOwnerId, isEditable }) {
                     {item.isSave === true && item.isEdit === false ? (
                         <EducationP pSendFunction={pSendFunction} isFlag={pSendisFlag} item={item} />
                     ) : (
-                        <EducationForm formSendFunction={formSendFunction} currentData={formSendcurrentData} isFlag={formSendisFlag} item={item} />
+                        <EducationForm
+                            formSendFunction={formSendFunction}
+                            currentData={formSendcurrentData}
+                            isFlag={formSendisFlag}
+                            item={item}
+                        />
                     )}
                 </div>
             ))}
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='학교이름' value={eduSchool} onChange={onChangeSchool} />
+                        <FloatingLabel controlId='floatingInput' label='학교이름' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='학교이름'
+                                value={eduSchool}
+                                onChange={onChangeSchool}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='전공' value={eduMajor} onChange={onChangeMajor} />
+                        <FloatingLabel controlId='floatingInput' label='전공' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='전공'
+                                value={eduMajor}
+                                onChange={onChangeMajor}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='date'
-                            placeholder='입학일자'
-                            value={eduEnterDate}
-                            onChange={onChangeEnterDate}
-                        />
+                        <FloatingLabel controlId='floatingInput' label='입학일자' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='date'
+                                placeholder='입학일자'
+                                value={eduEnterDate}
+                                onChange={onChangeEnterDate}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control
-                            style={{ width: '100%' }}
-                            type='date'
-                            placeholder='졸업일자'
-                            value={eduGraduateDate}
-                            onChange={onChangeGraduateDate}
-                        />
-                        {eduEnterDate && eduGraduateDate && !isDateValid && (
+                        <FloatingLabel controlId='floatingInput' label='졸업일자' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='date'
+                                placeholder='졸업일자'
+                                value={eduDegree === '재학' || eduDegree === '휴학' ? '' : eduGraduateDate}
+                                onChange={
+                                    eduDegree === '재학' || eduDegree === '휴학' ? offChangeGraduateDate : onChangeGraduateDate
+                                }
+                                disabled={eduDegree === '재학' || eduDegree === '휴학' ? true : false}
+                            />
+                        </FloatingLabel>
+                        {eduEnterDate && eduGraduateDate && !isDateValid && eduDegree !== '재학' && eduDegree !== '휴학' && (
                             <Form.Text className='date-success'>입학날짜보다 졸업일자가 이전입니다.</Form.Text>
                         )}
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='학위' value={eduDegree} onChange={onChangeDegree} />
+                        <Form.Check
+                            inline
+                            label='재학'
+                            name='group1'
+                            type='radio'
+                            value='재학'
+                            checked={eduDegree === '재학'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='휴학'
+                            name='group1'
+                            type='radio'
+                            value='휴학'
+                            checked={eduDegree === '휴학'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='학사졸업'
+                            name='group1'
+                            type='radio'
+                            value='학사졸업'
+                            checked={eduDegree === '학사졸업'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='석사졸업'
+                            name='group1'
+                            type='radio'
+                            value='석사졸업'
+                            checked={eduDegree === '석사졸업'}
+                            onChange={onChangeDegree}
+                        />
+                        <Form.Check
+                            inline
+                            label='박사졸업'
+                            name='group1'
+                            type='radio'
+                            value='박사졸업'
+                            checked={eduDegree === '박사졸업'}
+                            onChange={onChangeDegree}
+                        />
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit()}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

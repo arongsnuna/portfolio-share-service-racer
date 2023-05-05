@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, Row } from 'react-bootstrap';
 import ProjectDetail from './ProjectDetail';
 
-function CertificateCreate({ portfolioOwnerId, isEditable }) {
+function ProjectCreate({ portfolioOwnerId, isEditable }) {
     return (
-        <Card className='ms-3' style={{ width: '100%' }}>
+        <Card className='mb-2 ms-3 mr-5' style={{ width: '100%' }}>
             <Card.Title className='ms-3 mt-3'>프로젝트</Card.Title>
             <Card.Body>
                 <Row>
@@ -17,4 +17,4 @@ function CertificateCreate({ portfolioOwnerId, isEditable }) {
     );
 }
 
-export default CertificateCreate;
+export default ProjectCreate;

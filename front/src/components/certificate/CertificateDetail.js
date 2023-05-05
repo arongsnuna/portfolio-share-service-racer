@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 
 import * as Api from '../../api';
 
@@ -32,14 +32,17 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
     const fetchCert = async (ownerId) => {
         try {
-            // "/cert" 엔드포인트로 요청해 사용자 정보를 불러옴.(userId는 req.currentUserId 사용)
-            const res = await Api.get('cert');
+            // "/cert" 엔드포인트로 요청해 사용자 정보를 불러옴.
+            const res = await Api.get(`cert/${ownerId.userId}`);
             // 사용자 정보는 response의 data임.
             const ownerData = res.data;
             // portfolioOwner을 해당 사용자 정보로 세팅함.
             setDbItem(ownerData);
         } catch (err) {
-            console.log('DB 불러오기를 실패하였습니다.', err);
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
+            console.log('사용자 데이터 불러오기에 실패하였습니다.', err);
         }
     };
 
@@ -64,6 +67,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
                 setCertName('');
                 setCertAcDate('');
             } catch (err) {
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
                 console.log('자격증 추가에 실패하였습니다.', err);
             }
         } else {
@@ -79,6 +85,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
 
                 fetchCert({ userId });
             } catch (err) {
+                if (err.response.status === 400) {
+                    alert(err.response.data.error);
+                }
                 console.log('자격증 수정에 실패하였습니다.', err);
             }
         }
@@ -123,6 +132,9 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             setIsToggle(false);
             setIsEdit(false);
         } catch (err) {
+            if (err.response.status === 400) {
+                alert(err.response.data.error);
+            }
             console.log('자격증 삭제에 실패하였습니다.', err);
         }
     };
@@ -134,7 +146,7 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
     const formSendFunction = { handleSubmit, handleCancel, handleDelete, onChangeName, onChangeDate };
     const formSendcurrentData = { certName, certAcDate, currentEditId };
     const pSendFunction = { handleEdit };
-    const pSendisFlag = { isEditable };
+    const pSendisFlag = { isEditable, isToggle, isEdit };
 
     return (
         <div>
@@ -150,14 +162,30 @@ function CertificateDetail({ portfolioOwnerId, isEditable }) {
             {isToggle === true ? (
                 <div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='text' placeholder='자격증 명' value={certName} onChange={onChangeName} />
+                        <FloatingLabel controlId='floatingInput' label='자격증 명' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='text'
+                                placeholder='자격증 명'
+                                value={certName}
+                                onChange={onChangeName}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-2'>
-                        <Form.Control style={{ width: '100%' }} type='date' placeholder='취득일자' value={certAcDate} onChange={onChangeDate} />
+                        <FloatingLabel controlId='floatingInput' label='취득일자' className='mb-3'>
+                            <Form.Control
+                                style={{ width: '100%' }}
+                                type='date'
+                                placeholder='취득일자'
+                                value={certAcDate}
+                                onChange={onChangeDate}
+                            />
+                        </FloatingLabel>
                     </div>
                     <div className='mb-3 text-center'>
                         <React.Fragment>
-                            <Button variant='primary' onClick={() => handleSubmit()}>
+                            <Button className='me-2' variant='primary' onClick={() => handleSubmit()}>
                                 확인
                             </Button>
                             <Button variant='secondary' onClick={() => handleCancel()}>

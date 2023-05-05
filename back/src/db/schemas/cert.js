@@ -10,7 +10,6 @@ const CertSchema = new Schema(
             type: String,
             required: true,
         },
-
         isSave: {
             type: Boolean,
             default: true,
