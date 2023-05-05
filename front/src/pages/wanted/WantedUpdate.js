@@ -102,11 +102,11 @@ function WantedUpdate() {
       <Row>
         <Card className="mb-3">
           <Card.Body>
-            <Card.Title>제목</Card.Title>
+            <Card.Title style={{ fontSize: "1.0rem", fontWeight: "bold" }} className="ms-1">제목</Card.Title>
             <Form.Control placeholder="제목을 입력해주세요" value={wantedTitle} onChange={onChangeTitle} />
           </Card.Body>
           <Card.Body>
-            <Card.Title>본문</Card.Title>
+            <Card.Title style={{ fontSize: "1.0rem", fontWeight: "bold" }} className="ms-1">본문</Card.Title>
             <Form.Control
               placeholder="본문을 입력해주세요"
               as="textarea"
