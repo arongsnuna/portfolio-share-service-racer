@@ -42,7 +42,7 @@ function WantedCreate() {
     //페이지 경로에 따라 배경색이 달라짐
     useEffect(() => {
         const { pathname } = window.location;
-        if (pathname.startsWith('/user') || pathname === '/network' || pathname === '/wanted/create') {
+        if (pathname.startsWith('/user') || pathname === '/network' || pathname === '/wanted/create' || pathname === '/') {
             document.body.classList.add('portfolio');
         } else {
             document.body.classList.remove('portfolio');

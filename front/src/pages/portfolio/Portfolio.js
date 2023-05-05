@@ -42,7 +42,7 @@ function Portfolio() {
     //페이지 경로에 따라 배경색이 달라짐
     useEffect(() => {
         const { pathname } = window.location;
-        if (pathname.startsWith('/user') || pathname === '/network' || pathname === '/wanted') {
+        if (pathname.startsWith('/user') || pathname === '/network' || pathname === '/wanted' || pathname === '/') {
             document.body.classList.add('portfolio');
         } else {
             document.body.classList.remove('portfolio');
