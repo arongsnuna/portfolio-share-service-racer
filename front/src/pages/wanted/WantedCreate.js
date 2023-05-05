@@ -49,28 +49,30 @@ function WantedCreate() {
 
     return (
         <Container>
-            <Row>
-                <Col xs={8} className='text-left'>
-                    <h3>팀원 구하기</h3>
-                    <p>
+            <Row className="justify-content-center">
+                <Col xs={12} className='text-left text-center'>
+                    <h3 className='mt-5'>Check the <span style={{backgroundColor: '#8FC382'}}>“wanted”</span> board and join the project.
+<br />Or you can recruit your own team members.</h3>
+                    {/* <p>
                         팀원 모집을 확인하고 프로젝트에 참여해보세요.
                         <br />
                         원하는 프로젝트가 없을 경우 직접 팀원을 모집할 수 있어요.
-                    </p>
+                    </p> */}
                 </Col>
             </Row>
             <Row>
-                <Card className='mb-3'>
+                <Card className='mb-3 mt-5'>
                     <Card.Body>
-                        <Card.Title>제목</Card.Title>
-                        <Form.Control placeholder='제목을 입력해주세요' value={wantedTitle} onChange={onChangeTitle} />
+                        <Card.Title style={{fontSize: '1.0rem', fontWeight: 'bold'}} className="ms-1">제목</Card.Title>
+                        <Form.Control style={{borderRadius: '11px'}} placeholder='제목을 입력해주세요' value={wantedTitle} onChange={onChangeTitle} />
                     </Card.Body>
                     <Card.Body>
-                        <Card.Title>본문</Card.Title>
+                        <Card.Title style={{fontSize: '1.0rem', fontWeight: 'bold'}} className="ms-1">본문</Card.Title>
                         <Form.Control
+                            style={{borderRadius: '11px'}}
                             placeholder='본문을 입력해주세요'
                             as='textarea'
-                            rows={4}
+                            rows={12}
                             value={wantedContent}
                             onChange={onChangeContent}
                         />
