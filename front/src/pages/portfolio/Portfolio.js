@@ -78,7 +78,7 @@ function Portfolio() {
     }
 
     return (
-        <Container>
+        <Container className="mt-5">
             <ListGroup variant='flush' style={{ borderRadius: '0.5rem' }}>
                 <ListGroup.Item>
                     <Col xs className='mb-2'>
