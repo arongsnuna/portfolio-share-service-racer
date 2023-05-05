@@ -74,7 +74,7 @@ projectRouter.post('/', async (req, res, next) => {
 
         const newProject = { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink };
         const projects = await projectService.findAll({ userId });
-        const projectExists = projects.some((project) => project.projectName === newProject.projectName);
+        const projectExists = projects.some(project => project.projectName === newProject.projectName);
         if (projectExists) {
             res.status(400).send({ error: `${newProject.projectName} 프로젝트는 이미 존재합니다.` });
             throw new Error(`${newProject.projectName} 프로젝트는 이미 존재합니다.`);
@@ -107,6 +107,14 @@ projectRouter.put('/:projectId', async (req, res, next) => {
             res.status(400).send({ error: '프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요' });
             throw new Error('프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요');
         }
+        if (util.isFutureDate(projectStartDate)) {
+            res.status(400).send({ error: '미래의 프로젝트 시작일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 프로젝트 시작일자는 입력할 수 없습니다.');
+        }
+        if (util.isFutureDate(projectEndDate)) {
+            res.status(400).send({ error: '미래의 프로젝트 종료일자는 입력할 수 없습니다.' });
+            throw new Error('미래의 프로젝트 종료일자는 입력할 수 없습니다.');
+        }
 
         const project = await projectService.findOne({ projectId });
         if (!project) {
@@ -124,7 +132,7 @@ projectRouter.put('/:projectId', async (req, res, next) => {
         const newProject = { projectName, projectStartDate, projectEndDate, projectDescription, projectGitLink };
         // 수정하려는 프로젝트만 제외하고 다른 모든 프로젝트를 가져오기
         const exceptProjects = await projectService.findExcept({ userId, projectId });
-        const projectExists = exceptProjects.some((project) => project.projectName === newProject.projectName);
+        const projectExists = exceptProjects.some(project => project.projectName === newProject.projectName);
         if (projectExists) {
             res.status(400).send({ error: `${newProject.projectName} 프로젝트는 이미 존재합니다.` });
             throw new Error(`${newProject.projectName} 프로젝트는 이미 존재합니다.`);
