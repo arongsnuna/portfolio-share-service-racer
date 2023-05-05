@@ -21,7 +21,7 @@ function Portfolio() {
     const [isFetchCompleted, setIsFetchCompleted] = useState(false);
     const userState = useContext(UserStateContext);
 
-    const fetchPorfolioOwner = async (ownerId) => {
+    const fetchPorfolioOwner = async ownerId => {
         try {
             // 유저 id를 가지고 "/user/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
             const res = await Api.get('user', ownerId);
@@ -79,9 +79,9 @@ function Portfolio() {
 
     return (
         <Container className="mt-5">
-            <ListGroup variant='flush' style={{ borderRadius: '0.5rem' }}>
+            <ListGroup variant="flush" style={{ borderRadius: '0.5rem' }}>
                 <ListGroup.Item>
-                    <Col xs className='mb-2'>
+                    <Col xs className="mb-2">
                         <User
                             portfolioOwnerId={portfolioOwner.userInfo._id}
                             isEditable={portfolioOwner.userInfo._id === (userState.user?._id ?? userState.user?.id)}

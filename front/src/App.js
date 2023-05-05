@@ -22,6 +22,7 @@ function App() {
     const [userState, dispatch] = useReducer(loginReducer, {
         user: null,
     });
+
     // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
     // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
     const [isFetchCompleted, setIsFetchCompleted] = useState(false);
@@ -61,16 +62,16 @@ function App() {
                 <Router>
                     <Header />
                     <Routes>
-                        <Route path='/' exact element={<Portfolio />} />
-                        <Route path='/login' element={<LoginForm />} />
-                        <Route path='/register' element={<RegisterForm />} />
-                        <Route path='/user/:userId' element={<Portfolio />} />
-                        <Route path='/network' element={<Network />} />
-                        <Route path='/wanted' element={<Wanted />} />
-                        <Route path='/wanted/create' element={<WantedCreate />} />
-                        <Route path='/wanted/read' element={<WantedRead />} />
-                        <Route path='/wanted/update' element={<WantedUpdate />} />
-                        <Route path='*' element={<Portfolio />} />
+                        <Route path="/" exact element={<Portfolio />} />
+                        <Route path="/login" element={<LoginForm />} />
+                        <Route path="/register" element={<RegisterForm />} />
+                        <Route path="/user/:userId" element={<Portfolio />} />
+                        <Route path="/network" element={<Network />} />
+                        <Route path="/wanted" element={<Wanted />} />
+                        <Route path="/wanted/create" element={<WantedCreate />} />
+                        <Route path="/wanted/read" element={<WantedRead />} />
+                        <Route path="/wanted/update" element={<WantedUpdate />} />
+                        <Route path="*" element={<Portfolio />} />
                     </Routes>
                 </Router>
             </UserStateContext.Provider>
