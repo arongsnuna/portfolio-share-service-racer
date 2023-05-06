@@ -119,8 +119,14 @@ userAuthRouter.put('/:id', login_required, upload.single('userImage'), async fun
         // body data 로부터 업데이트할 사용자 정보를 추출함.
         const name = req.body.name ?? null;
         const description = req.body.description ?? null;
-        const gitLink = req.body.gitLink ?? null;
+        let gitLink = req.body.gitLink ?? null;
         const uploadImage = req.file ?? null;
+
+        if (gitLink) {
+            if (!gitLink.startsWith('http')) {
+                gitLink = `http://${gitLink}`;
+            }
+        }
 
         if (name === (null || '')) {
             res.status(400).send({ error: '이름을 입력해주세요' });

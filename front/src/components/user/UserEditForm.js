@@ -29,6 +29,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             if (!validateForm()) {
                 return;
             }
+
             const formData = new FormData();
             formData.append('userImage', userImage);
             formData.append('name', name);

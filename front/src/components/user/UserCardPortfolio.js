@@ -9,7 +9,11 @@ function UserCardPortfolio({ user, setIsEditing, isEditable, isNetwork, userImag
     }
 
     const handleClick = () => {
-        window.location.href = `${user.gitLink}`;
+        if (user.gitLink.startsWith('http')) {
+            window.location.href = `${user.gitLink}`;
+        } else {
+            window.location.href = `https://${user.gitLink}`;
+        }
     };
 
     return (
