@@ -13,7 +13,7 @@ function WantedUpdate() {
     const userState = useContext(UserStateContext);
     const { state } = useLocation();
     const { wanted } = state;
-    const modifiedWanted = { ...wanted, wantedTitle: wantedTitle, wantedContent: wantedContent };
+    const modifiedWanted = { ...wanted, wantedTitle, wantedContent };
 
     const onChangeTitle = e => {
         setWantedTitle(e.target.value);

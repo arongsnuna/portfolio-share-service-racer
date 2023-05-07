@@ -1,7 +1,7 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
 import { certService } from '../services/certService';
-import { util } from '../utils/util';
+import { Util } from '../utils/util';
 
 const certRouter = Router();
 
@@ -52,12 +52,12 @@ certRouter.post('/', async (req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
-        if (!util.regexp(certAcDate)) {
+        if (!Util.dateRegexp(certAcDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        if (util.isFutureDate(certAcDate)) {
+        if (Util.isFutureDate(certAcDate)) {
             res.status(400).send({ error: '미래의 취득일자는 입력할 수 없습니다.' });
             throw new Error('미래의 취득일자는 입력할 수 없습니다.');
         }
@@ -93,12 +93,12 @@ certRouter.put('/:certId', async (req, res, next) => {
             throw new Error('모든 값을 입력했는지 확인해주세요.');
         }
 
-        if (!util.regexp(certAcDate)) {
+        if (!Util.dateRegexp(certAcDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        if (util.isFutureDate(certAcDate)) {
+        if (Util.isFutureDate(certAcDate)) {
             res.status(400).send({ error: '미래의 취득일자는 입력할 수 없습니다.' });
             throw new Error('미래의 취득일자는 입력할 수 없습니다.');
         }

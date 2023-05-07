@@ -1,7 +1,7 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
 import { projectService } from '../services/projectService';
-import { util } from '../utils/util';
+import { Util } from '../utils/util';
 
 const projectRouter = Router();
 
@@ -52,15 +52,15 @@ projectRouter.post('/', async (req, res, next) => {
             throw new Error('GitLink를 제외한 모든 값을 입력했는지 확인해주세요.');
         }
 
-        if (!util.regexp(projectStartDate) || !util.regexp(projectEndDate)) {
+        if (!Util.dateRegexp(projectStartDate) || !Util.dateRegexp(projectEndDate)) {
             res.status(400).send({ error: '프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요' });
             throw new Error('프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요.');
         }
-        if (util.isFutureDate(projectStartDate)) {
+        if (Util.isFutureDate(projectStartDate)) {
             res.status(400).send({ error: '미래의 프로젝트 시작일자는 입력할 수 없습니다.' });
             throw new Error('미래의 프로젝트 시작일자는 입력할 수 없습니다.');
         }
-        if (util.isFutureDate(projectEndDate)) {
+        if (Util.isFutureDate(projectEndDate)) {
             res.status(400).send({ error: '미래의 프로젝트 종료일자는 입력할 수 없습니다.' });
             throw new Error('미래의 프로젝트 종료일자는 입력할 수 없습니다.');
         }
@@ -103,15 +103,15 @@ projectRouter.put('/:projectId', async (req, res, next) => {
             throw new Error('GitLink를 제외한 모든 값을 입력했는지 확인해주세요.');
         }
 
-        if (!util.regexp(projectStartDate) || !util.regexp(projectEndDate)) {
+        if (!Util.dateRegexp(projectStartDate) || !Util.dateRegexp(projectEndDate)) {
             res.status(400).send({ error: '프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요' });
             throw new Error('프로젝트 시작일자 또는 프로젝트 종료일자 값을 확인해주세요');
         }
-        if (util.isFutureDate(projectStartDate)) {
+        if (Util.isFutureDate(projectStartDate)) {
             res.status(400).send({ error: '미래의 프로젝트 시작일자는 입력할 수 없습니다.' });
             throw new Error('미래의 프로젝트 시작일자는 입력할 수 없습니다.');
         }
-        if (util.isFutureDate(projectEndDate)) {
+        if (Util.isFutureDate(projectEndDate)) {
             res.status(400).send({ error: '미래의 프로젝트 종료일자는 입력할 수 없습니다.' });
             throw new Error('미래의 프로젝트 종료일자는 입력할 수 없습니다.');
         }

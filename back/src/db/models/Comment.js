@@ -1,6 +1,6 @@
 import { UserModel } from '../schemas/user';
 import { CommentModel } from '../schemas/comment';
-import { util } from '../../utils/util';
+import { Util } from '../../utils/util';
 import { WantedModel } from '../schemas/wanted';
 class Comment {
     // 게시물에 달린 모든 댓글 조회

@@ -164,7 +164,7 @@ function WantedUpdate() {
     };
 
     //작성일자, 시간의 표현값을 변환해주는 함수
-    function dateTime(dateStr) {
+    const dateTime = dateStr => {
         const date = new Date(dateStr);
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -172,7 +172,7 @@ function WantedUpdate() {
         const timeString = date.toLocaleTimeString();
 
         return `${year}-${month}-${day} ${timeString}`;
-    }
+    };
 
     //페이지 경로에 따라 배경색이 달라짐
     useEffect(() => {

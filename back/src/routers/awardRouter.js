@@ -1,7 +1,7 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
 import { awardService } from '../services/awardService';
-import { util } from '../utils/util';
+import { Util } from '../utils/util';
 
 const awardRouter = Router();
 
@@ -53,12 +53,12 @@ awardRouter.post('/', async (req, res, next) => {
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
 
-        if (!util.regexp(awardDate)) {
+        if (!Util.dateRegexp(awardDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요.' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        if (util.isFutureDate(awardDate)) {
+        if (Util.isFutureDate(awardDate)) {
             res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
             throw new Error('미래의 수상일자는 입력할 수 없습니다.');
         }
@@ -95,12 +95,12 @@ awardRouter.put('/:awardId', async (req, res, next) => {
             throw new Error({ message: '모든 값을 입력했는지 확인해주세요.' });
         }
 
-        if (!util.regexp(awardDate)) {
+        if (!Util.dateRegexp(awardDate)) {
             res.status(400).send({ error: '취득일자 값을 확인해주세요.' });
             throw new Error('취득일자 값을 확인해주세요');
         }
 
-        if (util.isFutureDate(awardDate)) {
+        if (Util.isFutureDate(awardDate)) {
             res.status(400).send({ error: '미래의 수상일자는 입력할 수 없습니다.' });
             throw new Error('미래의 수상일자는 입력할 수 없습니다.');
         }
