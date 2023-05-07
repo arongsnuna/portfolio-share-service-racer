@@ -4,7 +4,6 @@ import { Container, Row, Col, Badge, ListGroup, Button } from 'react-bootstrap';
 
 import * as Api from '../../api';
 import { UserStateContext } from '../../App';
-import { Typography } from '@material-ui/core';
 
 const CommentCount = ({ wantedId }) => {
     const [count, setCount] = useState(0);
@@ -20,20 +19,20 @@ const CommentCount = ({ wantedId }) => {
     return <>{count}</>;
 };
 
+const Max_Content_Length = 50; // 리스트에 표시할 최대 글자수
+
 function Wanted() {
     const navigate = useNavigate();
     const userState = useContext(UserStateContext);
     // useState 훅을 통해 users 상태를 생성함.
     const [wantedList, setWantedList] = useState([]);
 
-    const maxContentLength = 50; // 리스트에 표시할 최대 글자수
-
     // 게시글의 프리뷰를 보여주는 함수
     function getPreview(content) {
-        if (content.length > maxContentLength) {
-            return content.substring(0, maxContentLength) + '...'; // maxContentLength 길이만큼만 자르고 "..." 문자열 추가
+        if (content.length > Max_Content_Length) {
+            return content.substring(0, Max_Content_Length) + '...'; // Max_Content_Length 길이만큼만 자르고 "..." 문자열 추가
         }
-        return content; // maxContentLength보다 짧은 경우 그대로 반환
+        return content; // Max_Content_Length보다 짧은 경우 그대로 반환
     }
 
     //페이지 경로에 따라 배경색이 달라짐
